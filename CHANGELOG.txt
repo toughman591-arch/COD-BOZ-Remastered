@@ -1,0 +1,1486 @@
+COD Black Ops Zombies (mobile) - Kino BO1 Remaster v2.7
+Built 2026-10-09 from: app-release (1)(5)(1).apk + blackops_atitc.dz + ximages.zip (BO1 PC textures)
+
+GETTING THE FILES (on your PC)
+------------------------------
+The full files are too big to send here, so this package is a patch.
+1. Unzip the package into a folder.
+2. Copy your ORIGINAL blackops_atitc.dz and your ORIGINAL app-release (1)(5)(1).apk
+   into the same folder. The APK can have any file name; the patcher finds it by checksum.
+3. Double-click APPLY.bat, or run: python apply_patch.py
+   You get:
+     output\blackops_atitc.dz                MAIN BUILD (HD), 344,532,943 bytes
+     output\SAFE\blackops_atitc.dz           FALLBACK, exactly the original size
+     output\BOZ_Kino_BO1_Remaster_v1.apk     the app. Only change: remastered 115 song.
+                                             Re-signed with a debug key.
+   The patcher checks every output against my build's checksum before writing it.
+set_fov.py   Change the FOV in the HD .dz:   python set_fov.py output\blackops_atitc.dz 70
+
+INSTALL
+-------
+1. Back up your current blackops_atitc.dz and your save, if you care about it.
+2. Uninstall the old app. The new APK is signed with a different key, so Android won't
+   install it over the old one.
+3. Install output\BOZ_Kino_BO1_Remaster_v1.apk.
+4. Copy output\blackops_atitc.dz (HD) into Android/obb/com.activision.boz/, replacing the old one.
+
+WHAT CHANGED
+------------
+[1] Kino map textures -> BO1 PC                                    (HD and SAFE builds)
+    77 Kino textures in 16 Kino room groups were rebuilt from your BO1 PC images.
+    - 49 matched by exact texture name (same name hash in the mobile files).
+    - 28 matched by comparing images, then checked by eye.
+    - HD build: most textures are 2x the mobile resolution, up to 512px
+      (e.g. 128x128 -> 256x256). That's about +2.1 MB of texture data.
+    - SAFE build: same resolution as the original, re-encoded from the PC images.
+    - Brightness of each texture was matched to the original mobile one, so rooms
+      don't get brighter or darker than the mobile lighting expects.
+    - Alpha textures (chain-link fence, barbed wire) keep their cut-out transparency.
+    - Not touched: the other maps, characters, weapons, lightmapped wall atlases.
+    Files: levels\kino\*_shared.group.bin (16 groups), levels\kino\kino_dynamics.group.bin
+
+[2] Zombie cap 15 -> 24 (PC rule: min(round total, 24) on screen)  (HD and SAFE builds) - lowered to 20 in v1.7, see [13]
+    - Mobile Kino capped live zombies at 15 (m_MaxActive in every CWave).
+    - Now each wave allows min(that wave's zombie count, 24), like BO1 PC.
+      60 waves changed across all 7 Kino wave tables. Dog/special waves untouched.
+    File: levels\kino\kino_statics.group.bin
+
+[3] FOV                                                            (HD build only)
+    - Added m_fov = 65 (BO1 PC default) to the 3 MainCamera entities. Before this,
+      the camera used a value built into the game code that I couldn't read out.
+    - If it feels too zoomed in or too fish-eye, run set_fov.py with a different value.
+      It only changes 3 numbers, and the file size stays the same.
+    File: ingame\ingame.group.bin (+84 bytes)
+
+[4] Kino loading screen, BO1 style                                 (HD and SAFE builds)
+    - New 1024x768 art: chalk map board, Pygmalion/Faust posters, red velvet,
+      "KINO DER TOTEN" title, film grain. Made from your BO1 PC textures.
+    - Updated in all 4 versions (loading, _droid, _ipad, _retina). Same size as before.
+    Files: loading\kino\*.group.bin
+
+[5] 115 song                                                       (APK)
+    - The game's copy is 16 kHz mono. Nothing can be heard above 8 kHz.
+    - Now resampled to 44.1 kHz with a little low-end lift and an exciter for some
+      top-end air, at the same loudness. It's a cleanup, not a true HD version.
+    File: assets/blackops-music/115.mp3
+
+[6] Theater flag restored to BO1 PC version (v1.1)                (HD and SAFE builds)
+    - Mobile replaced the emblem on decal_flag_nazi_theater_c with an eagle/iron cross.
+      Swapped back to your BO1 PC texture (same 128x64 16-bit format, same size).
+      Also updated the tutorial copy (256x128).
+    Files: levels\kino\alley_shared.group.bin, levels\tutorial\tutorial_statics.group.bin
+
+[7] All-in-one release APK (v1.1 AllInOne)
+    - BOZ_Kino_BO1_Remaster_v1.1_AllInOne.apk (~175 MB) contains the HD
+      blackops_atitc.dz (compressed inside the APK). Nothing removed.
+    - New first-launch screen (com.activision.boz.Unpack): if
+      Android/obb/com.activision.boz/blackops_atitc.dz is missing or not the right size
+      (344,532,943 bytes), it unpacks the bundled copy with a % progress screen, then
+      starts the game. If the right file is already there, it goes straight to the game.
+    - It writes to a .part file first and only renames it when the size checks out,
+      so an interrupted unpack just restarts on the next launch.
+    - Same signing key as v1, so it installs over v1 without uninstalling.
+    - Needs about 520 MB free on first launch (175 MB app + 345 MB unpacked data).
+
+[8] (REMOVED in v1.3 - crashed on load) Kino Tutorial survival test (v1.2)
+    File: levels\tutorial\tutorial_statics.group.bin (+8,497 bytes)
+    - Added (copied from Kino, same models/sounds/prices):
+        Quick Revive  - same spot as in real Kino (right side of the lobby)
+        Juggernog     - left wall, facing into the lobby
+        Double Tap    - back-left wall
+        Speed Cola    - front-left wall
+        Pack-a-Punch  - back-right wall (5000 points)
+        Power switch  - front wall. Turn it on to power the perks and Pack-a-Punch.
+    - The new power switch has its own name (PowerSwTut1), so the tutorial's own
+      teleporter mainframe, trap switch and power door stay unpowered, same as before.
+    - The tutorial's last lesson (grenade + kill zombies) now never ends
+      (kill limit 4 -> 65000): after the lessons you keep fighting endless zombies.
+    - Tutorial zombie spawner: max alive 2 -> 24, spawn every 3.0s -> 2.0s,
+      zombie health 50 -> 150.
+    - All-in-one APK v1.2: the unpack screen checks for the new .dz size
+      (344,541,440 bytes) and re-unpacks over v1.1 automatically.
+    - Not tested on a phone yet. If the tutorial crashes on load, it's the new
+      machines. If it crashes when you turn on the power, it's the power switch.
+
+[9] Kino "spawn room only" mode (v1.3)
+    File: levels\kino\kino_statics.group.bin (+324 bytes). Tutorial is back to v1.1.
+    Uses Kino's own machines, just moved, so no new objects are added.
+    - Moved into the spawn room (lobby ground floor), facing into the room:
+        Juggernog     - left wall
+        Double Tap    - front ledge, in front of the spawn
+        Speed Cola    - back wall (left side)
+        Pack-a-Punch  - back-left corner wall (5000 points)
+        Power switch  - back wall, next to Speed Cola. Turn it on for perks + PaP.
+        Quick Revive  - unchanged (it's already in the lobby)
+    - Mystery box: all 9 box locations moved to one spot (lobby, right side).
+      Uses before it moves: 4-10 -> 1,000,000, so it never moves (no teddy bear).
+      The rubble markers of the box spots are hidden below the floor.
+    - Doors: Lobby_To_Atrium and Lobby_To_Balcony can't be bought (no prompt,
+      cost 999999). PowerOn_Door1 no longer opens when you turn on the power.
+      You stay in the spawn room.
+    - Zombie cap 24 from v1.0 still applies.
+    - APK v1.3 unpacks the new .dz (344,533,267 bytes) over older ones.
+    - Untested risk: in normal Kino, Pack-a-Punch is reached by teleporting. If
+      it stays hidden after power is on, the game probably only shows it after a
+      teleport, and I'll need to change that next.
+
+[10] v1.4 fix - machines facing the wrong way
+    The game's models face +Z by default; v1.3 assumed -Z. Double Tap, Speed Cola,
+    Pack-a-Punch, the power switch and the box (all 9 box spots) were turned 180 degrees
+    to face into the spawn room. Juggernog and Quick Revive were already right.
+    The game only lets you use these from the front, which is why the power switch,
+    perks and box didn't work. Same file size as v1.3, so just replace the .dz.
+
+[11] v1.5 - original comic loading screen restored
+    The BO1-style Kino loading screen from change [4] was removed, so the original
+    comic art is back (loading\kino\*.group.bin are identical to the original game).
+    Same file size as v1.3/v1.4, so just replace the .dz.
+    - All-in-one APK v1.5: unpacks the v1.5 data on first launch. It also writes a
+      marker file (kino_remaster_v15.ok), so it replaces older same-size .dz files
+      (v1.3/v1.4) correctly.
+
+[12] v1.6 - smaller all-in-one APK (183 MB -> 111 MB), same game content as v1.5
+    - The bundled blackops_atitc.dz is now stored xz-compressed inside the APK
+      (assets/blackops_atitc.dz.xz, 83.4 MB). Lossless: on first launch it unpacks
+      to the exact same v1.5 .dz (344,533,267 bytes, md5 9f0007a9bf167dae910b4a1cee8e5923).
+      Uses the open-source XZ for Java decoder (org.tukaani.xz), added to the app.
+    - Music re-encoded at a lower bitrate, same songs, same sample rates:
+        blackops-music (16 kHz mono): 128 -> 48 kbps. The originals only go up to 8 kHz.
+        115.mp3 (remaster, 44.1 kHz mono): 192 -> 128 kbps
+        deadops-music (48 kHz stereo): 96 -> 64 kbps
+      Music went from 39.4 MB to 21.6 MB. Nothing was removed.
+    - New marker file kino_remaster_v16.ok, so v1.6 unpacks once over any older .dz.
+      First launch takes a little longer than v1.5 because it decompresses (~1-2 min).
+    - Same signing key, so it installs over v1.1/v1.5 without uninstalling.
+    - Needs about 460 MB free on first launch (111 MB app + 345 MB unpacked data).
+
+[13] v1.7 - new map card: ONE WINDOW (spawn room challenge) + normal Kino is back
+    The map select now has 6 cards: Tutorial, Kino, Dead Ops, Ascension, Call of the Dead,
+    and ONE WINDOW (last card, Kino art with a red tint).
+    - ONE WINDOW: Kino locked to the spawn room. Same setup as v1.5's spawn room:
+        Juggernog, Double Tap, Speed Cola (+ Quick Revive, already in the lobby),
+        Pack-a-Punch, power switch in the spawn room, lobby doors can't be bought,
+        mystery box stays in one spot forever (never moves = no teddy bear).
+      Same 4 characters, difficulty select and normal waves as Kino.
+    - Zombie cap is now 20 (was 24, which you said crashed). Applies to Kino and ONE WINDOW:
+      each wave allows min(that wave's zombie count, 20) alive at once.
+    - Normal Kino: back to the full map (doors, box locations, perks where they belong),
+      with the BO1 PC textures, flag, comic loading screen and cap 20.
+    How it works (in case something breaks):
+    - The game code already had a hidden, unused Kino-type map slot called "proto"
+      (the code treats it like Kino for the intro music/teleporter logic). ONE WINDOW uses
+      that slot, so no new map type had to be invented.
+      New files: levels\proto\proto.group.bin, proto_statics.group.bin, proto_sectors.group.bin.
+      They reuse Kino's rooms, textures, sounds and zombies; only the map setup differs.
+    - Menu: frontend\fe_v4_cs4_swf.bin - new card + label, and "proto" added to the map slider.
+    - Loading screen: fixed\fixed.group.bin - added "loading-proto" (uses Kino's comic screen).
+    - console.bin: removed "proto" from DeathMachineLevels. The game would otherwise drop
+      Death Machine power-ups there, and Kino's weapon set has no Death Machine (crash).
+    - Game code (assets/boz.s3e, 3 small patches): the game swaps Tutorial's weapons/arms to
+      Kino's. That check now also covers ONE WINDOW, so it loads Kino's weapons instead of
+      looking for a weapon file that doesn't exist.
+    - Kino-only achievements don't trigger on ONE WINDOW.
+    - APK v1.7 unpacks the new data (352,308,073 bytes) once, with marker kino_remaster_v17.ok.
+    IF ONE WINDOW CRASHES: say when - tapping the card, loading screen, or in game (which round).
+    Normal Kino and the other maps don't depend on it.
+
+[14] v1.7.1 - fix "Could not unpack the game data" on Android 7 (VPhoneOS)
+    - The XZ decoder added in v1.6 used Integer.compareUnsigned, which only exists on
+      Android 8+. On Android 7 the unpack failed instantly. Replaced it with an equivalent
+      that works on Android 5+. Game data is unchanged from v1.7.
+    - The unpacker now deletes the old blackops_atitc.dz before unpacking, so it only needs
+      ~360 MB free instead of ~700 MB.
+    - If it ever fails again, the screen shows the actual error text.
+
+[15] v1.7.2 - fix CONTINUE doing nothing on the ONE WINDOW card
+    - The game's "start single player" code only accepted the 5 stock map names and silently
+      ignored anything else. Patched that check (assets/boz.s3e) so any registered map starts.
+      Nothing else changed; the other maps take the same path as before.
+    - BOZ_Kino_v1.7.2_UPDATE.apk (28 MB) is a small update: same app but WITHOUT the bundled
+      game data. Install it over v1.7.1 after v1.7.1 has already unpacked once.
+      (If the game data is ever deleted, install the full v1.7.2 AllInOne APK instead.)
+
+[16] v1.7.3 - fix ONE WINDOW crashing on launch
+    - Each map's settings resource (CLevel) is named after the map, and the game looks it up
+      by the map's name. ONE WINDOW's copy was still named "kino", so the game found nothing
+      for "proto" and crashed. Renamed it to "proto" (levels\proto\proto_statics.group.bin).
+    - Added fog settings named "proto" and "proto_lowend" (copies of Kino's) in
+      ingame\misc\misc.group.bin, so ONE WINDOW gets the same fog as Kino.
+    - New data size 352,308,193 bytes, marker kino_remaster_v173.ok (re-unpacks once).
+
+[17] v1.7.4 - ONE WINDOW fixes: one window only, no zombies inside, working box
+    - Only the LobbyStart window (by the spawn) spawns zombies. LobbyLeft, LobbyRight and
+      AtriumTop spawn points never turn on (removed from the lobby area's spawn list).
+    - Turning on the power no longer spawns zombies inside the room. In Kino the power switches
+      the extra "powered" zombies to Nova crawlers, which drop from 3 ceiling holes in the lobby.
+      ONE WINDOW now uses normal zombies for those (they come through the window), and the
+      ceiling holes never turn on.
+    - Power no longer opens the theatre (TheatreCurtains), so no zombies spawn behind the
+      locked doors.
+    - Mystery box: 9 boxes were stacked in one spot, so the buy prompt (950) didn't show.
+      Now only 2 box spots exist, both in the spawn room 450 units apart (MysteryBox_Theatre at
+      the back wall, MysteryBox_Lobby to its right). The box starts at one of them and never moves.
+      The other 7 box spots were deleted from ONE WINDOW only.
+    - Perk machines / Pack-a-Punch have no collision (you can walk through them). Left as is:
+      nothing can get stuck on them. Their old collision stays at the original Kino spots,
+      outside the spawn room.
+    - Doors stay (they wall off the room); nothing spawns behind them any more.
+    - Normal Kino is unchanged. New data size 352,295,985 bytes, marker kino_remaster_v174.ok.
+
+[18] v1.7.5 - zombie cap back to the original 15 (Kino and ONE WINDOW)
+    - Both 24 and 20 crashed in game. The mobile engine only handles 15 live zombies, so every
+      wave now uses the game's original limits again (identical to the stock Kino wave tables).
+      This replaces change [2]: normal Kino's kino_statics.group.bin is now the original file.
+    - ONE WINDOW keeps everything from v1.7.4 (one window, no inside spawns, box, perks, PaP).
+    - Same data size as v1.7.4; new marker kino_remaster_v175.ok so it re-unpacks once.
+
+[19] v1.8 - NACHT DER UNTOTEN (walk-around test), 7th map card
+    - New 7th card "Nacht der Untoten" after ONE WINDOW. Pick it, pick a character and
+      difficulty, press Continue like any other map. Kino and ONE WINDOW are unchanged.
+    - The map is World at War mobile's Nacht (from your _nacht.dz), converted to this game:
+      * 26 textures converted from PVRTC/raw to this game's ATC format.
+      * 11 map models and their materials copied (start room halves, help room, back stairs,
+        upstairs rooms, outside, sky dome, moon). Scaled by 0.328 (WaW units -> BOZ units)
+        and placed at x+30000, far away from Kino's own geometry.
+      * New collision: 14,033 triangles from the 8 room/outside models, written as a Bullet
+        2.78 mesh with a prebuilt BVH, in exactly Kino's file layout (the same generator
+        rebuilds Kino's own collision BVH byte-for-byte).
+    - Players spawn in the Nacht start room (by the stairs).
+    - THIS IS ONLY A WALK-AROUND TEST: no Nacht zombies, windows, box, wall weapons or doors
+      yet. Under the hood it still runs Kino's game logic (zombies spawn at Kino's spots far
+      away and can't reach you, so the round won't progress). Kino's perks/box are not in Nacht.
+    - Lighting on your gun/hands may look flat or dark in Nacht (no Nacht light boxes yet).
+    - Game code (boz.s3e): "nacht" registered as a 7th level (code cave in the dead
+      start-whitelist space), and maps whose name starts at 'n' or later use Kino's weapon /
+      arms / projectile data (before: 'p' or later).
+    - Data: new folder levels\nacht (4 files), plus fixed.group.bin (loading-nacht string),
+      ingame\misc\misc.group.bin (nacht fog), frontend SWF (7th card).
+    - New data size 359,754,041 bytes, marker kino_remaster_v18.ok (re-unpacks once).
+    - If it crashes, tell me WHEN: picking the card / pressing Continue / loading screen /
+      after spawning / while walking somewhere (say which room).
+
+[20] v1.8.1 - fix: Nacht crashed on the loading screen; new "Nacht (debug)" card
+    - Cause: my builder for brand-new resource groups had the item layout off by one byte.
+      Each item really is [u32 size][payload], and the last byte of every payload had been
+      swapped with the next item's. For textures/materials/entities that byte is always 0, so
+      they were fine, but the 11 Nacht models ended with a corrupted material name, so the
+      game looked up materials that don't exist while loading. The builder is fixed and
+      verified: it now rebuilds Kino's own groups byte-for-byte.
+    - Checked the older patches with the corrected reader: One Window, the fog entries and
+      the loading strings were never affected (their last bytes are 0).
+    - Nacht models: removed a World at War-only extension (CIwModelExtSectorChunkData). It
+      links each model to WaW's own sector system, which this game never uses (no BOZ file
+      contains it). Only the 27 materials the models use are kept (was all 295).
+    - New 8th card "Nacht (debug)": the same Nacht level (collision, spawn) but WITHOUT the
+      World at War models. You'll stand on invisible floors. It's only there to tell which
+      half crashes if Nacht still does - try it only if "Nacht der Untoten" crashes.
+    - Data size 362,800,120 bytes, marker kino_remaster_v181.ok (re-unpacks once).
+
+[21] v1.8.2 - Nacht: you can walk now (navigation mesh)
+    - v1.8.1 loaded and rendered Nacht, but you couldn't move: this game keeps the player on
+      the navigation mesh (the same walkable-area map zombies path on), and the only one was
+      Kino's, far away.
+    - Kino's navmesh is a Recast/Detour tiled mesh (4.8 m tiles, 0.15 cell, agent 1.5 m tall,
+      0.4 m radius, 0.4 m step). Nacht now gets 408 new tiles built with Recast from the Nacht
+      collision mesh, with the same settings on the same tile grid, converted to this game's
+      polygon layout and added next to Kino's 363 tiles (771 of 1024 max). Kino's tiles are
+      untouched.
+    - Checked in real Detour: from the spawn you can reach the whole start room, both
+      staircases, upstairs and the help room. Outside is not reachable (walls), as in the
+      real map.
+    - New data size 363,433,080 bytes, marker kino_remaster_v182.ok (re-unpacks once).
+
+[22] v1.9 - NACHT DER UNTOTEN is playable: windows, zombies, zones, doors, box, wall weapons, radio
+    Everything is placed from the World at War Nacht data (window, spawn, buy, door and radio
+    positions), using this game's own gameplay objects.
+    - 12 windows with barricades (5 start room, 3 help room, 4 upstairs), each with a one-way
+      zombie path through it in the navigation mesh. Barricades are scaled to fill the WaW
+      window openings above the sandbags. You can rebuild them like in Kino.
+    - 12 zombie spawn points at the WaW spawn spots outside, plus hellhound spawn spots inside
+      each zone (dog rounds use them).
+    - 3 zones like the original: Start Room (open from the start), Help Room, Upstairs.
+      * Help room door: 1000
+      * Front stairs debris (start room -> upstairs): 1000
+      * Back stairs debris (help room -> upstairs): 1000
+      Zombies and players can't cross a door/debris until it's bought (navmesh polygons under
+      each one are tagged to that door, same as Kino). Checked in Detour: closed zones are
+      sealed, opened zones connect, and every spawn reaches its room through one window.
+      Visuals reuse Kino's door/plank models (WaW's door and sofas are animated WaW models).
+    - Mystery box: fixed spot in the help room (from WaW), 950. It never moves (no teddy bear),
+      like the original Nacht. Kino's other box spots are removed from this map.
+    - Wall weapons on the WaW chalk spots, BO1 equivalents, WaW prices:
+        Kar98k -> M14 (200)        M1 Carbine -> M16 (600)       Thompson -> MP40 (1200)
+        Double-barrel -> Olympia (1200)   Sawed-off -> MP5K (1200)  Trench gun -> Stakeout (1500)
+        BAR -> AK-74u (1800)       Grenades -> Frag grenades (250)
+      The WaW gun outlines are hidden and the BO1 chalk outlines are drawn in their place.
+      The writing on the walls ("You must ascend from darkness" etc.) stays.
+    - Radio (help room, on the table): shoot or knife it 3 times to play the music easter egg.
+    - Moon/sky fix: the moon and sky dome were drawn at the map centre (the big "moon thing").
+      They now use their real WaW positions.
+    - No perks, Pack-a-Punch or power (original Nacht rules). Kino's are left in the Kino part
+      of the data, unreachable.
+    - The "Nacht (debug)" card is removed.
+    - Data size 360,067,003 bytes, marker kino_remaster_v19.ok (re-unpacks once).
+
+[23] v2.0 - RAY GUN MARK II (mystery box: Kino, One Window, Nacht)
+    - New wonder weapon built from this game's Ray Gun: same model and animations, repainted
+      gunmetal/black with red trim and a red energy tube (new texture + materials + model copies,
+      so the normal Ray Gun keeps its look).
+    - Mark II stats: 3-round burst (the M16's burst mode), 21-round mag, 162 reserve.
+      Damage per bullet: head 2000 / body 1000 / limbs 800. Bullets pierce (penetration 30).
+      Tight spread. Fires bullets instead of the Ray Gun's slow orb.
+    - Pack-a-Punch -> "Porter's Mark II": 45-round mag, 225 reserve, double damage
+      (its own repainted Pack-a-Punch model).
+    - Added to every mystery box list in Kino (9 spots), One Window and Nacht. The normal
+      Ray Gun stays in the box too.
+    - Uses the Ray Gun's sounds and HUD icon (no "Mk II" icon exists in this game).
+    - Data size 360,214,673 bytes, marker kino_remaster_v20.ok.
+    - IF THE GAME CRASHES when loading Kino/One Window/Nacht, or when the box shows or gives
+      the Mark II, tell me which - new weapon entries are the riskiest kind of change.
+
+[24] v2.1 - RAY GUN MARK II: real Mark II model + textures, burst fire fixed
+    - FIRING FIX: the v2.0 Mark II fired one bullet and then stopped. Every automatic and
+      burst gun in the game has a fire-rate value (rounds per minute; the M16 has 937). The
+      Mark II was copied from the Ray Gun, which doesn't have one, so after the first shot
+      the gun never got ready to fire again. Now: Mark II 937 RPM, Porter's Mark II 1000 RPM,
+      still 3-round bursts.
+    - NEW MODEL: the real Mark II from your Unity package ("Raygun MK2.fbx"), not a repainted
+      Ray Gun any more.
+        first-person: 3,930 triangles (reduced from about 24,000 so the phone can run it)
+        third-person (box / world): 2,180 triangles
+      Lined up so the Ray Gun's hand grip and animations hold the Mark II's grip.
+    - NEW TEXTURES: the Mark II's own paint (sheets 1-4: colour + metal + shadow maps
+      combined), 512x512 each. The energy cells glow red.
+    - Pack-a-Punch version: same model with the Pack-a-Punch camo shine on it.
+    - Not used: the .stl and .3mf (3D-print files: shape only, no paint) and the .7z (the
+      Unity package had everything needed).
+    - The whole gun moves as one solid piece. The Ray Gun's reload animation still plays
+      (hands and gun move), but no part of the Mark II comes off during the reload.
+    - Data size 362,034,794 bytes, marker kino_remaster_v21.ok.
+    - IF IT CRASHES when the box shows or gives the Mark II -> the new model is the cause;
+      tell me and I'll make it smaller/simpler. If it still fires only once -> tell me and
+      I'll switch it to plain semi-auto (one shot per tap).
+
+[25] v2.2 - UNIVERSAL TEXTURES: works on every phone GPU (not just old Snapdragon)
+    - Why: your friend's phone showed white/grey walls with dark star shapes. The game data
+      used ATC textures, a Qualcomm-only format that newer Snapdragon phones and all
+      Mali/Exynos/MediaTek/Tensor phones can't show. Those textures came out white, so only
+      the shading baked into the walls was visible. The flag looked fine because it uses an
+      uncompressed format.
+    - Converted ALL 2,141 ATC textures in the game (every map, zombies, weapons, the
+      Mark II, menus, fonts, Dead Ops Arcade):
+        1,579 normal textures -> ETC1 (supported by every Android GPU, same file size)
+          562 see-through textures (fences, wire, decals, fonts) -> 16-bit RGBA, the
+              same format the flag already uses
+      Average colour difference from the old textures: about 1% (looks the same).
+    - Data size 409,517,194 bytes (+47 MB), marker kino_remaster_v22.ok. The first launch
+      after updating unpacks the new data again (~410 MB).
+    - Phone requirements now: Android 7 to 15, any GPU. The phone still has to be able to run
+      32-bit apps (the game engine is 32-bit only). Phones without 32-bit support need
+      VPhoneOS or a similar virtual Android, like you use.
+    - IF YOUR VPHONEOS SHOWS WRONG TEXTURES on v2.2 (it shouldn't), keep v2.1 for yourself
+      and tell me. Same if menus or text look broken: fonts changed format too.
+
+[26] v2.3 (WITHDRAWN - crashed when starting Nacht; replaced by v2.4) - NACHT: World at War door + debris, visible wall chalk; new zombie wallpaper
+    - Help room door: the real WaW wooden door with "HELP" written on it (taken from your
+      WaW Nacht files) replaces the BO1 Kino double door. Same place, same price (1000),
+      it swings open when bought.
+    - Both staircases: the real WaW upturned couch debris replaces the BO1 Kino door/gate.
+      When bought it drops away through the floor. Same prices.
+    - Wall weapon chalk outlines are visible again. These are WaW's own chalk drawings (WaW
+      guns), so the picture may not match the BO1 gun you get from that spot.
+    - Your zombie picture (moon + zombies) is now:
+        the Nacht loading screen (Nacht gets its own loading screen, Kino keeps the comic)
+        the Nacht card on the map select screen (no more blue-tinted blank card)
+        the main menu background (behind the menu buttons)
+        the title screen, with the Call of Duty Black Ops Zombies logo kept on top
+      The picture is small (360x215), so it is a bit soft when stretched to full screen.
+    - Online: not changed yet (see the reply about the error message).
+    - Data size 410,216,123 bytes, marker kino_remaster_v23.ok.
+    - IF NACHT CRASHES when loading, or the door/couch is missing or in the wrong place,
+      tell me. If the title or menus look wrong, tell me which screen.
+
+[27] v2.4 (WITHDRAWN - menu pictures in the wrong places; replaced by v2.5) - built on v2.2 again: Nacht loading screen + map card, WaW door/debris, visible chalk
+    - Starts from v2.2 (universal textures). The title screen and main menu are back to normal.
+    - Nacht loading screen: your zombie picture. Kino keeps its own comic loading screen.
+      (v2.3 added a brand-new folder to the data file for this, which is the most likely
+      reason Nacht crashed. v2.4 reuses the iPad loading-screen slot that Android never uses,
+      so no new files are added.)
+    - Nacht card on the map select screen: your zombie picture instead of the tinted blank card.
+    - Help room door: the WaW wooden door with "HELP" on it (swings open when bought, 1000).
+    - Both staircases: the WaW upturned couch debris (drops through the floor when bought).
+    - The new door/couch models now use exactly the same data layout as the game's own doors
+      (no extra normal/second-UV blocks that v2.3 had).
+    - Wall weapon chalk outlines are visible (WaW's own chalk drawings).
+    - Data size 409,655,826 bytes, marker kino_remaster_v24.ok.
+    - IF NACHT STILL CRASHES ON CONTINUE: tell me. Then the door/couch are the cause and I'll
+      send a build with the loading screen + card + chalk only.
+
+[28] v2.5 (WITHDRAWN - Kino and Nacht crash on Continue, same as v2.2) - fix: menu pictures in the wrong places (title, main menu, single player, map select)
+    - Cause: the menu (Flash) pictures are matched to textures by their position in a list,
+      not by name. I added the Nacht card picture in the middle of one list but at the end of
+      another, so every picture after it moved one slot: the title showed half a logo, the main
+      menu showed the WaW logo, the Nacht card was black, etc. (v2.3 had the same bug.)
+    - Now the Nacht card texture sits in the matching slot in both lists; every other picture
+      is back where it was in v2.2.
+    - Everything else is the same as v2.4 (Nacht loading screen + card, WaW HELP door, WaW couch
+      debris, visible chalk).
+    - Same data size as v2.4 (409,655,826 bytes), marker kino_remaster_v25.ok, so the game
+      unpacks the new data once.
+
+[29] v2.6 (WITHDRAWN - menu pictures broken again by the Nacht card) - fix Kino/Nacht crash on Continue (built on v2.2) + WaW zombie wallpaper
+    - What crashed: Kino and Nacht crashed right after the loading screen, Ascension and Call of
+      the Dead were fine. The only data those two maps share that the others don't is the Kino
+      weapon pack, and the only big change in it since v2.0 (which worked) is the real Ray Gun
+      Mark II model from v2.1: 5,768 vertices on screen, 3.5x more than the biggest gun the game
+      ships (1,605). That is almost certainly what the game choked on while loading Kino/Nacht.
+    - Fix: the Mark II model is rebuilt much lighter with a better reducer:
+        first-person 1,532 vertices / 860 triangles (inside the game's normal range)
+        third-person/box 568 vertices / 280 triangles
+      Mark II textures are 256x256 like the original Ray Gun's (were 512x512).
+      Same look and stats otherwise (3-round burst, fire rate fix kept).
+    - Wallpaper (your WaW zombie picture):
+        map select background (the big picture behind the cards)
+        Nacht card
+        Nacht loading screen (Kino keeps its comic one)
+      The background picture is shared by Kino, One Window and Nacht in the game's menu, so it
+      changes for all three.
+    - Nacht itself is exactly as in v2.2 (Kino doors, no WaW door/couch yet) so we can be sure
+      the crash is fixed before adding anything else.
+    - Data size 408,102,257 bytes, marker kino_remaster_v26.ok.
+
+[30] v2.7 - menus exactly like v2.2 again; Nacht card done without adding any picture
+    - v2.4-v2.6 added a new picture for the Nacht card. Any added picture breaks the menus (main
+      menu, single player screen panels), even when I put it in the matching slot - the game keeps
+      another fixed list of menu pictures I can't see.
+    - v2.7 adds NO pictures. The menu data is byte-for-byte v2.2 except:
+        the map select background (kino_background) now shows your WaW zombie picture
+        the Nacht card now shows a cut-out of that same background picture (no new texture)
+    - Kino/Nacht crash fix from v2.6 kept (lighter Ray Gun Mark II model).
+    - Nacht loading screen (WaW picture) kept.
+    - Data size 407,971,122 bytes, marker kino_remaster_v27.ok.
+
+[31] v2.8 - Kino/Nacht crash fix attempt #2, Kino background back, Nacht has its own
+    - Crash: the only content that Kino and Nacht load and the other maps don't is the
+      Kino weapon pack, and the only change in it since v2.0 (which loaded fine on your phone)
+      is the custom-built Ray Gun Mark II 3D model from v2.1. The lighter model in v2.6/v2.7
+      still crashed, so it is the custom model format itself, not its size.
+      v2.8 goes back to the v2.0 Mark II (Ray Gun model with the Mark II paint), which is known
+      to load, converted to the universal texture format like everything else.
+      Kept: 3-round burst, damage/ammo, penetration, and the fire-rate fix (the v2.0 bug where
+      it only fired once).
+    - Kino map-select background: original Kino picture again.
+    - Nacht map-select background: the WaW zombie picture, only for Nacht. It slides in like
+      the other maps' backgrounds. (One Window still uses Kino's.)
+    - Nacht card: the WaW picture fills the card with a thin frame, no tint.
+    - Nacht card label: "Nacht" in white, same font/size as the "Kino" label.
+    - Still no pictures added to the menu data (the WaW art lives in the unused bottom part of
+      the Kino background texture), so the menus stay like v2.7.
+    - Data size 407,697,195 bytes, marker kino_remaster_v28.ok.
+
+[32] v2.9 - bigger game memory (Kino/Nacht crash fix attempt #3)
+    - Found the game's memory limit: the game runs inside a fixed 76 MB memory pool, set in the
+      settings built into boz.s3e ("MemSize = ExtraMemorySize + 76000000"). It never uses more,
+      even on a 12 GB phone.
+    - Kino is the heaviest map in this mod (HD textures from the remaster), and Nacht loads
+      Kino's whole object pack plus its own big textures. Since v2.2 the universal textures also
+      take more memory (see-through textures are uncompressed now). Ascension and Call of the Dead
+      use the stock textures and still fit. This also explains why raising the zombie cap above 15
+      crashed back in the early versions.
+    - v2.9 raises the pool to 176 MB. Nothing else changed: game data is byte-for-byte v2.8,
+      so installing over v2.8 does not unpack the data again.
+    - If the phone can't spare the memory, the game shows an "Insufficient memory to start
+      application" message at launch instead of crashing silently.
+
+[33] v3.0 - Nacht: WaW couches on both staircases + WaW HELP door, in their real WaW spots
+    - Kino/Nacht crash: fixed in v2.9 (bigger game memory), kept.
+    - Front staircase (start room -> upstairs) and back staircase (help room -> upstairs):
+      the Kino door/gate is replaced by the WaW upturned couch, at the exact spot and angle
+      WaW Nacht uses. 1000 each, same as before. When bought it drops away through the floor.
+    - Help room door: the WaW wooden door with HELP written on it, in the doorway, HELP facing
+      the start room. 1000. Swings open when bought.
+    - Why the old ones looked wrong: the Kino doors were placed at the WaW trigger points but
+      not turned or sized for Nacht. On the front stairs the Kino door stood edge-on along the
+      steps instead of across them.
+    - How the spots were checked: WaW stores the couch/door angle as a code (0x14, 0x10, 0x04).
+      I decoded it from the zombie windows (each window must face out through its wall), and
+      confirmed the game's rotation maths on 40+ original Kino wall props. Then I rendered the
+      map with the new couches/door from the stairs and doorway to check they sit right.
+    - The couch blocks the full width of the stairs (players can't squeeze past it).
+    - Wall chalk, wall weapons, windows, box, everything else in Nacht: unchanged.
+    - Data size 407,704,868 bytes, marker kino_remaster_v30.ok (unpacks once after updating).
+
+[34] v3.1 (WITHDRAWN - crashed in Nacht when a couch/door came into view) - built on v2.1 (the version that runs Kino and Nacht on your phone) + Nacht couches/HELP door
+    - v2.2-v3.0 (universal textures) crash in Kino and Nacht on your phone. v2.1 doesn't, so v3.1 is
+      v2.1 byte-for-byte except Nacht's two level files:
+        both staircases: WaW upturned couch (not a door), at WaW's exact spot and angle, 1000 each,
+          drops through the floor when bought, blocks the full stair width
+        help room door: WaW wooden door with HELP, in the doorway, 1000, swings open
+    - Same as v2.1 otherwise: ATC textures (Snapdragon/Adreno only, so not your friend's phone),
+      real Ray Gun Mark II, original menus and loading screens, original game memory size.
+    - Data size 362,042,467 bytes, marker kino_remaster_v31.ok (unpacks once).
+
+[35] v3.2 (WITHDRAWN - still crashed when the couch/door came into view) - fix: v3.1 crashed in Nacht as soon as a couch or the HELP door came into view
+    - Cause (my bug): every door/couch in the map data has two links, one to its 3D model and
+      one to its "skin" (how the model's points attach to the door's hinge). v3.1 changed only
+      the skin link. So the game drew Kino's old gate/door model with the couch's skin: the
+      couch skin moves 151 points, the Kino gate only has 116, and the game wrote past the end
+      of the model -> crash the moment it had to draw it.
+    - Now both links point to the new couch / HELP door model (checked: model point count =
+      skin point count for all three, all use the Kino door hinge rig).
+    - Everything else is v3.1 = v2.1 + Nacht couches/HELP door. Same size, marker
+      kino_remaster_v32.ok (unpacks once).
+
+[36] v3.3 (WITHDRAWN - still crashed when a couch/the door came into view) - Nacht couches/HELP door moved into the level data (crash fix attempt)
+    - v3.2 still crashed when a couch/the HELP door came into view. The couch/door models,
+      skins, animations, materials and textures were stored in nacht_env. That file is one of
+      the map's "sector" files (rooms the game streams in and out, listed in nacht_sectors),
+      but the doors themselves are created from nacht_statics when the level starts. Kino keeps
+      every door model in its level file (kino_dynamics), never in a sector file.
+    - v3.3 puts all of it in nacht_statics, the level file the doors live in, with their own
+      texture/material copies (new names, so nothing clashes with the room textures).
+      nacht_env is back to exactly v2.1.
+    - Only file changed from v2.1: levels/nacht/nacht_statics.group.bin.
+    - Data size 363,091,301 bytes, marker kino_remaster_v33.ok (unpacks once).
+
+[37] v3.4 - Nacht stairs: Kino's debris barrier (no custom models), help door back to v2.1
+    - The WaW couch/HELP door builds (v3.1-v3.3) crashed whenever they came into view. Those
+      models were converted from WaW by my own tools, and the game won't draw them. v3.4 uses
+      none of that.
+    - Both staircases (front: start room -> upstairs, back: help room -> upstairs) now use
+      Kino's own debris barrier (the rusty metal sheet + rubble floor plate from Kino's
+      Atrium -> Alley). Model, skin, skeleton and animation are Kino's unchanged data, the same
+      ones Kino draws every game. Only the entity values changed:
+        placed at the top edge of each staircase, across the full stair width (stretched
+        sideways to 368 / 383 wide), rubble plate lying on the landing
+        collision covers the whole width
+        price 1000, door logic, zombie paths: unchanged from v2.1
+    - Help room door: exactly v2.1 (Kino wooden double door).
+    - Only file changed from v2.1: levels/nacht/nacht_statics.group.bin (same size).
+    - Marker kino_remaster_v34.ok (unpacks once).
+
+[38] v3.5 - Nacht: Kino couch on both staircases at the WaW spots + invisible wall fixed
+    - Couches: Kino's own loveseat (the patterned couch from Kino's balcony landing / lobby
+      debris), enlarged 1.5x to fill the stair width, lying on the steps at the same spots WaW
+      Nacht puts its couches (front stairs from the start room, back stairs from the help room).
+      Seat faces down the stairs. 1000 each. When bought it drops out of sight and the stairs
+      are open.
+    - All couch data (shape, fabric texture, rig, "bought" animation) lives in kino_dynamics,
+      next to Kino's own door/debris data, which loads before the Nacht level. The v3.1-v3.3
+      couches were stored in files that load later; I think that is what crashed them.
+      The couch uses Kino's debris rig and skeleton unchanged.
+    - Invisible wall: the walking map (navmesh) marks each staircase as "closed until bought".
+      Since v1.9 those closed zones covered the whole staircase plus a strip of the start room
+      floor at the bottom of the front stairs, so you hit an invisible wall long before the
+      barrier. Rebuilt: the closed zone is now only a band right under each couch. Checked:
+      with the couches up, start room / help room / upstairs are separate; once bought, they
+      all connect. (The rebuild tool reproduces the v2.1 walking map byte-for-byte when given
+      the old zones, so nothing else in it changed.)
+    - Help room door: unchanged (v2.1 / v3.4 Kino double door).
+    - Kino: kino_dynamics only gains the couch data at the end of its lists; nothing in Kino
+      uses it, every existing entry is byte-identical.
+    - Files changed from v2.1: levels/nacht/nacht_statics.group.bin, levels/kino/kino_dynamics.group.bin.
+    - Data size 362,051,337 bytes, marker kino_remaster_v35.ok (unpacks once).
+
+[39] v3.6 - Nacht: no walking behind the mystery box + WaW German radio easter egg works
+    - Mystery box (help room): the box and the corner gap behind it (between the box and the
+      two walls/shelves) are now off the walking map, so players and zombies can't get behind
+      or into it. The front of the box is unchanged, so you still use it from the front.
+    - Radio easter egg: the three "hit me" spots were in the middle of the help room (at
+      WaW's radio sound position), about 1,300 units away from the actual radio on the table,
+      so hitting the radio did nothing. Now all three sit on the radio's front face, side by
+      side. Shoot or knife the radio 3 times (once on each spot - aim at the left, middle
+      and right of the radio, or just hit it 3 times).
+    - What it plays: WaW Nacht's own German radio broadcasts (the 3 radio tracks from WaW's
+      nacht_ambience sound data, 64 seconds in total). WaW stores them as 22 kHz ADPCM, not
+      mp3; they are decoded and saved as blackops-music/nacht_radio.mp3 in the APK (same
+      format as Kino's 115.mp3: mp3, 44.1 kHz mono, 128 kbps). It used to point at Kino's
+      115.mp3.
+    - Everything else is v3.5 (Kino couches, help door, invisible-wall fix).
+    - Files changed from v2.1: levels/nacht/nacht_statics.group.bin, levels/kino/kino_dynamics.group.bin,
+      new APK file assets/blackops-music/nacht_radio.mp3.
+    - Data size 362,051,649 bytes, marker kino_remaster_v36.ok (unpacks once).
+
+[40] v3.7 - Nacht in co-op: Online and Local (Wi-Fi) games
+    - Multiplayer map select (host, "single map"): 5th card "NACHT" after Dead Ops Arcade
+      (Kino's card art with the same blue-grey tint as the single-player Nacht card). The row of
+      cards is shrunk to 80% so all 5 fit where the 4 used to be. Tap it, Continue, as usual.
+    - Lobby map vote: 5th vote button "Nacht" (the 5 buttons are 76% size to fit the same space).
+      Vote ticks work like the other maps. The lobby background shows the Kino picture for Nacht.
+    - Game code (boz.s3e): the multiplayer code had its own fixed list of 4 maps (kino, ascension,
+      deadops, callofthedead). Picking any other map in "single map" mode gave the game an empty
+      map name (crash), and votes for it were thrown away. The lookup now also accepts "nacht"
+      (small code cave next to the v1.8 one). The host sends the map name to the other players
+      as text, so they load Nacht too.
+    - Nacht already has 4 player spawn points in the start room (since v1.9).
+    - Everything else is v3.6 (couches, box corner, radio).
+    - All players must have v3.7 installed (older versions don't know the Nacht map name).
+    - Files changed from v3.6: frontend/fe_v4_cs4_swf.bin, APK assets/boz.s3e.
+    - Data size 362,053,289 bytes, marker kino_remaster_v37.ok (unpacks once).
+
+[41] v3.8 - Nacht: real-size map, metal help door, Nacht pictures in the menus/loading, fog, storage fix
+    - STORAGE: the game picks its data file name from what the phone's GPU reports
+      (blackops_atitc.dz or blackops_etc.dz). On your setup that meant keeping a second 345 MB
+      copy. Game code (boz.s3e) now always opens blackops_atitc.dz, and the unpacker deletes
+      blackops_etc.dz and blackops_etc.dz.dat on first launch. One data file on every device.
+    - MAP SIZE: all of Nacht (walls, floors, collision, walking map, windows, spawns, wall buys,
+      doors, radio, sky) is shrunk to 77% around the map's own origin, so the player is bigger
+      relative to the rooms (WaW proportions). Window barricades now fit the openings at their
+      normal Kino size (they were stretched to 131%). Couches shrink with the stairs. The mystery
+      box, wall-buy triggers and the player keep their normal size.
+      Rebuilt and checked: walking map (start room / help room / upstairs separate until bought,
+      all connected when bought; every zombie spawn reaches the start room; all 12 windows work;
+      the corner behind the box stays blocked).
+    - HELP ROOM DOOR: Kino's rusty metal stage door (the one to the stairs behind the stage),
+      sized to the Nacht doorway. 1000, opens when bought. (Kino's light-shaft decal on that
+      door's floor is removed.)
+    - WINDOW COLLISION: the help-room window next to the start room (MysteryBoxRoomZombieWindow1)
+      had an invisible World at War outer-wall plane in the collision data covering the whole
+      opening: bullets hit it, so zombies at that window couldn't be shot. Removed it. All other
+      windows were checked: open above the sandbags.
+    - FOG: Nacht had Kino's brown fog colour, which is what showed as a brown wall in the
+      distance. Now a dark night blue-grey, and the fog starts/ends 35% further out.
+    - MENUS (no pictures added, same method as the Kino background): the Nacht picture is
+      painted into an unused part of the Kino map-select background texture and used for:
+        single-player Nacht card (no more blue tint), single-player map-select background when
+        Nacht is selected, co-op map-select Nacht card, co-op lobby background, lobby vote button
+    - LOADING SCREEN: Nacht has its own loading screen (the Nacht picture) using Kino's iPad
+      loading-screen slot, which Android never uses. Kino keeps its comic screen.
+    - Not in this version: explosive barrels (BO1 mobile has no shootable explosive object;
+      explosions only come from grenades/projectiles). Wall buys: Nacht already has 8 since v1.9.
+    - Data size 361,968,746 bytes, marker kino_remaster_v38.ok (unpacks once).
+
+[42] v3.9 - Nacht card fixed, chalk wall buys in Nacht, new Mali (all GPUs) version
+    - NACHT CARD / MENU PICTURES (v3.8 showed a black or white card): the menu stretches each
+      texture over the picture's own size (Kino background: 968x624 picture in a 1024x1024
+      texture), so the "unused" bottom of the Kino background was really the bottom of Kino's
+      picture, and the Nacht shapes pointed past the picture's edge. The Nacht art now lives in
+      the Xperia Play controls-help picture (only shown on an Xperia Play) and the shapes use
+      the picture's own coordinates. Kino's map-select background is back to the original
+      (v3.8 had darkened its bottom). Fixed everywhere the Nacht picture is used: single-player
+      card + background, co-op card, co-op lobby background, lobby vote button.
+    - NACHT LABELS: the game draws a map name white with the black outline only when the menu
+      script fills it in; the Nacht labels had fixed text, which is drawn plain black. The menu
+      scripts now set "NACHT" on the single-player card, the co-op card and the lobby vote button.
+    - NACHT WALL BUYS: in BO1 mobile the gun on the wall is a chalk drawing on a separate panel in
+      each Kino room; the buy point itself draws nothing. Nacht never had these panels (and the
+      WaW chalk at those spots has been hidden since v1.9), so the walls were empty. Kino's chalk
+      drawing for each gun is now on the wall at all 8 Nacht buys (M14, M16, MP40, Olympia,
+      MP5K, Stakeout, AK-74u, frag grenades), facing the room, 1 unit off the wall.
+    - MALI VERSION (separate APK, for Mali / Exynos / MediaTek / any non-Snapdragon GPU): the
+      normal data uses ATC textures, which only Snapdragon GPUs can show (white walls elsewhere).
+      The Mali data is built from the original blackops_etc.dz you sent:
+        files the mod never changed: Activision's own ETC version, unchanged
+        mod files: every part identical to the original game uses Activision's ETC version;
+          only the mod's own textures (101 ETC1, 10 RGBA) are converted, in exactly the
+          format Activision's ETC data uses (checked byte for byte against their files)
+      Data 508,654,403 bytes, unpacks to the same file name (one data file), marker
+      kino_remaster_v39m.ok. Installing one version over the other re-unpacks once.
+    - Snapdragon data 361,973,315 bytes, marker kino_remaster_v39.ok (unpacks once).
+    - Game code (boz.s3e) is the same as v3.8.
+
+[43] v4.0 (Mali / all GPUs only) - VERRUCKT (World at War) added as a new map
+    - Map: World at War mobile's Verruckt from your _verruckt.dz (HD version): 56 room/outside
+      models at full detail (low-detail and partial-view copies skipped), 37 textures converted
+      from PVRTC/raw to ETC1/RGBA (Mali formats), sized like Nacht (players are WaW-sized).
+      The WaW chalk drawings of the wall guns, posters and room decoration stay as in WaW.
+    - Collision: 29,357 triangles from the room models. Walking map: 356 new navmesh tiles.
+    - Gameplay (this game's own working objects, at the exact WaW spots and facing):
+        9 zones like WaW: German start, German upstairs 1 + 2, Generator, American start,
+          American downstairs, American upstairs 1/2/3. All 4 players start in the German start room.
+        10 buyable blockers on the WaW door/debris spots, 1000 each: 8 doors (the door between
+          the two start rooms is buyable, since this game has no power-linked doors) and the
+          2 staircase debris piles (Nacht's upturned couch).
+        19 boarded windows with zombie paths through them (1 WaW window has nothing zombies
+          can stand on outside, as in WaW); 23 zombie spawns (the WaW spawn points, plus 2 just
+          outside windows that had none); 2 hellhound spawns per zone.
+        Perks on the 4 WaW perk spots: Juggernog, Quick Revive, Double Tap, Speed Cola (they need
+          power, like Kino); power switch on the WaW generator switch.
+        Mystery box: moves between the 5 WaW box spots.
+        20 wall buys on the WaW chalk drawings, BO1 equivalents at WaW prices:
+          Kar98k/Springfield -> M14 (200), M1 Garand/Gewehr -> M16 (600), Thompson -> MP40 (1200),
+          double barrel -> Olympia (1200), sawed-off -> MP5K (1200), trench gun -> Stakeout (1500),
+          BAR -> AK-74u (1800), grenades -> frag (250), Bouncing Betty -> Claymores (1000),
+          SMG -> MPL (1000)
+      Checked in Detour: start room sealed until a door is bought, every zone reachable with doors
+      open, every zombie spawn reaches its zone through a window, all 19 window crossings work.
+    - NOT from WaW (and why): zombies, wall-gun models and perk machines are not in the map files
+      (WaW keeps them in its main game data), so they are this game's own. WaW's animated doors,
+      debris and box crashed this game in v3.1-v3.3, so those are this game's own too.
+    - Menus: single-player card (8th), co-op card (6th), lobby vote button (6th), map-select and
+      lobby backgrounds, white outlined "VERRUCKT" labels; own loading screen. Online/local co-op:
+      the co-op map lookup knows "verruck" (the map's internal name).
+    - Game code: Verruckt takes Nacht's spare level slot (the old "Nacht (debug)" one); co-op lookup
+      now checks Nacht and Verruckt; game memory raised from 76 MB to 176 MB (as in v2.9), because
+      Verruckt loads about 71 MB of data and the old limit was 76 MB.
+    - Data 521,549,798 bytes, marker kino_remaster_v40m.ok (unpacks once).
+
+[44] v4.1 (Mali / all GPUs only) - Verruckt: WaW doors, perk machines and wall guns, box stays at power; Nacht: moon, fires, fog, lights
+    - Built on v4.0 Mali (everything not listed here is byte-identical to v4.0).
+    - VERRUCKT DOORS: all 8 doors now look like World at War Verruckt's white metal doors with the
+      green window panel (picture taken from your _verruckt.dz). 5 double doors, 3 single doors, as in
+      WaW. The door rig, hinge, open animation and collision are this game's own Kino door data
+      (only the picture on it changed), because WaW's own animated doors crashed this game in
+      v3.1-v3.3. They swing open when bought, same as before. 1000 each.
+    - VERRUCKT MYSTERY BOX: only one box, in the generator (power switch) room, at WaW's
+      "MysteryBoxGenerator" spot. It never moves (no teddy bear). The other 4 box spots are gone,
+      and so are their blocked walking areas.
+    - VERRUCKT PERK MACHINES: the World at War machines (Juggernog, Quick Revive, Double Tap,
+      Speed Cola) from your test.ipa (WaW keeps them in Der Riese / Shi No Numa data; Verruckt's
+      perk spots point at those same models), at the exact WaW spots and facing. This game's own
+      machines are still there for the buying and power logic, but are not drawn.
+    - VERRUCKT WALL GUNS: the World at War gun models from test.ipa (player data) now hang on the 14
+      gun chalk drawings: Kar98k, Springfield, M1 Garand, Gewehr 43, Thompson, MP40, STG-44, BAR,
+      double-barrel, sawed-off, Trench Gun. Each sits on its own WaW chalk outline (checked with
+      renders of every wall). Grenade and Bouncing Betty buys (6) keep their chalk only.
+    - VERRUCKT WALL BUY PRICES/GUNS FIXED: v4.0 matched some wall buys to the wrong WaW spot. Each
+      buy now reads the gun and price from the WaW spot itself. What you get (BO1 equivalent):
+        Kar98k / Springfield -> M14 (200)       M1 Garand / Gewehr 43 -> M16 (600)
+        Thompson -> MP5K (1200)                 MP40 -> MP40 (1000)
+        STG-44 -> PM63 (1200)                   BAR -> AK-74u (1800)
+        double-barrel / sawed-off -> Olympia (1200)   Trench Gun -> Stakeout (1500)
+        grenades -> frag (250)                  Bouncing Betty -> Claymores (1000)
+      The guns themselves are this game's weapons; WaW's guns can't be used as weapons here.
+    - NACHT: World at War Nacht's own effects added at their WaW spots (62 pieces): the generator and
+      yard fires (animated flame textures, they flicker like WaW), moon fog and fog patches outside,
+      light beams / god rays through the roof holes and stair windows, light glows, smoke.
+    - NACHT MOON: the sky dome and moon are now drawn in the game's sky layer (the way Call of the
+      Dead and Ascension draw their skies) so the fog no longer hides them.
+    - NACHT FOG: thicker. Fog now starts at less than half the old distance and thickens gradually
+      (before: clear, then a sudden fog wall); colour a little bluer (moonlight). Verruckt's fog is
+      unchanged.
+    - Checked in Detour: Verruckt start room sealed until a door is bought, every zone reachable with
+      doors open, every zombie spawn reaches its zone through a window, all 19 windows work, perks,
+      power, box and every wall buy reachable.
+    - Files changed from v4.0: levels/verruck/verruck_statics, levels/verruck/verruck_env,
+      levels/kino/kino_dynamics (door pictures added at the end; Kino's own entries unchanged),
+      levels/nacht/nacht_env, ingame/misc/misc (Nacht fog).
+    - Data 523,671,458 bytes, marker kino_remaster_v41m.ok (unpacks once).
+
+[45] v4.2 (Mali / all GPUs only) - Verruckt doors/glass, wall guns on the chalk, Speed Cola; Nacht white lights, moon, radio
+    - Built on v4.0 Mali, with the v4.1 changes plus these fixes:
+    - VERRUCKT DOORS: darker, like the door in WaW's lit rooms, and the two windows are now see-through
+      glass (you can see the next room / outside through them). Same opening animation as before.
+    - VERRUCKT WALL GUNS: the World at War gun models from v4.1 are gone. Each wall buy now shows this
+      game's own gun (the one you get) lying on the WaW chalk drawing on the wall: centred on the drawing,
+      muzzle the same way as the chalk, side facing the room, sized to the drawing. In v4.1 this game's
+      gun also showed up low on the wall near the floor - that was the same gun, placed wrong; it's fixed.
+      Prices and guns as in v4.1 (Kar98k/Springfield -> M14 200, Garand/G43 -> M16 600, Thompson -> MP5K
+      1200, MP40 -> MP40 1000, STG-44 -> PM63 1200, BAR -> AK-74u 1800, shotguns -> Olympia 1200, Trench
+      Gun -> Stakeout 1500, grenades -> frag 250, Bouncing Betty -> Claymores 1000).
+    - VERRUCKT SPEED COLA: the WaW Speed Cola machine stands up to 81 units in front of its WaW spot, so
+      the buy point (at the spot, against the wall) was behind the machine. Every perk's buy point is now
+      at the centre of its WaW machine. Perks still need the power on (Speed Cola 3000, like WaW).
+    - NACHT LIGHTS: the light beams, god rays, glows and smoke were yellow because the WaW picture data
+      for them was read one byte off (white-blue light came out as yellow with no see-through edges).
+      Read correctly now: white/blue-white soft light like WaW.
+    - NACHT MOON: the moon is now painted into the night sky itself (the sky dome, which is visible), at
+      WaW's moon direction from the start room, so it can't be hidden by fog or drawing order.
+    - NACHT RADIO (like WaW): knife the radio once -> WaW radio broadcast 1 plays and keeps looping. Knife
+      it again -> broadcast 2 (loops), again -> broadcast 3 (loops), then back to 1. It fades from one
+      to the next. Knife only (shooting doesn't change it). The 3 broadcasts are separate files now
+      (blackops-music/nacht_radio1.mp3, 2, 3 in the APK, from WaW's own radio sound data).
+    - Game code (boz.s3e): the easter-egg music normally plays once; for the Nacht radio group it now
+      picks the next broadcast and plays it on a loop. Kino (115), Ascension and Call of the Dead easter
+      eggs are unchanged. To make room, the easter-egg progress is no longer sent to co-op players who
+      join a game already in progress.
+    - Files changed from v4.0: levels/verruck/verruck_statics, verruck_env, levels/kino/kino_dynamics,
+      levels/nacht/nacht_env, nacht_statics, ingame/misc/misc (Nacht fog from v4.1); APK: boz.s3e,
+      3 radio mp3s.
+    - Data 524,242,831 bytes, marker kino_remaster_v42m.ok (unpacks once).
+
+[46] v4.3 (Mali / all GPUs only) - Verruckt: doors fit, guns face the chalk, Speed Cola, power door, spawns, zombies rise, fog/fire
+    - Built on v4.0 Mali with the v4.1/v4.2 changes, plus:
+    - DOORS: each door now has exactly the size and spot of World at War's door model (267 wide x 252 high
+      for the double doors, 133 x 252 for the single doors). Before, they were sized to WaW's bigger
+      door trigger box, so they stuck into the frame and wall. Checked with renders from both sides of all 8.
+    - WALL GUNS: turned around. The WaW chalk drawings have the stock on the left and the barrel to the
+      right; the guns now lie the same way on their drawing (they pointed left before).
+    - SPEED COLA (the real bug): this game's Speed Cola machine faces the opposite way to its other perk
+      machines (in Kino its back is towards the room direction the others face, I checked all four Kino
+      perks against Kino's walking map). The buy point only works from the machine's front, so it was
+      facing the wall. Turned around; Juggernog, Quick Revive and Double Tap were already right.
+      Needs power, 3000 points.
+    - PLAYER SPAWNS: all 4 players start in the American start room with Quick Revive (WaW's
+      Player3/Player4 spots), not the German room with Juggernog.
+    - POWER DOOR: the door between the two start rooms opens only when the power is turned on, like WaW
+      ("Pull power switch to open door", no price - this game's own power door, as Kino's).
+      To reach the power: American start -> downstairs -> stairs -> upstairs 1/2/3 -> generator.
+    - ZOMBIES: all Verruckt zombie spawns are now this game's "ground" spawns (the ones Kino's theatre and
+      Call of the Dead use): zombies dig up out of the ground and then go for the windows, like WaW.
+      WaW's own climb-out animation can't be used (different animation format), so this is the game's own.
+    - FOG: Verruckt now uses WaW Verruckt's own fog colour (warm brown-grey) and is thicker (starts at under
+      half the old distance, thickens gradually), plus WaW Verruckt's own fog banks and sky fog.
+    - FIRE AND LIGHTS (optional item): WaW Verruckt's fires (animated flame textures: toilets, balconies,
+      stairway, small flames, burning trees outside), lamp glows, light beams and god rays, at their WaW
+      spots (59 effect models). Not the generator flicker / tesla trap effects.
+    - Files changed from v4.0: levels/verruck/verruck_statics, verruck_env, ingame/misc/misc (Verruckt + Nacht
+      fog), plus the v4.2 files (kino_dynamics, nacht_env, nacht_statics, APK boz.s3e + radio mp3s).
+    - Data 525,430,737 bytes, marker kino_remaster_v43m.ok (unpacks once).
+
+[47] v4.4 (Mali / all GPUs only) - Verruckt: BO1 chalk wall buys, Speed Cola fixed properly
+    - Built on v4.3; only Verruckt's two level files change.
+    - WALL BUYS: World at War's chalk drawings are removed and the 20 wall buys now use this game's own
+      BO1 chalk outlines (Kino's chalk panels: AK47u, M14, M16, Olympia, MP5K, Stakeout, PM63, MP40, frag
+      grenade, claymore), the same way as Nacht. Each buy spot is Kino's own wall-buy setup at Kino's
+      own size and its own offset from the chalk, with its front facing the room.
+    - WHY YOU COULDN'T BUY GUNS IN v4.3: the game only offers a wall buy when you are in FRONT of it
+      (it checks the angle between you and the buy spot's front). Turning the guns around in v4.3 also
+      turned the buy spots to face the wall. Fixed: all 20 face the room again.
+    - SPEED COLA: I checked the game code this time (the buy-prompt search and the perk buy code).
+      The v4.3 note was wrong: Kino's Speed Cola faces the same way as the other perks, so v4.3's
+      "turn it around" made it face the wall. Now: it faces the room again, it also accepts the buy from
+      either side (m_BiDirection, a setting the game supports), and its view angle is wider (80 degrees
+      instead of 57). The game's buy rules (all perks the same): power on, stand close to
+      the machine, face it, have 3000 points.
+    - Files changed from v4.3: levels/verruck/verruck_statics, verruck_env.
+    - Data 525,621,224 bytes, marker kino_remaster_v44m.ok (unpacks once).
+
+[48] v4.5 (Mali / all GPUs only) - Verruckt: zombies stay out of locked rooms, BO1 Speed Cola machine
+    - Built on v4.4; only Verruckt's two level files change.
+    - ZOMBIES AT LOCKED DOORS: since v4.3 zombies rise from the ground at the old spawn spots in the big
+      courtyard, which is shared by the windows of 4 rooms. A zombie meant for your room could rise next to
+      the window of a room you haven't opened yet, climb in there and then stand at that room's closed door.
+      Now every window has its own ground spawn just outside it, and each room only uses
+      the spawns outside its own windows, so the nearest window is always one of your room's windows.
+      Checked: with all doors shut no room connects to another, every spawn reaches its own room.
+    - SPEED COLA: the World at War Speed Cola machine is replaced with this game's own (BO1) Speed Cola
+      machine, set against the wall like in Kino, front to the room. The Speed Cola icon above it is the buy
+      button; it needs the power on and 3000 points (with less, tapping it does nothing / plays the
+      "can't buy" sound).
+    - Files changed from v4.4: levels/verruck/verruck_statics, verruck_env.
+    - Data 525,620,366 bytes, marker kino_remaster_v45m.ok (unpacks once).
+
+[49] v4.6 (Mali / all GPUs only) - Verruckt: Speed Cola machine visible
+    - v4.5's BO1 Speed Cola machine did not show up in game (the buy spot was there, the machine wasn't).
+      The game's animated perk machine doesn't draw in Verruckt, so the BO1 Speed Cola machine is now a
+      plain static model in Verruckt's map file, same model and textures, same spot (against the wall,
+      front to the room). The buy spot is unchanged: power on, 3000 points, tap the icon.
+    - Files changed from v4.5: levels/verruck/verruck_statics, verruck_env.
+    - Data 525,695,664 bytes, marker kino_remaster_v46m.ok (unpacks once).
+
+[50] v5.0 (Mali / all GPUs only) - Shi No Numa added, One Window removed
+    - One Window is gone. Its menu slot ("proto") is now SHI NO NUMA: the World at War Shi No Numa map
+      (huts, swamps, walkways, trees, lanterns, fire and light effects) at the same scale as Nacht and
+      Verruckt. Solo only, like One Window was.
+    - LAYOUT (like Nacht / Verruckt): you start in the upstairs room. Two ways down: the stairs (blocked
+      by debris, 750) and the side door (750). Downstairs room -> 4 swamp doors (1000 each). Each swamp has
+      its hut door (750): fishing hut, doctor's hut, storage hut, comm room.
+    - DOORS / DEBRIS: Shi No Numa does have its own doors and debris, but they are animated World at War
+      models, the same kind that crashed Nacht in v3.1-3.3. So, as you said, the BO1 ones are used:
+      Kino's door for the doors (sized to each WaW doorway) and the Nacht couch for the stairs debris.
+    - PERKS (BO1 machines): Quick Revive in the fishing hut, Juggernog in the doctor's hut, Speed Cola in the
+      storage hut, Double Tap in the comm room. Shi No Numa has no power switch, so on this map every
+      perk machine is powered from the start (small game code change in boz.s3e, only for this map;
+      Kino / Nacht / Verruckt still need their power switch).
+    - WALL BUYS: 12 BO1 chalk outlines on Shi No Numa's own wall-buy spots, at WaW prices: M14 (Kar98k
+      spot, 200), M16 (Gewehr, Garand and Carbine spots, 600), MP5K (Thompson, 1200), Stakeout (Trench gun,
+      1500), AK47u (BAR, 1800), PM63 (StG, 1200), MP40 (1000), MPL (Type 100, 1000), frag grenades (250),
+      claymores (Bouncing Betty spot, 1000). The WaW chalk drawings are hidden.
+    - MYSTERY BOX: 6 of Shi No Numa's box spots (both downstairs rooms, comm room, fishing hut, doctor's
+      hut, storage hut); it moves between them.
+    - ZOMBIES: they climb in through the 19 windows of the start room, downstairs room and huts (BO1
+      barricades), and rise from the ground in the swamps. Each room only uses its own spawns, so nothing
+      comes out of a part of the map you haven't opened. Hellhounds: 2 spawn spots per area.
+    - ZOMBIE TEXTURES: Shi No Numa's files have no zombie textures, and World at War's zombie skins don't
+      fit this game's zombie models (different texture layout), so the Kino zombies stay.
+    - Not included: the zipline, the electric traps, the random perk spots, the hut-by-hut power-ups.
+    - FOG: Shi No Numa's own pale grey-green swamp fog colour (from WaW's settings), thick like Nacht.
+    - MENU / LOADING: the One Window card is now a Shi No Numa card with its own picture, "SHI NO NUMA"
+      label and map-select background; new loading screen with the map.
+    - Walking paths for zombies: built for the whole swamp (the shallow water counts as ground), checked:
+      start room closed off while the doors are shut, every area reachable once opened, every spawn,
+      window, perk, wall buy and box reachable.
+    - Files: levels/proto/proto_env (new), proto_statics, proto_sectors, ingame/misc (fog),
+      fixed (loading names), loading/callofthedead/loading_ipad (Shi No Numa loading picture; that file
+      is only used on iPads), frontend (menu picture + menu), boz.s3e (perk power on this map).
+    - Data 536,368,092 bytes, marker kino_remaster_v50m.ok (unpacks once).
+
+[51] v5.1 (Mali / all GPUs only) - Shi No Numa: WaW doors, roofs, fences, water, zipline, traps, Wunderwaffe
+    - DOORS: the World at War doors from your picture replace the Kino doors, at their real WaW spots:
+      the wooden gates to the 4 swamps (1000 each), the plank hut doors (750 each) and the WARNING gate
+      (750). WaW keeps several of these gates hanging open in its files, so they are swung shut on their
+      hinges. They can't play their WaW opening animation in this game (that kind of model is what crashed
+      Nacht), so a bought door disappears instead of swinging open.
+    - "Doors out of place": v5.0 sized each door to WaW's door trigger box, and that box is the size of
+      the gate when it is OPEN, so doors stuck out of the doorways. They now sit exactly in the doorways.
+    - STAIRS DEBRIS: the WaW debris pile from your picture instead of the couch (750). It can now be bought
+      from upstairs too (v5.0 only let you buy it from the bottom).
+    - MYSTERY BOX: it now starts at the spot from your picture (ammo crates and teddy, behind the WARNING
+      gate), then moves between the 6 Shi No Numa spots as before.
+    - ROOFS: the broken / missing hut roofs are fixed. WaW splits each building into "seen from inside"
+      and "seen from outside" pieces, and v5.0 only kept one of them, so roofs were missing from some
+      angles. Both are kept now (without doubling anything). The tree line behind the map is see-through
+      again where it should be.
+    - FENCES: invisible walls along the whole map border (taken from WaW's own walkable-area edge), so you
+      can't walk past the fences / out of the map any more. Doorways, windows and paths are left open.
+    - WATER: the swamp water is real water now (Call of the Dead's water): shooting it splashes, walking in
+      it splashes, and you wade through it and can't sprint. Call of the Dead's freezing (water hurting you
+      after 30 seconds) is switched off on this map only.
+    - ZIPLINE: Call of the Dead's zipline, from the walkway at the main building (next to the WaW zipline)
+      down to the doctor's swamp, and back up from there. Free (this game's zipline has no price setting;
+      WaW charged 1500). It opens by itself on this map
+      (Call of the Dead opens its ziplines with a map event Shi No Numa doesn't have; game code change).
+    - ELECTRIC TRAPS (1000 each): the 4 WaW electric traps at the hut doors (fishing hut, doctor's hut,
+      storage hut, comm room), using the WaW switch boxes and WaW tesla poles at their real spots. There's
+      no WaW electricity effect in the game files, so the zap between the poles is the BO1 electric trap
+      effect. Shi No Numa has no power switch, so the traps work from the start (game code change, only
+      on this map).
+    - WUNDERWAFFE DG-2 EASTER EGG (like WaW mobile): open every door and debris, then dig up Peter
+      McCain's grave in the courtyard near the flogger to get the Wunderwaffe DG-2. You can dig it once.
+      Before all doors are open, nothing happens. It's also in the mystery box. You can't hold two: the
+      game never gives you a second copy of a gun you carry, and if you already have it the grave only
+      refills its ammo.
+    - To have the Wunderwaffe, Shi No Numa now loads Call of the Dead's weapon set (it's the only set that
+      has it). Side effects, on this map only: the first-person arms/sleeves are Call of the Dead's, and
+      the box has no monkey bombs (that set has none). Kino, Nacht and Verruckt are unchanged.
+    - Not done: the flogger trap (this game has no spinning-trap type to drive it; it stays as scenery),
+      random perk spots (needs new game code; the perks stay in the 4 huts) and the other easter eggs (only
+      the Wunderwaffe one was added).
+    - Game code (boz.s3e) changes, all checked to act only when the map is 'proto' (Shi No Numa): traps
+      powered, zipline open, no freezing water, Call of the Dead weapon set, grave rules (that one only
+      reacts to a free wall buy, and the grave is the only one in the game). The new code sits in two
+      unused copies of a text-parser function nothing in the game calls.
+    - Files: levels/proto/proto_env, proto_statics, boz.s3e. Everything else is byte-for-byte v5.0.
+    - Data 544,482,231 bytes, marker kino_remaster_v51m.ok (unpacks once).
+
+[52] v5.2 (Mali / all GPUs only) - Shi No Numa loading crash fixed
+    - v5.1 crashed while loading Shi No Numa. Cause: v5.1 switched Shi No Numa to Call of the Dead's weapon
+      set (for the Wunderwaffe), but the game picks the weapon set name in 3 places in boz.s3e, and v5.1
+      only changed the one that loads the files. The other two (the ones that look the weapons and weapon
+      projectiles up after loading) still asked for Kino's set, found nothing, and the game crashed. All 3
+      now agree (Shi No Numa only; Kino, Nacht, Verruckt unchanged).
+    - Wunderwaffe grave: in v5.1 it would have handed out an M14 (a wall buy's gun comes from its gun
+      model, not from the setting v5.1 changed). It now gives the Wunderwaffe DG-2, and the Wunderwaffe
+      appears at the grave when you dig it up.
+    - Call of the Dead's weapons use 5 sound/effect sequences that live in Call of the Dead's map file
+      (2 of them are the Wunderwaffe's). They're now copied into Shi No Numa so nothing is missing.
+    - Shi No Numa's object file now loads its door/debris models before the objects that use them (the
+      order every other map file uses).
+    - Everything else is as described in [51].
+    - Data 544,482,611 bytes, marker kino_remaster_v52m.ok (unpacks once).
+
+[53] v5.3 (Mali / all GPUs only) - Shi No Numa: trap crash fixed, traps, walls, tree walls, box map, grave message
+    - CRASH (storage room): the trap switches. v5.1 put the World at War switch box model on Kino's trap switch,
+      but that switch plays an animation when you use it, and the WaW box has no bones to animate, so the game
+      crashed when you used a switch. Now Kino's own trap switch does the work (hidden, its animation is safe),
+      and the WaW switch box is a separate piece of scenery on the wall in front of it.
+    - TRAPS: "Turn the power on first" is gone: the switches power on by themselves on this map as soon as you
+      look at one. The WaW switch boxes now hang exactly where WaW has them (on the hut wall, with the cable going
+      up), instead of floating in the middle of the hut. The electric sprites that showed as a pink block are left
+      out. The zap is still in each hut doorway, under the WaW tesla poles. 1000 each.
+    - INVISIBLE WALLS: the walls added in v5.1 to stop you leaving the map also stood in the hut doorways (that's
+      what blocked you at Juggernog and Quick Revive) and along seams between WaW's walking areas. They're gone
+      from every doorway and seam; only the real map edges are kept.
+    - TREE WALLS: the dark walls of trees in the middle of the swamps are removed (18 of them). In WaW they're only
+      drawn from certain spots to hide far-away parts of the map, so here they just stood in the way. They had
+      collision too, which is why they blocked you.
+    - ZIPLINE: the WaW zipline cart and levers are removed; only Call of the Dead's zipline is left.
+    - MYSTERY BOX MAP: WaW's map board hangs in the start room (on the wall to the WARNING gate room). A green
+      light on it shows which of the 6 spots the box is at, and moves when the box moves (teddy bear).
+    - WUNDERWAFFE: once every door and debris is bought, the prompt line shows "All areas unlocked, now find the
+      grave!" whenever you're not looking at something you can buy, until you dig up the grave.
+    - The flogger is back as scenery near the grave (it doesn't spin).
+    - Files: levels/proto/proto_env, proto_statics, boz.s3e.
+    - Data 546,552,852 bytes, marker kino_remaster_v53m.ok (unpacks once).
+
+[54] v5.4 (Mali / all GPUs only) - Shi No Numa: back to v5.0 + door shapes, Wunderwaffe grave, radios, tree wall
+    - BASE: v5.0 again, as you asked. Everything v5.1-v5.3 added is gone: WaW door models, roofs, invisible walls,
+      water splashes, zipline, traps, box map board and its light, grave message. v5.3 crashed right at the
+      spawn when you looked left. The start room is where v5.3 hung the box map board (with a light on every
+      box), so that's the most likely cause, but it isn't confirmed. None of it is in v5.4.
+    - DOORS: still the BO1 Kino doors, but each one is now the size of the SHUT WaW door. v5.0 used WaW's trigger
+      box, which is the size of the gate when it's OPEN, so some doors were far too wide. Widths now:
+      fishing swamp 675 -> 459, storage swamp 375 -> 275, comm room swamp 272 -> 266, comm room hut 669 -> 354,
+      storage hut 372 -> 381, doctor's swamp 466 -> 464 (the other doors already fit). The doorways the
+      zombies path through match the new doors.
+    - TREE WALLS: all back, exactly as in v5.0, with their collision. Their collision is the map edge: without it
+      you can walk off the map, and from the fishing swamp into the comm room swamp without buying a door
+      (checked). Removed: ONE tree wall, "commTreeLine6", the flat wall of trees standing on the ground by the
+      fence west of the main building, on the way to the comm room swamp. If the one you meant is a different
+      one, send a screenshot of where you're standing and I'll take that one out instead.
+    - WUNDERWAFFE DG-2:
+      * On this map the game loads Call of the Dead's weapon set, because that's the set with the Wunderwaffe
+        (the same game code that loaded fine in v5.2). Other maps are unchanged.
+      * Mystery box: the Wunderwaffe is in it. Monkey bombs and one Kino-only gun are out (not in that set).
+      * Peter McCain's grave, by the flogger: once EVERY door and the stairs debris are bought, use the grave
+        to dig up a free Wunderwaffe. It works once only. Before that it does nothing.
+      * The Kino bowie knife wall buy is removed (it's not in Call of the Dead's set). It was in the far-away
+        Kino area anyway.
+      * No "All areas unlocked" message (that was v5.3's HUD code); it can come back separately once v5.4 runs.
+    - RADIOS (WaW easter egg, done like the Nacht radio): knife one of the 5 radios (3 in the start room,
+      1 in the storage hut, 1 in the doctor's hut). It plays WaW's radio message 1 on a loop. Knife again for
+      message 2, then 3, then back to 1. All 5 radios share one counter.
+    - PHONE: knife the phone in the comm room and it plays "The One" (WaW's phone song) on a loop.
+    - Not included: traps, zipline, water, invisible walls, box map, grave message.
+    - Files: levels/proto/proto_env, proto_statics, boz.s3e (weapon set + grave).
+      APK: 6 new sound files in assets/blackops-music (shino_radio1-3, phone_radio1-3).
+    - Data 536,366,987 bytes, marker kino_remaster_v54m.ok (unpacks once).
+
+[55] v5.5 (Mali / all GPUs only) - Shi No Numa: Ascension doors, graves, box map, traps, zipline, map edge, houses
+    - Built on v5.4 (the version that loads for you).
+    - WHAT CRASHED v5.3 (spawn, looking left): the mystery box map's green dot. Each box had its dot as a part that
+      reused the rubble's animated (skinned) model setup with a plain model swapped in, and the game crashed as soon
+      as the dot came into view (the board is on the start room wall). The dot is now a plain model part, the same
+      kind as the doors that worked in v5.2. That was the only thing near the spawn; the rest of v5.3 wasn't the cause.
+    - DOORS: Ascension's riveted double blast door (Centrifuge -> U-Bend) on all 9 doors, each sized to the shut WaW
+      door (v5.4 sizes). When you buy one it disappears (Ascension's opening animation can't be moved to this map).
+      The stairs debris is still the couch.
+    - HOUSES: the walls missing from outside are back. WaW draws each building twice, inside and outside; on single
+      sheet walls (the tin walls) both copies sit in the same spot facing opposite ways, and v5.0 deleted the outside
+      copy as a "duplicate", so from outside you looked through them. Only true duplicates (same spot AND same way)
+      are removed now. More roof shows too.
+    - TREE WALLS: all 18 are kept (commTreeLine6 is back). Their see-through parts were drawn dark, which made each
+      card a flat dark wall (your picture). They're see-through now, so they look like a line of trees.
+    - MAP EDGE: invisible walls along the edge of WaW's own walkable area, so you can't walk out of the map or
+      around the back of the tree walls any more. Kept away from every doorway, window, zombie climb spot, perk
+      machine, wall buy, grave and zipline end, and from seams between WaW's walking areas.
+    - INVISIBLE WALLS AT JUGGERNOG / QUICK REVIVE: those were v5.2's map-edge walls standing in the hut doorways. I
+      checked v5.4 and v5.5 with a player-sized probe from each hut door to Jugg and Quick Revive and through every
+      hut doorway: nothing in the way. The nearest map-edge wall to any perk machine is 500+ units away.
+    - WUNDERWAFFE / GRAVES (WaW's 9 graves, in all 4 swamps and the courtyard by the flogger): once every door and the
+      stairs debris are bought, find and dig up the graves (use the grave = the wall buy prompt). Each grave digs once
+      and its mound disappears, leaving the open grave. The LAST grave you dig holds the Wunderwaffe DG-2. Before all
+      doors are bought, or on a grave that's already dug, nothing happens. Still in the mystery box too.
+    - MYSTERY BOX MAP: WaW's map board on the start room wall; the green light shows which of the 6 spots the box is
+      at and moves when the box moves (teddy bear).
+    - TRAPS (WaW electric traps, 1000): fishing hut, doctor's hut, storage hut and comm room doors, Kino's zapper in
+      the doorway under WaW's tesla poles, switch on the WaW switch box on the hut wall. No power switch on this
+      map: the switches power on by themselves when you look at / use one (game code, this map only). I can't run the
+      game, so please test one and tell me what happens.
+    - ZIPLINE: Call of the Dead's zipline, main building walkway <-> doctor's swamp (both ways). It opens by itself.
+    - RADIOS (all maps, Nacht too): knife -> track 1, 2, 3, then the 4th knife turns the radio OFF, then track 1 again.
+      Shi No Numa phone (comm room): knife -> "The One", knife again -> off.
+    - Files: levels/proto/proto_env, proto_statics, boz.s3e. APK: blackops-music nacht_radio4, shino_radio1-4,
+      phone_radio1-4.
+    - Data 542,338,500 bytes, marker kino_remaster_v55m.ok (unpacks once).
+
+[56] v5.6 (Mali / all GPUs only) - Shi No Numa: tree walls moved back, house walls, one grave (no prompt), fog, traps
+    - Built on v5.5 (zipline, doors and debris confirmed working by you).
+    - TREE WALLS (first thing): all 18 kept, but each one is now set back behind the edge of the area you can walk
+      in (up to ~680 units further out, every part of a card pushed straight away from the playable area, so each
+      line of trees stays in one piece). They now stand behind the fences like a distant tree line instead of a wall
+      in front of you. Their collision moved with them, so what stops you is the tree wall you can see, not an
+      invisible wall in front of it; there's a bit more room in the swamps.
+    - HOUSES: WaW's hut walls are single sheets (tin and plank walls) and the game was drawing only one side of
+      them, so from outside you looked straight through. Every map material is now drawn from both sides (the
+      setting WaW's trees and fences already use), so the walls show from outside and inside. The inside/outside
+      copies of the 4 two-view buildings no longer overlap (no flicker).
+    - WUNDERWAFFE: only Peter McCain's grave (by the flogger, the cross that says PETER); the other 8 are gone. No
+      "Tap to buy Wunderwaffe [0]" any more. Once every door and the stairs debris are bought, walk up and look at
+      the grave: it digs itself up (the mound disappears) and you get the Wunderwaffe DG-2. Once only.
+    - FOG: starts and ends 1.5x further out, so you can see further across the swamps (same colour).
+    - TRAPS: each zap now sits exactly under WaW's 3 tesla poles over its hut door (the storage hut one was off).
+      If a trap still looks out of place, send a screenshot of it and say which hut.
+    - Files: levels/proto/proto_env, proto_statics, ingame/misc (fog), boz.s3e.
+    - Data 542,297,282 bytes, marker kino_remaster_v56m.ok (unpacks once).
+
+[57] v5.7 (Mali / all GPUs only) - Shi No Numa: the tree-wall group west of the main building moved back
+    - The tree walls in your screenshots (by the boardwalk and fence west of the main building: one tall card with a
+      short one in front of it making a "step", plus the one beside them) were NOT moved by v5.6: its set-back was
+      measured from the swamp areas and decided they were already far enough. Now they're moved back in one piece
+      (no stretching): the step pair about 2,400 units west, ~1,600 from anywhere you can walk, and the one beside
+      them ~800 back. Their collision moved with them; nothing else changes (all walkable areas exactly as v5.6).
+    - Everything else as v5.6 (other tree walls set back, both-sided house walls, Peter's grave with no prompt,
+      fog 1.5x further, traps under the tesla poles).
+    - Files: levels/proto/proto_env, proto_statics.
+    - Data 542,296,066 bytes, marker kino_remaster_v57m.ok (unpacks once).
+
+[58] v5.8 (Mali / all GPUs only) - Shi No Numa: misty tree walls, thick fog, flogger removed
+    - TREE WALLS: the tree-line cards were drawn as dark, sharp flat walls. They now use their own misty copies of
+      their pictures (blended 45% toward the swamp fog colour), so they read as forest fading into the fog, like
+      a distant tree line, instead of a dark wall right behind the fence. Kept where v5.7 put them (set back behind
+      the map edge), collision unchanged.
+    - FOG: much thicker (you asked): starts at half the old distance and ends at about three quarters, so far
+      things - including the tree walls - fade into the swamp mist. (v5.6/v5.7 had it 1.5x further; this is thicker
+      than v5.5 too.)
+    - TRAPS: the "trap out of place" in your pictures is the flogger: its log stuck through the fence and in front
+      of a hut door, and its red lever box stood in front of the sandbags. It was only a still model (the spinning
+      flogger can't work in this game), so the log and lever are removed. The 4 electric hut traps stay as they are.
+    - WUNDERWAFFE / SECOND GUN: the game lets you carry 2 guns (same as WaW). Taking a 3rd gun - from the grave, the
+      box or a wall - always replaces the gun in your hands. To keep a gun, switch to the one you want to lose
+      before digging up the grave or taking the box gun.
+    - Everything else as v5.7.
+    - Files: levels/proto/proto_env, ingame/misc (fog).
+    - Data 543,591,432 bytes, marker kino_remaster_v58m.ok (unpacks once).
+
+[59] v5.9 (Mali / all GPUs only) - Call of the Dead intro video, Kino loading clip (both skippable)
+    - CALL OF THE DEAD: when the map loads, your opening-scene video plays full screen (2:10; the file is 640x360),
+      with "TAP TO SKIP" in the corner. Tap anywhere to skip. When it ends (or you skip) the game carries straight on.
+    - KINO DER TOTEN: when Kino loads, your Kino loading-screen audio plays over the loading screen, cut to 7 seconds
+      (short fade at the end), with "TAP TO SKIP". Tap to stop it; then the map carries on loading as normal.
+    - How: the game code asks for a trigger sound when one of these two maps loads ('boz_c' / 'boz_k'), and the APK's
+      audio code shows the video / plays the clip instead and holds the game until it ends or you tap. Each one plays
+      once per map load (a repeat within 30 seconds is ignored). If anything goes wrong showing it, the game just
+      carries on without it.
+    - Not tested on a phone yet (video on top of the game screen is the part to watch).
+    - Files: boz.s3e, classes.dex; APK: assets/intro/cotd_intro.mp4, assets/intro/kino_loading.mp3,
+      blackops-music/boz_c.mp3 + boz_k.mp3 (silent triggers). Game data unchanged from v5.8 (no re-unpack).
+
+[510] v5.10 (Mali / all GPUs only) - fix: the COTD intro video and Kino loading clip didn't play in v5.9
+    - Why v5.9 did nothing: for sounds stored inside the APK, the game hands the audio code the APK's own file path
+      (plus where the sound sits inside it), not the sound's name, so the check for 'boz_c' / 'boz_k' never matched and
+      the silent trigger just played. The triggers are now recognised by their exact size (boz_c.mp3 = 47,111 bytes,
+      boz_k.mp3 = 47,222 bytes, no other file in the APK has those sizes).
+    - The trigger also starts at once now (stopping the menu music) instead of waiting for the menu music to fade out,
+      which could let the map's own music replace it before it ever started.
+    - Same behaviour as intended for v5.9: COTD video full screen with "TAP TO SKIP", then the game; Kino 7 s clip over
+      the loading screen with "TAP TO SKIP".
+    - Not tested on a phone yet.
+    - Files: boz.s3e (1 byte), classes.dex; APK: blackops-music/boz_c.mp3 + boz_k.mp3 (same silence, padded).
+      Game data unchanged from v5.8 (no re-unpack).
+
+[511] v5.11 (Mali / all GPUs only) - Kino loading clip fixed
+    - Kino now shows its own loading screen (the game's real one, nothing new) while the clip plays: the clip no longer
+      holds the game, so the game keeps loading and draws its Kino loading screen underneath. v5.10 held the game
+      before it had drawn that screen, so you saw the frozen menu instead.
+    - The clip is re-cut from your file so all 7 seconds are heard (v5.10's first second was the near-silent start of
+      the track, which is why it sounded like 4-5 seconds). Short fade at the very end.
+    - "TAP TO SKIP" still works; while the clip plays, taps go to the skip, not the game (at most 7 seconds).
+    - Call of the Dead's intro video unchanged (works).
+    - Files: classes.dex; APK: assets/intro/kino_loading.mp3. boz.s3e and game data same as v5.10 (no re-unpack).
+
+[512] v5.12 (Mali / all GPUs only) - Verity joins you in Kino (chat + voice)
+    - When Kino loads, Verity's smiley face (from your Verity 4.2 Bedrock addon) appears at the top of the screen,
+      right of your points. Tap it to open his chat box; tap X (or the face) to close it.
+    - Type to him and he answers in text and out loud (the phone's own voice, pitched a little lower). Real questions
+      work ("what's the capital of France?" -> Paris) using your Grok API key: tap KEY, paste the key, tap SEND.
+      The key is kept only on your phone (not in the APK). Needs internet.
+    - His personality is the addon's: helpful, slightly smug, "I know everything", short answers, replies in your
+      language. Without a key he only has a few fixed lines.
+    - Not yet: Verity rolling after you in the map (next step).
+    - Not tested on a phone yet.
+    - Files: classes.dex, new classes2.dex (Verity), assets/verity/smile1.png. boz.s3e and game data same as v5.11.
+
+[513] v5.13 (Mali / all GPUs only) - Verity is a real 3D ball in the game
+    - Verity is now a 3D smiley ball (the face from your Verity 4.2 addon) in the game world, on the floor about 1.5 m
+      in front of you, and he moves with you wherever you go (he's attached to the player, like your gun and camera).
+      He's in every map, not only Kino. Zombies ignore him and he has no collision.
+    - First version: he slides along with you; he doesn't roll or lag behind yet. If he doesn't show up in front of
+      you, look behind you and tell me (that tells me which way the game's "forward" points).
+    - The chat button and voice from v5.12 are still there.
+    - Game data changed (ingame.group.bin: Verity's model, material, texture, and the player's new part), so the first
+      launch unpacks again. Your saved progress is kept unless you clear storage.
+    - Files: assets/blackops_atitc.dz.xz, classes.dex. Not tested on a phone yet.
+
+[514] v5.14 (Mali / all GPUs only) - built on v5.11 (v5.12 Verity chat and v5.13 Verity ball are NOT in this version)
+    - KINO loading music: the full track now (about 29 s, was cut to 7 s). The game keeps loading under it and its own
+      loading screen shows. When the map is ready, the game waits on Kino's loading picture with "TAP TO START" until
+      you tap or the music ends (no more skipping because the map loaded too fast).
+    - KINO music and the CALL OF THE DEAD intro video: single player only now (the game's own co-op flag is checked;
+      online / local co-op games skip both).
+    - RAY GUN MARK II: taken out of Kino's mystery box (all 9 spots), so it can't be got on the original maps
+      (Kino, Ascension, Call of the Dead) - keeps crossplay with the normal game. Still in the box on Nacht and
+      Verrueckt. (Its weapon entry stays in the Kino weapon file but nothing on the original maps gives it.)
+    - VERRUECKT: Ascension's zombies (lab coats etc., all 12 Ascension zombie looks) instead of Kino's Nazi zombies.
+      Hellhounds unchanged.
+    - Not done yet: Verrueckt Speed Cola (waiting for what goes wrong), Verrueckt outdoor fires (optional, next),
+      Call of the Dead characters (their voice packs exist: Englund, Rooker, Gellar, Trejo - waiting for your answer).
+    - Game data changed (kino_statics, verruck_statics, verruck_env), so the first launch unpacks again.
+    - Files: boz.s3e, classes.dex, new classes2.dex (intro code, now Java), assets/blackops_atitc.dz.xz,
+      assets/intro/kino_loading.mp3 (full), assets/intro/kino_loading_screen.jpg (Kino's own loading picture).
+    - Not tested on a phone yet.
+
+[515] v5.15 (Mali / all GPUs only) - Kino intro like COTD's, Verrueckt zombie textures, COTD characters' voices
+    - KINO: now exactly like the Call of the Dead intro. When Kino loads, Kino's own loading picture fills the screen
+      with the full loading music (about 29 s) and "TAP TO SKIP" in the corner; the game waits until the music ends
+      or you tap, then carries straight on. Single player only.
+    - VERRUECKT: the Ascension zombies were white in v5.14 - 4 of their textures live only in Ascension's files and
+      weren't copied. They are now (about 0.7 MB more in Verrueckt).
+    - CALL OF THE DEAD, single player: the four characters speak with the Call of the Dead cast's voices -
+      Nikolai -> Danny Trejo, Takeo -> Michael Rooker, Richtofen -> Robert Englund, Dempsey -> Sarah Michelle Gellar.
+      The game already had these voice packs and a "CharacterSoundListCotd" setting the mobile code never used; it
+      now uses it in single-player COTD. Online / local co-op COTD keeps the original four (crossplay unchanged).
+    - Everything from v5.14 is kept (Mark II off the original maps, single-player-only intros).
+    - Game data changed again (verruck_env), so the first launch unpacks again.
+    - Files: boz.s3e, classes.dex, classes2.dex, assets/blackops_atitc.dz.xz. Not tested on a phone yet.
+
+[516] v5.16 (Mali / all GPUs only) - Call of the Dead cast on the character select screen
+    - SINGLE PLAYER, CALL OF THE DEAD: when the Call of the Dead card is selected, the character panel shows the cast -
+      Danny Trejo, Michael Rooker, Robert Englund, Sarah Michelle Gellar - instead of Nikolai, Takeo, Richtofen,
+      Dempsey (the menu already had their panels and names, hidden for every map). Pick one and you play with that
+      cast member's voice (from v5.15). Every other map shows the usual four.
+    - Multiplayer / co-op menus and games unchanged (crossplay safe).
+    - How: one line block in the menu's level-select script (LevelSelectSlider); nothing else in the menu changed.
+    - Game data changed (menu file), so the first launch unpacks again.
+    - Not tested on a phone yet.
+
+[517] v5.17 (Mali / all GPUs only) - Call of the Dead cast portraits on the character panels
+    - SINGLE PLAYER, CALL OF THE DEAD card selected: the four character panels show the cast, made from the intro
+      pictures you sent and styled like the other portraits - same slanted panel, same colour (red / green / grey /
+      blue), same frame, same tick and name labels:
+        panel 1 (red)   DANNY TREJO            voice: Trejo
+        panel 2 (green) MICHAEL ROOKER         voice: Rooker
+        panel 3 (grey)  ROBERT ENGLUND         voice: Englund
+        panel 4 (blue)  SARAH MICHELLE GELLAR  voice: Gellar
+      v5.16 only hid the old names (the menu had no cast pictures and no text for their name labels).
+    - Every other map, and multiplayer/co-op, keep Nikolai, Takeo, Richtofen, Dempsey.
+    - How: the 4 cast panels sit in the free quarter of the menu picture sheet the custom map cards use; a small layer
+      in the character panel shows them (and the cast names) only while the COTD card is selected.
+    - Game data changed (menu), so the first launch unpacks again. Not tested on a phone yet.
+
+[518] v5.18 (Mali / all GPUs only) - Shi No Numa invisible walls at Jugger-Nog / Quick Revive, COTD cast names
+    - SHI NO NUMA: the invisible walls in the Jugger-Nog and Quick Revive huts. In this game you can only walk where
+      the map's walking area (navmesh) is; it had big gaps there:
+        * each perk machine had a no-walk patch reaching 90 units in front of it and 75 to each side (the machines
+          are about 46 deep) - you stopped about 85 cm short of Jugg and QR. Now 50 in front / 50 to the sides.
+        * every wall and piece of furniture had a 40 cm no-walk margin around it, which closes a lot of these small
+          huts; now 30 cm (the player is 30 cm wide).
+      Applies to all 4 perk machines and the whole map. Nothing else in Shi No Numa changed.
+    - CALL OF THE DEAD cast panels: the names (DANNY TREJO, MICHAEL ROOKER, ROBERT ENGLUND, SARAH MICHELLE GELLAR) now
+      show. v5.17's per-frame menu script for them didn't run in this game's Flash player, so the name labels stayed
+      empty (and the cast panels could also show on other maps); that logic now lives in the level-select script,
+      which does run every frame.
+    - Game data changed, so the first launch unpacks again. Not tested on a phone yet.
+
+[519] v5.19 (Mali / all GPUs only) - Shi No Numa graphics fixes (Storage, Comm Room), COTD cast names (2nd try)
+    - SHI NO NUMA bug 4 (outside the Storage hut, behind the fence): the big brown angular block is gone. It was a
+      29-triangle piece of the swamp ground model that came out as a solid wooden lump. Hidden now; you see the hay
+      stack and the wooden frame behind the fence instead.
+    - SHI NO NUMA bug 5 (around the Comm Room): the flat grey-green panels are gone. The map's tree line has 3 layers
+      of cards; the back layer is one opaque misty-forest picture, and up close each card was a flat wall (the light
+      patch on one of them was part of that picture). That layer is hidden around the whole map; the cut-out tree
+      layers in front stay, so the edge shows rows of trees with misty sky between them.
+      Nothing else in Shi No Numa changed (collision, zombies, perks, boxes as in v5.18).
+    - CALL OF THE DEAD cast names: the 4 name labels on the character panels now read DANNY TREJO, MICHAEL ROOKER,
+      ROBERT ENGLUND, SARAH MICHELLE GELLAR (all caps) when the COTD card is selected, and switch back to the normal
+      names (Dempsey, Nikolai, Takeo, Richtofen) on every other map. v5.18 switched to separate name labels by hiding
+      and showing them, which didn't work in this game's Flash player. Now the normal 4 labels just get new text.
+    - Game data changed (menu + Shi No Numa scenery only), so the first launch unpacks again. Not tested on a phone yet.
+
+[520] v5.20 (Mali / all GPUs only) - Shi No Numa tree walls like WaW mobile, flogger back, brown block back
+    Built from your WaW mobile screenshots (Comm Room, Fishing Hut, Doctor's Quarters, the flogger).
+    - TREE WALLS exactly as WaW mobile has them: all 18 tree-line cards back on WaW's own spots (v5.6/v5.7 had
+      moved them back behind the map edge, which pulled the layers apart into separate flat panels) and all 3 layers
+      again, including the misty-forest back layer that v5.19 hid. The edge of each swamp is a solid misty forest wall
+      behind the fences, like your WaW pictures. The misty look from v5.8 stays (it matches WaW's fogged tree line).
+      Their collision is back on WaW's line too, so you walk right up to them like in WaW. Navmesh rebuilt; zones,
+      zombie spawns, doors, perks, boxes and the Jugger-Nog / Quick Revive fixes from v5.18 are unchanged.
+    - FLOGGER back, like your screenshot: its spinning-log frame rests between the two gate posts with the hub at
+      the posts' gear, near log up high, far log over the gate, and the red lever box on the left post by the
+      electric panel. v5.2 had the hub 100 units too low, which is why a log stuck through the fence and the ground.
+      It is still scenery: it doesn't spin or kill zombies yet.
+    - The brown block outside the Storage hut is back: your WaW pictures show it there too (it's part of WaW's map).
+    - Game data changed (Shi No Numa only), so the first launch unpacks again. Not tested on a phone yet.
+
+[521] v5.21 (Mali / all GPUs only) - Shi No Numa: the flat tree walls are gone
+    - TREE WALLS: every tree-line card is hidden, all 3 layers (misty picture, tree cut-outs, foliage strip). These
+      were the big flat forest billboards standing behind the fences, like the one you circled outside the hut door.
+      Behind most of them the ground just carries on into the next swamp, so now you see open, foggy swamp there.
+    - In their place, along the foot of each old tree wall, a row of 107 tall swamp reed/grass clumps (WaW's own
+      reed models from the Doctor's Quarters and Fishing Hut, turned randomly), so the edges of the swamps read as
+      thick reeds instead of a picture wall.
+    - Collision is unchanged (WaW's line, as in v5.20): you stop where the tree walls were, in the reeds.
+    - Everything else as v5.20 (flogger, brown block, perks, doors, zombies). Only levels/proto/proto_env changed.
+    - Game data changed, so the first launch unpacks again. Not tested on a phone yet.
+
+[522] v5.22 (Mali / all GPUs only) - Shi No Numa: tree walls back as in v5.20, only the circled wall fixed
+    - Undoes v5.21: every tree wall is back exactly as in v5.20 (WaW's own spots, all layers, misty look).
+    - The wall you circled (outside the downstairs door to the Comm Room swamp, past the boardwalk) was not a tree-
+      line card at all: it is two flat forest pictures that belong to the start room's rear exterior
+      (startRoomBRearExt): a dark palm-canopy card ~930 tall in front of a misty forest card ~600 tall, ~1,900 wide.
+      In WaW mobile they are the view out of the start room's back and are only drawn when you look from there; this
+      game draws them everywhere, so they stood like a giant billboard in the swamp. Neither v5.19 nor v5.21 touched
+      them, which is why they were still there.
+    - Moving them back wasn't possible: the ground behind them is the same Comm Room swamp you walk in, so moved
+      back they'd just stand further into the swamp. They are hidden instead, and a row of 5 tall swamp reed clumps
+      stands along their foot.
+    - Their collision stays: that line is the edge between the downstairs yard and the Comm Room swamp (without it
+      you could walk into the swamp without opening its door), so you stop at the fence/reeds there, as before.
+    - Everything else as v5.20. Only levels/proto/proto_env changed. First launch unpacks again. Not tested on a phone.
+
+[523] v5.23 (Mali / all GPUs only) - Shi No Numa: reeds gone, walk through where the circled wall was; spawn-room couch buyable
+    - The 5 reed clumps from v5.22 are removed, and the invisible wall where the circled forest pictures stood is gone:
+      you can now walk on from the boardwalk into that part of the Comm Room swamp. Checked: with the doors shut you
+      still can't walk from downstairs into the Comm Room swamp without buying its door (only zombies' window paths
+      connect there, as before).
+    - SPAWN ROOM COUCH (the debris on the stairs): it sat at the foot of the stairs, about 3 m below and 3 m away from
+      the top, out of the buy range, so it could only be bought from downstairs. It now lies further up the stairs
+      (on the spot that blocks the stairs) and its buy range is 260 (up to 250 below you), so you can buy it from the
+      spawn room. Cost still 750.
+    - Tree walls, flogger and the rest exactly as v5.22. Files: levels/proto/proto_env, proto_statics.
+    - Game data changed, so the first launch unpacks again. Not tested on a phone yet.
+
+[524] v5.24 (Mali / all GPUs only) - Shi No Numa: the flogger set up like WaW and working as a trap
+    - LOOK: the flogger's log frame now rests level overhead, like WaW's (both logs up at the height of the posts'
+      gear, the frame spanning the gate), instead of tilted with one log lying across the path. Hub raised to 335 so
+      the frame clears the top of the fishing-swamp door underneath.
+    - TRAP: the flogger gate is a working trap again. Buy it at the red lever box on the left post (1000 points, same
+      prompt as the electric traps): it kills zombies walking through the gate for its active time, then cools down.
+      It uses the game's electric trap logic (Kino's spare engineering zapper, laid across the gate between the two
+      posts), so the kill shows as an electric zap; the log frame itself doesn't spin (this game can't play WaW's spin
+      animation).
+    - The Comm Room hut's electric trap switch used to fire that spare zapper too; each switch now fires only its own.
+    - Everything else as v5.23. Files: levels/proto/proto_env, proto_statics. First launch unpacks again.
+      Not tested on a phone yet.
+
+[525] v5.25 (Mali / all GPUs only) - Shi No Numa: the flogger's logs spin
+    - SPINNING LOGS: the flogger frame is now driven by the game's own trap-switch logic with WaW's flogger set up:
+      it rests level up at the posts' gear; when you buy the trap the logs spin up (1 s), keep spinning through the
+      gate for the whole time the trap is on (one turn every half second, sweeping down to knee height), then spin
+      down and stop level again. Built on the game's single-bone animation rig (the same rig its own moving
+      scenery uses), with WaW's frame model. The kill zone across the gate is the same trap timer as before.
+    - HIGHER: the hub sits higher (421, was 335), so at rest the frame is up at the top of the posts.
+    - LEVER BOX: the red box now sits on the front of the electric panel (it was half inside the panel's edge).
+    - BUYING: the buy prompt belongs to the flogger itself now; stand at the lever box (or in the gate) and look at
+      the flogger. 1000 points.
+    - Note: zombies killed by it may still show the game's trap death effect (this game's traps only have an
+      electric or a fire one).
+    - First time this animation setup is used, so not tested on a phone yet; if the flogger doesn't spin or the map
+      won't load, tell me and I'll go back to v5.24's setup. Files: levels/proto/proto_env, proto_statics.
+
+[526] v5.26 (Mali / all GPUs only) - Shi No Numa co-op; flogger is an electric trap; Verruckt Speed Cola
+    - FLOGGER: the log is gone (as you asked). The spawn gate is an electric trap again: the zapper across the
+      gate, bought at the red lever box on the front of the electric panel, 1000 points. Same trap as v5.24,
+      lever box where v5.25 put it.
+    - SHI NO NUMA CO-OP (online and local): Shi No Numa is now the 7th map in co-op.
+        * Co-op map select: 7th card with the Shi No Numa picture and a SHI NO NUMA label. The 7 cards are
+          shrunk a little so the row still fits the screen.
+        * Lobby: 7th vote button (Shi No Numa) and its own lobby background picture.
+        * Game code (boz.s3e): the co-op map-name lookup now also knows "proto" (Shi No Numa). Before, it
+          only knew Kino, Ascension, Dead Ops, Call of the Dead, Nacht and Verruckt, so a co-op game on
+          Shi No Numa could not start. The other 6 maps are looked up exactly as before.
+        * Everyone in the lobby needs v5.26.
+        * Not tested: I can't run online or local play here. Shi No Numa's own extras (perks on from the
+          start, the grave Wunderwaffe, the zipline, the traps) were made and tested solo; tell me if
+          anything acts differently in co-op.
+    - VERRUCKT SPEED COLA: its buy spot was 2 units from the wall, behind the front of the machine; it is now
+      40 units further out, in front of the machine (the machine itself doesn't move). Honest note: I
+      checked the game's perk code and Speed Cola's data again and could not find a definite cause - it is
+      set up the same as Juggernog, Quick Revive and Double Tap there. So this is a fix attempt, not a sure
+      fix. If it still fails, tell me: does the Speed Cola icon appear when you stand at it and look at it,
+      and do your points go down when you tap it?
+    - MULE KICK: not in this build (see NOT DONE below).
+    - Files changed from v5.25: levels/proto/proto_statics, levels/verruck/verruck_statics,
+      frontend/fe_v4_cs4_swf; APK: boz.s3e.
+    - Not tested on a phone.
+    - Data 545,109,782 bytes, marker kino_remaster_v526m.ok (unpacks once).
+
+[527] v5.27 (Mali / all GPUs only) - fix: online co-op crash; Verruckt Speed Cola
+    - ONLINE CRASH (my bug in v5.26): pressing Online in Co-op closed the game. The co-op map lookup I changed in
+      v5.26 read the 4-map list starting 4 bytes too early, so the first "map name" it checked was garbage and the
+      game crashed. It now reads the list exactly where the game's own code did. Local co-op used the same lookup.
+    - VERRUCKT SPEED COLA: its buy settings are now exactly the same as Double Tap's (same viewing angle, front
+      only, front facing the room). The "either side" / wider-angle settings from v4.4 are gone, so the only
+      difference left from the other perks is where it stands. I traced the game's whole buy-prompt code (search
+      around the player, distance, height, facing, power, "already have it") and Speed Cola passes every check on
+      paper, so I still can't promise this fixes it.
+    - Speed Cola needs the power on and costs 3000 (your screenshot shows 630 points). With the power off, the game
+      should show a "power" message when you look at it.
+    - Files changed from v5.26: levels/verruck/verruck_statics; APK: boz.s3e.
+    - Not tested on a phone.
+    - Data 545,109,782 bytes, marker kino_remaster_v527m.ok (unpacks once).
+
+[528] v5.28 (Mali / all GPUs only) - Verruckt: Speed Cola (broken level data found and fixed)
+    - THE MOST LIKELY CAUSE: Verruckt's level settings record was broken. When the Verruckt zombie list was made longer
+      (in an early Verruckt build), 4 stray bytes were left behind in the record. The game reads that record setting
+      by setting; after the zombie list it hits the stray bytes instead of the next setting, so every Verruckt
+      setting after it was most likely never loaded. That includes the list of perks the map allows (Double Tap, Juggernog, Quick
+      Revive, Speed Cola), the starting rounds, the mystery box rule and the start pause time. Juggernog, Double
+      Tap and Quick Revive still worked, Speed Cola did not.
+    - FIX: the 4 stray bytes are removed; all 9 Verruckt settings now read cleanly, exactly like Kino's, Nacht's
+      and Shi No Numa's (I checked every map's record the same way; only Verruckt was broken).
+    - Speed Cola: power on, 3000 points.
+    - Files changed from v5.27: levels/verruck/verruck_statics.
+    - Not tested on a phone.
+    - Data 545,109,778 bytes, marker kino_remaster_v528m.ok (unpacks once).
+
+[529] v5.29 (Mali / all GPUs only) - Dead Ops: crash while loading (likely memory)
+    - DEAD OPS CRASH: solo Dead Ops closed the game while loading. Most likely cause: game memory. This Mali
+      build stores every see-through texture uncompressed (Mali phones can't use the original ATC format), which
+      makes those textures 4 times bigger. Dead Ops has a lot of them: about 66 MB uncompressed (about 21 MB
+      just for its shared in-game set, plus 2-7 MB per arena), against about 17 MB in the original data. The
+      game only reserves a fixed memory pool (176 MB), and Dead Ops is the mode most likely to run out of it
+      while loading.
+    - FIX: the game's memory pool is now 256 MB (one number in the game's own settings inside boz.s3e, the
+      line "MemSize = ExtraMemorySize + ..."). Nothing else changed; every other mode just has more room.
+    - Not tested on a phone. If Dead Ops still closes while loading, tell me which arena / how far the loading got.
+    - Game data unchanged from v5.28 (no new unpack: marker stays kino_remaster_v528m.ok). APK: boz.s3e.
+
+[529-MK] v5.29 MULE KICK TEST (Mali / all GPUs only) - separate test build, solo Kino only
+    - This is a TEST build next to v5.29 (same game otherwise). Play it SOLO only; don't use it online.
+    - MULE KICK MACHINE: your model and textures (zombie_vending_three_gun), in Kino's Atrium (the room between
+      the Alleyway and the Foyer), in the niche right of the boarded window, back to the wall like your BO1 picture.
+      4000 points. Buy it like any perk.
+    - WHAT IT DOES: with Mule Kick, a wall gun or a Mystery Box gun while you already have 2 guns becomes your 3rd
+      gun instead of replacing one. The swap button cycles all 3 (in hand -> 2nd -> 3rd). Wall buys of a gun you
+      hold as 3rd count as "already have it" (they sell ammo), and the box won't offer it. Going down loses Mule
+      Kick and the 3rd gun (like BO1). With a full 3 guns, the next gun replaces the one in your hand (like BO1).
+    - HOW: the game has no Mule Kick perk, so the machine is a perk machine of the game's unused-on-Kino perk type
+      (Deadshot's slot); new game code (boz.s3e) turns that perk into the hidden 3rd gun slot, only in solo, only on
+      Kino. The Deadshot aim effect is switched off on Kino.
+    - KNOWN PLACEHOLDERS (this test): the buy prompt and the perk icon on your HUD are Deadshot's (the game has no
+      Mule Kick name/icon slot yet), the jingle is Deadshot's, the machine has no light-up/animation, Max Ammo
+      doesn't refill the 3rd gun while it's not in your hands, and the 3rd gun is not kept in saved games.
+    - NOT TESTED on a phone. The new code runs only when you swap guns, buy guns or use the box. If the game
+      crashes when you do one of those, tell me which one.
+    - Data 545,356,362 bytes, marker kino_remaster_mule1m.ok (unpacks once).
+
+[529-MK2] v5.29 MULE KICK TEST 2 (Mali / all GPUs only) - replaces the first Mule Kick test, solo Kino only
+    - Same as the first Mule Kick test (same machine, same spot, same 3-gun rules), plus:
+    - MAX AMMO now also refills your 3rd gun (the one you're not holding). The game's Max Ammo only refilled its
+      own weapon slots; new code adds the Mule Kick gun.
+    - OWN HUD ICON: a Mule Kick perk icon (green shield with the pistols, made from your Mule Kick logo texture,
+      in the same style as the other perk icons) instead of Deadshot's. Only on Kino; Deadshot on other maps keeps
+      its own icon.
+    - OWN NAME: the buy prompt now says "Mule Kick" (new text in all 6 languages). The first test build had a wrong
+      text id there, so its prompt showed an "Unknown Hash" message instead of a name.
+    - LOSING THE PERK TAKES THE 3RD GUN: as soon as Mule Kick is gone (downed, or perks reset) the 3rd gun is
+      removed right away, like BO1. Before, it was only removed the next time you swapped or bought a gun.
+    - HOW: I set up the BOZ Redux SDK's game definition and ran Ghidra on the game code, so these hooks were made
+      from the game's own decompiled perk, HUD and Max Ammo code instead of guesswork.
+    - Still placeholders: Deadshot's jingle, no machine light-up/animation, the 3rd gun isn't kept in saved games,
+      and Mule Kick does nothing online (the 3-gun code is solo only; online it's just a perk icon).
+    - NOT TESTED on a phone. New code runs when you get Max Ammo, when perks are given/lost and when the perk icons
+      are drawn. If it crashes, tell me what you were doing (Max Ammo, buying Mule Kick, going down...).
+    - Data 545,356,608 bytes, marker kino_remaster_mule2m.ok (unpacks once).
+
+[529-MK3] v5.29 MULE KICK TEST 3 (Mali / all GPUs only) - replaces Mule Kick test 2, solo Kino only
+    - Same as test 2 (Max Ammo refills the 3rd gun, Mule Kick HUD icon, "Mule Kick" name in the buy prompt,
+      losing the perk takes the 3rd gun), plus:
+    - NAME: the buy prompt says "Mule Kick" (fixed in test 2; test 1 showed "Unknown Hash"). Kept.
+    - NO SOUND: the machine has no jingle and no machine hum any more. (The normal drinking sound when you buy
+      it is the same one every perk uses and is kept.)
+    - LIGHTS UP GREEN: when you turn the power on, the Mule Kick logo panel lights up - the circle glows mint
+      green with a green glowing ring around it. Before the power is on it looks like before.
+    - SAVED GAMES (solo only): the 3rd gun and its ammo are now saved with your game and come back when you
+      continue. Only in solo.
+    - ONLINE: Mule Kick is solo only. In online games it can't be bought (no buy prompt) and the machine is
+      hidden, so nobody spends 4000 points on it for nothing. If you still see the machine online, tell me.
+    - NOT TESTED on a phone. New code runs when the power is turned on, when the game saves/continues, and when
+      an online Kino game loads. If it crashes, tell me which one.
+    - Data 545,400,366 bytes, marker kino_remaster_mule3m.ok (unpacks once).
+
+NOT DONE (and why)
+------------------
+- Mule Kick: in the separate TEST builds only ([529-MK] to [529-MK3]), solo Kino only (hidden online, as asked).
+  The machine lights up but has no moving parts.
+- Zombie / Dempsey / Nikolai / Takeo / Richtofen skins: ximages.zip has no character
+  textures. Export c_zom_* and the 4 character body/head color maps from BO1 PC and
+  the same pipeline can swap them.
+- Weapon textures: same reason (only the chalk outlines were included).
+- New weapon animations are not done. The Ray Gun Mark II has its own model since v2.1
+  but still uses the Ray Gun's animations.
+- Intro video: the game has no video player hook to call. It would need native code
+  changes in boz.s3e.
+- New shaders: the shaders are GLSL text in shaders.group.bin. One compile error
+  means a black screen or crash, so I left them alone until the rest is confirmed working.
+- "POV": tell me what you mean (gun position on screen? camera height?) and I'll find
+  the value.
+
+IF IT CRASHES - TEST IN THIS ORDER
+----------------------------------
+A) Crash or black screen on launch, before the menu
+   -> The APK. Reinstall your old APK (keep the new .dz) to confirm.
+B) Crash while loading Kino, or Kino has missing/black textures, with the HD .dz
+   -> The HD build changes file sizes, which hasn't been tested on a device yet.
+      Switch to output\SAFE\blackops_atitc.dz (same size as the original).
+      Tell me which one works.
+C) Crash with the SAFE .dz too
+   -> Most likely the zombie cap. Tell me and I'll send a SAFE build without it.
+D) Crash only when entering a game, on any map
+   -> The FOV insert in ingame.group.bin (HD build only). The SAFE build doesn't have it.
+E) To undo everything: put back your original blackops_atitc.dz and old APK.
+
+When reporting, say: which .dz, which APK, which map, and when it crashed
+(launch / menu / loading / in-game round X).

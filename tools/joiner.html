@@ -1,0 +1,208 @@
+<title>Kino BO1 Remaster Joiner</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800&family=IBM+Plex+Sans:wght@400;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: one narrow column of three numbered steps (a real sequence), status log in mono under step 1. Single dark look by choice. */
+:root {
+  --bg: #15130f;
+  --panel: #1e1b16;
+  --line: #3a342a;
+  --fg: #ece4d4;
+  --muted: #a89e8c;
+  --blood: #c4523e;
+  --blood-ink: #f3d9cf;
+  --ok: #8fbf6a;
+  --bad: #e2735f;
+  --display: "Big Shoulders Display", "Arial Narrow", Impact, sans-serif;
+  --body: "IBM Plex Sans", system-ui, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+  color-scheme: dark;
+}
+html, body { background: var(--bg); color: var(--fg); }
+body {
+  font: 400 1rem/1.55 var(--body);
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 28px 40px;
+}
+main { max-width: 40rem; margin: 0 auto; display: flex; flex-direction: column; gap: 20px; }
+h1 { font: 800 clamp(2.4rem, 9vw, 3.4rem)/0.95 var(--display); letter-spacing: 0.01em; margin: 0; text-wrap: balance; text-transform: uppercase; }
+.lede { color: var(--muted); margin: 0; max-width: 62ch; }
+.step { background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 18px 18px 20px; display: flex; flex-direction: column; gap: 12px; min-width: 0; }
+.step h2 { font: 700 1.55rem/1 var(--display); text-transform: uppercase; letter-spacing: 0.03em; margin: 0; }
+.step h2 span { color: var(--blood); margin-right: 0.3em; }
+.step p { margin: 0; }
+code { font: 500 0.88em var(--mono); color: var(--blood-ink); overflow-wrap: anywhere; }
+input[type=file] { font: inherit; color: var(--muted); max-width: 100%; }
+input[type=file]::file-selector-button { font: 600 0.95rem var(--body); background: #3b352c; color: var(--fg); border: 0; border-radius: 6px; padding: 10px 14px; margin-right: 12px; cursor: pointer; }
+.log { font: 400 0.86rem/1.5 var(--mono); color: var(--muted); white-space: pre-wrap; overflow-wrap: anywhere; margin: 0; }
+.log .ok { color: var(--ok); }
+.log .bad { color: var(--bad); }
+.bar { height: 6px; background: #2b2720; border-radius: 3px; overflow: hidden; }
+.bar i { display: block; height: 100%; width: 0; background: var(--blood); transition: width 0.15s linear; }
+.btns { display: flex; flex-wrap: wrap; gap: 10px; }
+button { font: 600 1rem var(--body); border: 0; border-radius: 6px; padding: 13px 18px; cursor: pointer; }
+button.main { background: var(--blood); color: #fff; }
+button.minor { background: #3b352c; color: var(--fg); }
+button:disabled { opacity: 0.4; cursor: not-allowed; }
+button:focus-visible, input:focus-visible { outline: 2px solid var(--blood-ink); outline-offset: 2px; }
+.note { color: var(--muted); font-size: 0.92rem; margin: 0; }
+ol { margin: 0; padding-left: 1.2em; display: flex; flex-direction: column; gap: 6px; }
+@media (prefers-reduced-motion: reduce) { .bar i { transition: none; } }
+</style>
+
+<main>
+  <h1>Kino BO1 Remaster</h1>
+  <p class="lede">Joins the 7 parts I send you (<code>…_Mali.zip.001</code> to <code>.007</code>) and saves the single APK straight from them. Nothing is uploaded; it all runs on your phone. Latest: <strong>v5.29</strong> (more game memory for the Dead Ops loading crash; includes v5.28's Verruckt Speed Cola fix and v5.27's online co-op crash fix). Works for any version sent the same way, including the Mule Kick TEST 3 build (6 parts).</p>
+
+  <section class="step" aria-labelledby="h1s">
+    <h2 id="h1s"><span>1.</span>Pick all the parts</h2>
+    <p>Select every part (<code>.zip.001</code>, <code>.zip.002</code>, …) together, in any order. v5.29 has 6.</p>
+    <input type="file" id="parts" multiple>
+    <div class="bar" aria-hidden="true"><i id="prog"></i></div>
+    <pre class="log" id="log">Waiting for the parts.</pre>
+  </section>
+
+  <section class="step" aria-labelledby="h2s">
+    <h2 id="h2s"><span>2.</span>Save the APK</h2>
+    <div class="btns">
+      <button class="main" id="save" disabled>Save APK</button>
+      <button class="minor" id="savelog" disabled>Save changelog</button>
+    </div>
+    <p class="note" id="savenote">Android won't let this page save a file ending in <code>.apk</code>, so it saves as <code>.apk.zip</code>. Don't unzip it.</p>
+  </section>
+
+  <section class="step" aria-labelledby="h3s">
+    <h2 id="h3s"><span>3.</span>Install it</h2>
+    <ol>
+      <li>In My Files, rename the saved file so it ends in <code>.apk</code> (delete the <code>.zip</code> at the end).</li>
+      <li>Tap it and install over your current version. From v5.8 or later you keep your progress. v5.29 uses the same game data as v5.28, so if you already installed v5.28 it won't unpack again.</li>
+      <li>If Android says the app conflicts with an existing one, uninstall the old game first, then install. The first launch then unpacks the game data; wait for it to finish.</li>
+    </ol>
+  </section>
+
+  <p class="note">If saving does nothing inside the Claude app, open this page in Chrome and try again.</p>
+</main>
+
+<script>
+(() => {
+  const $ = id => document.getElementById(id);
+  const logEl = $("log"), prog = $("prog"), saveBtn = $("save"), logBtn = $("savelog"), note = $("savenote");
+  let apk = null, apkName = "", changelog = null;
+
+  function log(lines) {
+    logEl.replaceChildren();
+    for (const [txt, cls] of lines) {
+      const s = document.createElement("span");
+      if (cls) s.className = cls;
+      s.textContent = txt + "\n";
+      logEl.appendChild(s);
+    }
+  }
+  const mb = n => (n / 1048576).toFixed(1) + " MB";
+
+  // CRC-32 table
+  const T = new Uint32Array(256);
+  for (let n = 0; n < 256; n++) { let c = n; for (let k = 0; k < 8; k++) c = c & 1 ? 0xEDB88320 ^ (c >>> 1) : c >>> 1; T[n] = c >>> 0; }
+
+  async function crcOf(blob, onStep) {
+    let c = 0xFFFFFFFF; const CH = 4 << 20;
+    for (let off = 0; off < blob.size; off += CH) {
+      const u = new Uint8Array(await blob.slice(off, off + CH).arrayBuffer());
+      for (let i = 0; i < u.length; i++) c = T[(c ^ u[i]) & 255] ^ (c >>> 8);
+      onStep(Math.min(1, (off + CH) / blob.size));
+    }
+    return (c ^ 0xFFFFFFFF) >>> 0;
+  }
+
+  async function dv(blob, start, len) { return new DataView(await blob.slice(start, start + len).arrayBuffer()); }
+
+  async function handle(files) {
+    apk = null; changelog = null; saveBtn.disabled = true; logBtn.disabled = true; prog.style.width = "0";
+    const parts = [];
+    for (const f of files) {
+      const m = f.name.match(/^(.*)\.(\d{3})$/);
+      if (m) parts.push({ f, base: m[1], n: +m[2] });
+    }
+    if (!parts.length) { log([["None of these look like the parts. Pick the files ending in .001 to .007.", "bad"]]); return; }
+    parts.sort((a, b) => a.n - b.n);
+    const base = parts[0].base;
+    if (parts.some(p => p.base !== base)) { log([["These parts come from different downloads. Pick only one version's parts.", "bad"]]); return; }
+    const missing = [];
+    for (let i = 1; i <= parts[parts.length - 1].n; i++) if (!parts.some(p => p.n === i)) missing.push(String(i).padStart(3, "0"));
+    if (missing.length) { log([[`Missing part ${missing.join(", ")}. Pick all the parts together.`, "bad"]]); return; }
+    const full = parts.slice(0, -1).map(p => p.f.size);
+    if (full.some(s => s !== full[0])) { log([["One of the parts is a different size from the others, so it probably didn't download completely. Download it again.", "bad"]]); return; }
+
+    const lines = [[`${parts.length} parts, ${mb(parts.reduce((s, p) => s + p.f.size, 0))} in total.`, "ok"]];
+    log(lines);
+    const whole = new Blob(parts.map(p => p.f));
+
+    try {
+      // end-of-central-directory record
+      const tailLen = Math.min(whole.size, 65557);
+      const tail = await dv(whole, whole.size - tailLen, tailLen);
+      let e = -1;
+      for (let i = tailLen - 22; i >= 0; i--) if (tail.getUint32(i, true) === 0x06054b50) { e = i; break; }
+      if (e < 0) throw new Error("The end of the file is missing. The last part probably didn't download completely.");
+      const count = tail.getUint16(e + 10, true), cdSize = tail.getUint32(e + 12, true), cdOff = tail.getUint32(e + 16, true);
+      if (cdOff + cdSize > whole.size) throw new Error("The parts don't add up to the full file. One of them is incomplete.");
+      const cd = await dv(whole, cdOff, cdSize);
+      const entries = []; let p = 0;
+      for (let i = 0; i < count; i++) {
+        if (cd.getUint32(p, true) !== 0x02014b50) throw new Error("The file list inside is damaged.");
+        const method = cd.getUint16(p + 10, true), crc = cd.getUint32(p + 16, true), csize = cd.getUint32(p + 20, true), usize = cd.getUint32(p + 24, true);
+        const nl = cd.getUint16(p + 28, true), xl = cd.getUint16(p + 30, true), cl = cd.getUint16(p + 32, true), lho = cd.getUint32(p + 42, true);
+        const name = new TextDecoder().decode(new Uint8Array(cd.buffer, cd.byteOffset + p + 46, nl));
+        entries.push({ name, method, crc, csize, usize, lho });
+        p += 46 + nl + xl + cl;
+      }
+      async function body(ent) {
+        if (ent.method !== 0) throw new Error(`${ent.name} is compressed inside the zip; this page only handles the uncompressed packages I send.`);
+        const lh = await dv(whole, ent.lho, 30);
+        if (lh.getUint32(0, true) !== 0x04034b50) throw new Error(`${ent.name} is damaged inside the zip.`);
+        const start = ent.lho + 30 + lh.getUint16(26, true) + lh.getUint16(28, true);
+        return whole.slice(start, start + ent.csize);
+      }
+      const a = entries.find(x => /\.apk$/i.test(x.name));
+      if (!a) throw new Error("There's no APK inside these parts.");
+      const apkBlob = await body(a);
+      lines.push([`Found ${a.name} (${mb(a.usize)}). Checking it…`, null]); log(lines);
+      const crc = await crcOf(apkBlob, f => { prog.style.width = (f * 100).toFixed(1) + "%"; });
+      if (crc !== a.crc) throw new Error("The APK failed its check, so one of the parts is damaged. Download the parts again.");
+      lines[lines.length - 1] = [`${a.name} (${mb(a.usize)}) checked: all parts are good.`, "ok"];
+      const c = entries.find(x => /changelog/i.test(x.name));
+      if (c && c.method === 0) { changelog = await body(c); logBtn.disabled = false; }
+      lines.push(["Ready. Tap Save APK.", "ok"]); log(lines);
+      apk = apkBlob; apkName = a.name.split("/").pop(); saveBtn.disabled = false;
+    } catch (err) {
+      prog.style.width = "0";
+      lines.push([err.message || String(err), "bad"]); log(lines);
+    }
+  }
+
+  $("parts").addEventListener("change", ev => handle([...ev.target.files]));
+
+  async function offer(blob, filename) {
+    const d = window.claude && window.claude.use ? await window.claude.use("downloads") : null;
+    if (d) {
+      try { await d.save({ filename, data: blob }); note.textContent = `Saved as ${filename}. Now rename it to end in .apk (step 3).`; }
+      catch (e) {
+        const code = e && e.code;
+        note.textContent = code === "declined" ? "Save cancelled. Tap Save again when you're ready."
+          : code === "rate_limited" ? "A save prompt is already open. Finish that one first."
+          : code === "too_large" ? "This app won't save a file this big. Open this page in Chrome and try there."
+          : "Saving isn't available here. Open this page in Chrome and try there.";
+      }
+      return;
+    }
+    const url = URL.createObjectURL(blob), link = document.createElement("a");
+    link.href = url; link.download = filename; document.body.appendChild(link); link.click(); link.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 60000);
+    note.textContent = "If nothing was saved, open this page in Chrome and try again.";
+  }
+  saveBtn.addEventListener("click", () => apk && offer(apk, apkName.replace(/\.apk$/i, "") + ".apk.zip"));
+  logBtn.addEventListener("click", () => changelog && offer(changelog, "CHANGELOG.txt"));
+})();
+</script>
