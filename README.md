@@ -4,7 +4,7 @@ A fan remaster of **Call of Duty: Black Ops Zombies (mobile, Android)**, focused
 
 Developed and Remastered by **cool715 (Discord) / Toughman591**.
 
-> This is a fan project. It is not affiliated with or endorsed by Activision or Treyarch. This repository has **no game files.**
+> This is a fan project. It is not affiliated with or endorsed by Activision or Treyarch.
 
 ## What's in the mod
 
