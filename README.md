@@ -4,7 +4,7 @@ A fan remaster of **Call of Duty: Black Ops Zombies (mobile, Android)**, focused
 
 Developed and Remastered by **cool715 (Discord) / Toughman591**.
 
-> This is a fan project. It is not affiliated with or endorsed by Activision or Treyarch. This repository has **no game files**: no APK, no game data (`.dz`), no game code (`boz.s3e`) and no extracted assets. It only has the mod's own source: patch scripts, assembly and build tools.
+> This is a fan project. It is not affiliated with or endorsed by Activision or Treyarch. This repository has **no game files.**
 
 ## What's in the mod
 
@@ -12,10 +12,11 @@ The latest release on GitHub is **v5.11**. Items marked *(after v5.11)* are fini
 
 - **Kino der Toten**: BO1 PC textures, BO1-style loading screen and loading clip, theater flag, 115 song, Call of the Dead intro video. Call of the Dead cast and voices *(after v5.11)*.
 - **Nacht der Untoten**: a playable map with windows, zombies, doors, box, wall weapons, radio easter egg, WaW couches/help door and fog.
-- **Verrückt**: WaW doors, perk machines, chalk wall buys and Speed Cola. A Speed Cola buy fix *(after v5.11)*.
+- **Verrückt**: WaW doors, perk machines, chalk wall buys and Speed Cola. A Speed Cola buy need fixing, electric trap *(after v5.11)*.
 - **Shi No Numa**: WaW doors, roofs, fences, water, zipline, traps and the Wunderwaffe. The flogger as an electric trap *(after v5.11)*.
+- **Der Riese**: WaW doors, perk machines, chalk wall buys, bridge animation (needs some fixing), power on (needs some fixing), and electric traps *(after v5.11)*
 - **Co-op**: Nacht in online and local Wi-Fi co-op. Shi No Numa co-op *(after v5.11)*.
-- **Ray Gun Mark II** in the mystery box.
+- **Ray Gun Mark II** in the mystery box only on Nacht, Shi no Numa, Verruckt and Der Riese.
 - **Mule Kick (test builds, solo Kino only)** *(after v5.11)*: a 3-gun perk machine in Kino's Atrium. It has its own HUD icon and name, refills on Max Ammo, is kept in saved games and lights up green when the power is on.
 - **Mali / all GPUs build**: textures converted so the game runs on every phone GPU, not just old Snapdragon phones.
 
@@ -23,7 +24,7 @@ The full history, including the builds after v5.11, is in [CHANGELOG.txt](CHANGE
 
 ## Download and install
 
-1. Go to [Releases](../../releases) and download every part of the version you want (`.zip.001`, `.zip.002`, …).
+1. Go to [Releases](../../releases) and download the lastest apk and try it.
 2. Join the parts. Open [`tools/joiner.html`](tools/joiner.html) in Chrome on your phone, pick all the parts and save the APK. Or join them on a PC with any zip tool that handles split archives.
 3. Install the APK. On the first launch it unpacks the game data once (a % screen), then starts the game.
 
