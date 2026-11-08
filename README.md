@@ -55,5 +55,5 @@ The code image is patched in place: new code goes into unused parts of the binar
 
 - **cool715 / Toughman591**: the remaster, testing and assets.
 - **[BOZ Redux SDK](https://github.com/ZappaVinny/boz-redux-sdk)** by ZappaVinny: its MIT-licensed game definition (named functions, data layouts, events) and Ghidra scripts were used to reverse-engineer the perk, HUD, Max Ammo and save code for Mule Kick.
-- [Ghidra](https://github.com/NationalSecurityAgency/ghidra) for decompiling.
+
 - Call of Duty, Black Ops and all related content belong to Activision.
