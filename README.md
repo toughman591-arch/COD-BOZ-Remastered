@@ -8,7 +8,7 @@ Developed and Remastered by **cool715 (Discord) / Toughman591**.
 
 ## What's in the mod
 
-The latest release on GitHub is **v5.11**. Items marked *(after v5.11)* are finished in newer builds and will come with the next release.
+The latest release is **v5.32**. Items marked *(after v5.11)* were added after v5.11 and are in v5.32.
 
 - **Kino der Toten**: BO1 PC textures, BO1-style loading screen and loading clip, theater flag, 115 song, Call of the Dead intro video. Call of the Dead cast and voices *(after v5.11)*.
 - **Nacht der Untoten**: a playable map with windows, zombies, doors, box, wall weapons, radio easter egg, WaW couches/help door and fog.
