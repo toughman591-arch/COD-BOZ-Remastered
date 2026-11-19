@@ -18,6 +18,10 @@ The latest release on GitHub is **v5.11**. Items marked *(after v5.11)* are fini
 - **Co-op**: Nacht in online and local Wi-Fi co-op. Shi No Numa co-op *(after v5.11)*.
 - **Ray Gun Mark II** in the mystery box only on Nacht, Shi no Numa, Verruckt and Der Riese.
 - **Mule Kick (test builds, solo Kino only)** *(after v5.11)*: a 3-gun perk machine in Kino's Atrium. It has its own HUD icon and name, refills on Max Ammo, is kept in saved games and lights up green when the power is on.
+- **Co-op map select: REZURRECTION page** *(after v5.11, test builds)*: the co-op map select keeps the 4 Black Ops maps; tap the REZURRECTION arrow for Nacht, Verrückt, Shi No Numa and Der Riese. The lobby vote stays the original 4 maps.
+- **Five** *(after v5.11, test builds)*: new loading screen and a skippable story intro video (single player).
+- **Full screen** *(after v5.11, test builds)*: the status and navigation bars are hidden and the game draws into the camera notch.
+- **Der Riese** *(after v5.11, test builds)*: fix attempts for the Pack-a-Punch door crash; Call of the Dead's name shortened to fit the cards.
 - **Mali / all GPUs build**: textures converted so the game runs on every phone GPU, not just old Snapdragon phones.
 
 The full history, including the builds after v5.11, is in [CHANGELOG.txt](CHANGELOG.txt).
@@ -37,7 +41,7 @@ Use the **Mali** build on any phone GPU. Since v5.8 you can install a new versio
 | `src/code-patches/` | Changes to the game code (`boz.s3e`), one folder per version: Python patchers and Thumb-2 assembly (`*.s` + linker scripts), applied in order. `mule3/` is the current Mule Kick code. |
 | `src/data/` | Builders for the game data: level entities, perk machines, HUD icon, text in all languages, the front-end menu (co-op cards) and the `.dz` archive. |
 | `src/lib/` | Shared Python helpers: resource groups, entities, textures (ATC/Mali), models, `.dz` read/write, navmesh. |
-| `src/android/` | The APK's first-launch unpacker (smali). |
+| `src/android/` | The APK's first-launch unpacker, the full-screen patch and the map intro player (smali). |
 | `src/pack/` | Scripts that put the APK together, sign it with a debug key and split it into 30 MB parts. |
 | `tools/joiner.html` | A page that joins the parts on a phone. |
 

@@ -1,0 +1,24 @@
+--- /tmp/smali3d/smali/com/ideaworks3d/marmalade/LoaderActivity.smali	2026-11-18 18:14:45.886487214 +0300
++++ /tmp/smali3i/smali/com/ideaworks3d/marmalade/LoaderActivity.smali	2026-11-19 18:11:09.906365021 +0300
+@@ -1862,6 +1862,8 @@
+     .line 6
+     invoke-super {p0, p1}, Landroid/app/Activity;->onCreate(Landroid/os/Bundle;)V
+ 
++    invoke-static {p0}, Lcom/activision/boz/Immersive;->apply(Landroid/app/Activity;)V
++
+     .line 7
+     .line 8
+     .line 9
+@@ -2904,6 +2906,12 @@
+     .line 18
+     invoke-super {p0, p1}, Landroid/app/Activity;->onWindowFocusChanged(Z)V
+ 
++    if-eqz p1, :kino_imm_skip
++
++    invoke-static {p0}, Lcom/activision/boz/Immersive;->apply(Landroid/app/Activity;)V
++
++    :kino_imm_skip
++
+     .line 19
+     .line 20
+     .line 21

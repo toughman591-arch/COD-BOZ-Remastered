@@ -1451,6 +1451,660 @@ WHAT CHANGED
       an online Kino game loads. If it crashes, tell me which one.
     - Data 545,400,366 bytes, marker kino_remaster_mule3m.ok (unpacks once).
 
+[529-FIVE2T] v5.29 FIVE TEST 2T (Mali / all GPUs only) - new World at War loading screens
+    - NEW LOADING SCREENS from your 4 pictures: Nacht (the comic page), Verrueckt (the hand-drawn map with the
+      perks), Der Riese (the Rising Sun / Breslau comic), Shi No Numa (the swamp map with the 4 characters).
+      The whole picture is kept (nothing cut off): the game's loading picture is 4:3 and yours are 16:9, so the
+      gap above and below is filled with a dark blurred copy of the same picture.
+    - Same slots as before (loading/kino, tutorial, ascension, callofthedead *_ipad files, which Android only
+      uses for these maps). Kino, Five and the other BO1 maps keep their loading screens.
+    - Everything else = TEST 2S (game code identical). Data size unchanged; marker kino_remaster_five2tm.ok
+      (unpacks once).
+    - NEW SIGNING KEY: the old debug signing key was lost, so 2T is signed with a new one. Android won't install
+      it over 2S: uninstall 2S first (saved games/settings of 2S are lost).
+    - NOTE: this changelog copy is the one from the GitHub repo; the Five test entries 2A-2S were in the working
+      copy that was lost, so they are not listed here.
+    - NOT TESTED on a phone.
+
+[529-FIVE2U] v5.29 FIVE TEST 2U (Mali / all GPUs only) - Five zombie clothes, Der Riese power test, Verrueckt Speed Cola
+    - FIVE ZOMBIES (Five only): the zombies now wear Five-style clothes, using the colours of the Pentagon zombie
+      textures you sent: blood-stained off-white office shirts with dark suit trousers on three zombie types, and
+      dark grey suit jackets with dark trousers on the other two (the Nazi armband/skull/cross on the officer coat
+      are painted over). Shirt and trouser areas were found from the zombie models themselves (body height),
+      so trousers stay on the legs. Faces, hands and gore are unchanged. Kino and the other maps keep their own
+      zombies: Five now loads its own copy of the zombie file (levels/pentagon/pentagon_dynamics).
+      The tie is not added (the zombie model has no tie part).
+    - DER RIESE POWER CRASH (test): the only two Der Riese objects that open when the power turns on, and that
+      Verrueckt (where power works) does not have, are Door 12 and the bridge gate. Both are now normal
+      buyable doors (1000 points) with no link to the power. If power no longer crashes, it was one of those two.
+      If it still crashes, the cause is the 3 teleporters, which are next.
+    - VERRUECKT SPEED COLA moved upstairs to the north wall of the west upstairs room, facing into the room,
+      about 10 m from the nearest zombie or hellhound spawn (the old spot was 3 m from a hellhound spawn).
+      The old spot is now empty.
+    - Everything else = TEST 2T. Same signing key as 2T: installs over 2T.
+    - Marker kino_remaster_five2um.ok (unpacks once). Data 610,189,949 bytes.
+    - NOT TESTED on a phone.
+
+[529-FIVE2V] v5.29 FIVE TEST 2V (Mali / all GPUs only) - Five zombies like the Pentagon zombie, elevator doors, instant teleport, Der Riese lever, Speed Cola buy
+    - FIVE ZOMBIES (Five only): the clothes are now taken from the Pentagon zombie model you sent: each spot on
+      the game's zombies gets the colour of the same body spot on the Pentagon zombie (bloody white shirt,
+      dark striped tie on the chest, black trousers). Done for all 5 zombie types, including the officer
+      (no more coat, straps or armband on the body). Faces and hands unchanged.
+    - FIVE ELEVATOR DOORS: from your video the doors were one step behind (closed at the stop, open while
+      travelling): the opening animation waited for a "close" message before switching to "open". Opening and
+      closing now finish by themselves, so the door opens when the car arrives, stays open, and closes when it
+      leaves.
+    - FIVE TELEPORTERS: travel speed raised from 3,500 to 1,000,000 so the trip is near-instant. The short
+      take-off/landing animation of the teleporter is still there.
+    - DER RIESE POWER LEVER: shows this game's animated power lever (the one from Kino) instead of the
+      World at War lever, which was a still model. Door 12 / bridge gate stay buyable doors (that fixed the crash).
+    - VERRUECKT SPEED COLA (can't buy): this game's Speed Cola machine is built facing backwards compared to the
+      other perks, so its buy spot pointed into the wall. The machine now faces the room (same spot as 2U).
+    - Everything else = TEST 2U. Installs over 2U. Marker kino_remaster_five2vm.ok. Data 610,189,949 bytes.
+    - NOT DONE yet: DEFCON number text, missing Five props (telephones, ashtrays), lighting.
+    - NOT TESTED on a phone.
+
+[529-FIVE2W] v5.29 FIVE TEST 2W (Mali / all GPUs only) - Pack-a-Punch room crash fix, start elevator stays open
+    - PACK-A-PUNCH ROOM CRASH: 2V raised the teleporter speed from 3,500 to 1,000,000. That is the only change
+      2V made near the Pack-a-Punch room, and 2U went there without crashing, so this is the likely cause. Now:
+      top speed back to 3,500 (as in the original), speed-up and slow-down 1,000 instead of 180. The trip takes
+      about 6 seconds instead of about 15. Truly instant would need a different method (moving the player
+      directly), not more speed.
+    - START ROOM ELEVATOR: the door starts open, but at round start the elevator got a "leave" message while it
+      stayed at the same stop, and that closed the door. The leave code (my own code in boz.s3e) now does nothing
+      when the elevator stays where it is, so the door should stay open. Real trips still close the door when
+      leaving and open it when arriving.
+    - Everything else = TEST 2V. Installs over 2V. Marker kino_remaster_five2wm.ok. Data 610,189,949 bytes.
+    - NOT DONE yet: DEFCON number text, Pack-a-Punch room door/30-second timer, zombies leaving/arriving with the
+      elevator, power-off lights, starting room clock and other missing props, barricade position, lighting, 60 FPS.
+
+[529-FIVE2X] v5.29 FIVE TEST 2X (Mali / all GPUs only) - DEFCON number on the DEFCON switches
+    - DEFCON NUMBER: standing at a DEFCON switch now shows the current DEFCON level in the middle of the screen
+      (where the buy prompts appear): "DEFCON 5 - TAP TO PULL" before you pull it, and after pulling, "DEFCON 4",
+      "DEFCON 3" ... down to "DEFCON 1" (all 4 pulled = teleporters go to Pack-a-Punch). Counted from the 4
+      switches, so it goes back to DEFCON 5 when the switches reset after a Pack-a-Punch trip.
+      Code: boz.s3e, hook in the power-switch prompt (0x1da3aa -> 0x400e04); only on Five (other maps unchanged).
+    - Everything else = TEST 2W (Pack-a-Punch crash fix, start elevator open). Installs over 2W.
+      Marker kino_remaster_five2xm.ok. Data 610,189,949 bytes.
+    - Not a permanent number in the corner of the screen: this game has no free text spot on the in-game screen
+      that I could find, so the number is shown at the switches.
+
+[529-FIVE2Y] v5.29 FIVE TEST 2Y (Mali / all GPUs only) - BO1 world clocks added (first new objects)
+    - CLOCKS: 8 wall clocks added at the exact BO1 spots (from the user's BO1 PC zombie_pentagon.ff, read with
+      OpenAssetTools): 4 in the starting conference room and 4 in the war room (New York, Moscow, Hanoi,
+      Hong Kong, same order as BO1). BO1 clock body + hour/minute/second hands (BO1 models), clock face texture
+      drawn by me (BO1 texture is not inside the .ff). Hands are fixed (not running): NY 9:00, Moscow 5:00,
+      Hanoi 8:00, Hong Kong 9:00.
+      BO1 -> BOZ position: x*2.54+15000, z*2.54+1500, -y*2.54+9000 (checked on Jugg, Pack-a-Punch, Double Tap,
+      Quick Revive and all 4 DEFCON switches). Added to pentagon_statics: 1 texture, 1 material, 8 models,
+      8 entities (template: the plain model entity from pentagon_dynamics). Faces drawn on both sides.
+    - DEFCON TEXT now counts like BO1: starts at DEFCON 1, each switch +1, all 4 = DEFCON 5 (Pack-a-Punch).
+    - Everything else = TEST 2X. Installs over 2X. Marker kino_remaster_five2ym.ok. Data 610,239,712 bytes.
+    - First time new objects are added to the game: if Five crashes on load, it is this.
+
+[529-FIVE2Z] v5.29 FIVE TEST 2Z (Mali / all GPUs only) - clock fix
+    - CLOCK FACE was yellow/garbled: 2Y copied a special texture + material type (glow/lightmap kind). Now uses a
+      normal 128x128 mipmapped ETC1 texture and a normal material, like the other Five props.
+    - STARTING ROOM clocks showed as thin bars: pulled 2.4 in (6 units) off the wall so nothing on the wall
+      covers the dial; war room clocks 0.8 in.
+    - 60 FPS APK (cod-boz-60hz.apk) checked: its game file is the plain Activision one and its loader only
+      changes online servers / Google Play Services / one audio check - no frame-rate setting found, nothing taken.
+    - Everything else = TEST 2Y. Installs over 2Y. Marker kino_remaster_five2zm.ok. Data 610,234,264 bytes.
+
+[529-FIVE3A] v5.29 FIVE TEST 3A (Mali / all GPUs only) - Five lag cleanup (Kino leftovers removed from Five)
+    - Five was loading Kino's whole map with it: pentagon_sectors listed 18 Kino room groups (alley, atrium,
+      lobby, theatre, stage, bar, balcony, dressing room, engineering, outside, bonus rooms ...). Removed from
+      Five's list (Kino itself unchanged). Kept: Kino skyboxes, effects, teleporter wormhole (shared effects)
+      and pentagon_env (Five's own map). Checked first: nothing in Five's files uses anything from the removed
+      groups (the Five zapper's model lives in ingame.group, not in theatre).
+    - pentagon_statics: removed 160 Kino objects that sat in Kino's area of the file (Kino barricades,
+      traps/zapper switches, doors, TV screens, spawn points, scenery). Nothing in Five references them.
+      Five's own 30 barricades, traps, spawns, doors, landers, perks: all kept. Kept the 2 cameras.
+    - Everything else = TEST 2Z. Installs over 2Z. Marker kino_remaster_five3am.ok. Data 610,134,890 bytes.
+    - NOT DONE: Five barricades/traps still use the BOZ (Kino-style) models; BO1 Five models are in the
+      user's zombie_pentagon.ff and can be swapped in later with the same method as the clocks.
+
+[529-FIVE3B] v5.29 FIVE TEST 3B (Mali / all GPUs only) - 3D clock shading, misplaced barricade fixed
+    - CLOCKS looked flat: the dial texture was also projected on the rim and every vertex had the same
+      brightness. Now the rim/back use a dark wood colour and every face is shaded by its direction (fake light
+      from front-top-right), so the body depth shows. Same BO1 3D model as before.
+    - BARRICADES/TRAPS: BO1 Five has no own barricade or trap models - its window boards and the electric trap
+      handle/switch are the shared BO1 zombie ones (not in zombie_pentagon.ff), same family as Kino's. So no swap.
+      Checked all 30 BOZ Five barricades against BO1's 32 window spots: 29 match. One (labs, x12995 z854) was
+      on the wrong floor (labs y-317 instead of war-room level y206) - this is the barricade blocking the lab
+      doorway. Moved to the BO1 spot (12995, 206, 868). 2 BO1 war-room windows (BOZ 9623/3138, 9001/4267) have
+      no barricade in BOZ - not added.
+    - Everything else = TEST 3A. Installs over 3A. Marker kino_remaster_five3bm.ok. Data 610,162,218 bytes.
+
+[529-FIVE3C] v5.29 FIVE TEST 3C (Mali / all GPUs only) - crash fix for 3A/3B
+    - User: Five crashed after the Kino cleanup. The 160 removed Kino objects included Kino's teleporter system
+      (mainframe, teleporter volume, cables), jump points, the firepit trap, Lobby_Electro_Switch2 (switch of
+      the Lobby zapper that Five still has) and Kino doors - game code may look these up by name. All 160 put back.
+    - Kept: the Kino rooms (map geometry) are still removed from Five's load list (the big lag part), 3D clock
+      shading, the moved lab barricade.
+    - If 3C still crashes, the room removal is the cause and 3D will put the rooms back.
+    - Installs over 3B. Marker kino_remaster_five3cm.ok. Data 610,260,726 bytes.
+
+[529-FIVE3D] v5.29 FIVE TEST 3D (Mali / all GPUs only) - Kino rooms back in Five's load list
+    - User: 3C still crashed while Five was loading -> removing the Kino rooms from pentagon_sectors is the
+      cause (Five needs something in them; not found by hash, so probably looked up by name). Original
+      pentagon_sectors restored. Lag cleanup is fully undone (3A/3B/3C cleanup not in this build).
+    - Kept: 3D clock shading, the moved lab barricade (everything else = 2Z).
+    - Installs over 3C. Marker kino_remaster_five3dm.ok. Data 610,261,592 bytes.
+
+[529-TEMPLE1] v5.29 FIVE TEST 3T (Mali / all GPUs only) - Shangri-La step 1 (walk-around)
+    - New "SHANGRI-LA" card after FIVE on the solo map select. The card art is from zombie_temple_load.bik,
+      painted into a free tile of frontend atlas 403. The level is registered as "temple" (s3e cave at 0x400eb8,
+      hook at 0x400b60).
+    - Loading screen: the bik frame in the unused loading/tutorial/loading_retina slot, plus a new
+      fixed.group record "loading-temple". Fog: temple / temple_lowend (Five distances, green haze).
+    - Map: BO1 zombie_temple world + static props via OpenAssetTools (432k tris, 134 textures). The level files
+      are cloned from Nacht (levels/temple/). Collision is 288k tris with a rebuilt Bullet QBVH; the tree
+      builder reproduces Nacht's exactly.
+    - 4 BO1 player spawns, placed on the floor.
+    - Still Nacht's gameplay entities, far away: no zombies, doors, buyables or power on Shangri-La yet.
+      No foliage, water or sky.
+    - Five and everything else = 3D. Same signing key, so it installs over 3D.
+      Marker kino_remaster_shang1m.ok. Data 648,408,542 bytes.
+
+[529-TEMPLE1b] v5.29 FIVE TEST 3U (Mali / all GPUs only) - Shangri-La: walking fix
+    - User (3T): the map loads and isn't laggy, but you can't walk.
+    - Added a Shangri-La navmesh (players and zombies move on it; 3T still had Nacht's, far away). Built
+      with Recast from the collision mesh using Nacht's agent settings (0.15 m cells, 1.5 m height,
+      0.4 m radius/climb, 50 deg slope), 64-cell tiles. 207 tiles / 4258 polys, packed into BOZ's 40-byte
+      poly layout. All 4 spawns are on it.
+    - Fixed a 3T bug: the bigger collision data was swapped in without updating the item size and the
+      resource-block size in temple_statics, and its tail was one byte too long. The level file now parses
+      cleanly (resgroup check passes).
+    - Installs over 3T. Marker kino_remaster_shang2m.ok. Data 648,597,419 bytes.
+
+[529-TEMPLE1c] v5.29 FIVE TEST 3V (Mali / all GPUs only) - Shangri-La: load crash fix
+    - User (3U): crashed while loading.
+    - Likely cause: 3U replaced Nacht's navmesh. The level still has Nacht's spawns, windows, perks, doors and
+      zones (CArea), which sit on Nacht's navmesh polys; their polys also carry door/zone flags and zone hashes.
+    - Fix: keep all 614 of Nacht's tiles unchanged (moved 3 tiles on the grid) and add 754 Shangri-La tiles
+      on the same 4.8 m grid every map uses (32-cell tiles). 1368 tiles, max 2048 tiles x 2048 polys
+      (the Call of the Dead setup). Every tile checked against the grid.
+    - Kept the 3U level-file size fixes (the collision tail is 3 + triangle-count bytes, the same on every map).
+    - Installs over 3U. Marker kino_remaster_shang3m.ok. Data 649,617,995 bytes.
+
+[529-TEMPLE1d] v5.29 FIVE TEST 3W (Mali / all GPUs only) - Shangri-La: load crash fix #2
+    - User (3V): still crashed while loading.
+    - Cause found: the collision item was 22.4 MB. The largest item on any shipped map is Five's at 15.3 MB,
+      and 22.4 MB is past 16 MB (2^24 bytes). 3T only got past the loader because its size field was wrong
+      (it still said 1.5 MB).
+    - Physics collision now uses only triangles of 600 cm2 or more: 164,400 tris (Five has 175k), item 13.6 MB,
+      temple_statics 16.7 MB (Five's is 18.1 MB). The navmesh and spawn floors still use the full 288k-tri mesh,
+      so the navmesh has no new holes.
+    - Navmesh as in 3V (Nacht's 614 tiles + 754 Shangri-La tiles).
+    - Installs over 3V. Marker kino_remaster_shang4m.ok. Data 640,823,266 bytes.
+
+[529-TEMPLE1e] v5.29 FIVE TEST 3X-A / 3X-B (Mali / all GPUs only) - Shangri-La: crash diagnosis
+    - User (3W): still crashes while loading; the loading screen shows rotated. The whole frame is turned,
+      including the engine's LOADING text and tip line, so the game is drawing in portrait while in trouble;
+      the picture itself is laid out like the other loading slots.
+    - Two builds that each change one thing on top of 3T (which loaded):
+      3X-A = Shangri-La collision (164k tris, correct sizes) + Nacht's ORIGINAL navmesh.
+      3X-B = Nacht's ORIGINAL collision + merged navmesh (Nacht + Shangri-La). If this loads, you should be
+             able to walk (no walls, though).
+      Both have correct resource sizes. Everything else = 3W.
+    - Markers kino_remaster_shang5a.ok / shang5b.ok.
+
+[529-TEMPLE1f] v5.29 FIVE TEST 3Y (Mali / all GPUs only) - Shangri-La: navmesh within shipped limits
+    - User: 3X-A loads, 3X-B crashes, so the new collision is fine and the merged navmesh is the problem.
+    - Standard Detour loads the 3X-B navmesh cleanly (1368 tiles, 0 failures, 2000/2000 test paths, ASan
+      clean), so the crash is in BOZ's own code. The game's loader has no size checks. Every crashing build
+      had more navmesh polys than any shipped map: 8412 vs Call of the Dead's 5321.
+    - The Shangri-La navmesh now holds only the polys reachable from the 4 spawns (Detour link flood fill,
+      then Recast rebuilds with the rest dropped): 1283 polys / 454 tiles. That is the start zone; BO1's
+      closed doors and debris are part of the world geometry, so other zones aren't reachable yet.
+      Total 4341 polys (assert <= 5321). Nacht's/Kino's tiles unchanged, as in 3X-B.
+    - Collision as in 3X-A (164k tris, 13.6 MB).
+    - Unpack screen text now says "Kino BO1 Remaster v5.29 Five + Shangri-La TEST (Mali)", and the error
+      message says "(v5.29 Shangri-La, Mali)". Same-length swaps keep the dex string table sorted.
+    - Marker kino_remaster_shang6m.ok.
+
+[529-TEMPLE1g] v5.29 FIVE TEST 3Z (Mali / all GPUs only) - Shangri-La: real navmesh crash cause
+    - User (3Y): still crashes; suggested using the BO2 version of the map. Not needed: the BO1 geometry and
+      collision load fine (3X-A), and the crash is in how I packed the navmesh.
+    - Root cause: Nacht's navmesh is Kino's navmesh (the same 363 tiles with the same refs, byte-identical)
+      + Nacht's tiles. The shared Kino objects loaded with the level use those poly refs. 3U (navmesh
+      replaced) and 3V-3Y (2048x2048 params, grid shifted 3 tiles) all changed the refs; 3X-A kept them.
+    - Fix: Nacht's navmesh is byte-identical (same origin, 1024 tiles x 4096 polys, same refs). Shangri-La
+      tiles are appended at refs 614+ on the same grid (tile x,y >= 0, no overlap). Limited to <= 400 tiles:
+      polys reachable from the spawns within 75 m = 397 tiles / 1173 polys. Total 1011 tiles, 4231 polys.
+      Standard Detour: 0 failures, same refs as stock Nacht, 2000/2000 paths.
+    - Marker kino_remaster_shang7m.ok.
+
+[529-TEMPLE1h] v5.29 FIVE TEST 4A (Mali / all GPUs only) - Shangri-La moved into the map area the navmesh supports
+    - User (3Z): still crashes; asked whether it's memory. No: 3X-A (loads) uses more memory than 3X-B
+      (crashed), and 3Z is only ~0.4 MB more than 3X-A.
+    - Correction: the "Kino refs" theory was wrong. Der Riese and Shi No Numa load kino_dynamics with a
+      completely different navmesh (9.6 m tiles, none of Kino's).
+    - Real pattern: every shipped navmesh sits within world z -115..96 m of the shared origin (tile rows
+      <= 41). Shangri-La sat at z 555-680 m (tile rows up to 155). Render and collision don't care (3X-A);
+      the navmesh crashed every time it had tiles out there.
+    - Moved Shangri-La: OX,OZ = 150 m, -20 m. World x 69-230 m, z -65..81 m, between Kino (x < 58 m) and
+      Nacht (x > 242 m). Navmesh tile x 0..84, y 0..27, the same as Nacht's own range. Env, collision,
+      navmesh and spawns rebuilt. Nacht's navmesh is still byte-identical.
+    - Marker kino_remaster_shang8m.ok.
+
+[529-TEMPLE1i] v5.29 FIVE TEST 4B (Mali / all GPUs only) - Shangri-La: the actual navmesh crash bug
+    - User (4A): still crashes; asked me to look at how Five works.
+    - Found by reading the bytes of Nacht's file: resource items are [u32 size][content], with size counted
+      from the size field. My parser's per-item "flag" byte is really the last byte of the item before it.
+      Proof: a CArea item ends "4a 47 a0" and the next item's "flag" is d0, completing u32 0xd0a0474a; and
+      in all 9 shipped maps (Five included) the navmesh tiles end exactly at size field + size.
+    - Every rebuilt navmesh (3U-4A) was 1 byte too long: it claimed the list's trailing byte as its own, so
+      the game read the next list 1 byte late. That's why only builds with a changed navmesh crashed. The
+      collision item happened to be laid out right (it isn't the last item in its list).
+    - Fix: navmesh item is now exactly 4 + content, and its last byte is the list's trailing byte, as in all
+      shipped maps. Collision checked against the same rule (4 + ntri zeros, as in Nacht).
+    - Everything else = 4A (map between Kino and Nacht, Nacht navmesh byte-identical + 397 Shangri-La tiles).
+    - Marker kino_remaster_shang9m.ok.
+
+[529-TEMPLE1j] v5.29 FIVE TEST 4C (Mali / all GPUs only) - Shangri-La: Kino rooms hidden
+    - User (4B): it loads and you can walk, but Kino's rooms float in view.
+    - Every map's sector list (Nacht, Five, Der Riese...) holds the same 21 Kino *_shared groups; they are
+      shared resources (removing them is what crashed Five in 3A), so they stay. Kino's sectors live in
+      those groups; the maps' own *_env groups have none, so on every map the player is "outside" Kino's
+      sectors and distance fog hides Kino. Shangri-La sat 15-100 m from Kino, inside the fog range
+      (Five's fog starts at ~110 m).
+    - Shangri-La lifted 600 m (OY = 60000), past the furthest fog end (~450 m). Navmesh tiles are horizontal
+      only, so the tile range is unchanged (x 29..63, y 0..27). Env, collision, navmesh (reach seeds at the
+      new height), spawns rebuilt. Navmesh item layout re-checked (4 + content).
+    - Marker kino_remaster_shangAm.ok.
+
+[529-TEMPLE2] v5.29 FIVE TEST 4D (Mali / all GPUs only) - Shangri-La with Kino and Nacht removed
+    - User (4B worked; 4C): asked to remove Kino and Nacht completely, not just hide them. The 600 m lift
+      from 4C is undone (back to ground level).
+    - New true-layout resource reader/writer (tlres.py): reproduces all 30 shipped *_statics / *_shared
+      files byte-for-byte.
+    - temple_statics (build4_level.py): 102 Kino/Nacht objects deleted (barricades, doors, perks, PaP,
+      traps, teleporter, chalk weapons, TVs, easter eggs, jump points, scenery). Kept: Shangri-La collision,
+      2 cameras, 4 player spawns, the 66 spawn points + 50 invisible markers (moved to Shangri-La so the
+      area lists don't point at nothing), and the mystery box (CLevel names MysteryBox_Lobby; now ~5 m from
+      the spawn). Starting area now turns on the 4 ground-burst spawns instead of the 5 window spawns
+      (those need barricades), plus the 3 hellhound spawns. Navmesh = Shangri-La only (Nacht's grid and
+      params): 448 tiles / 1384 polys, everything reachable from the spawns. Standard Detour: 0 failures,
+      spawns on the mesh, 2000/2000 paths.
+    - Kino rooms: 18 room groups replaced by Shangri-La copies (levels/temple/*_shared) with every room
+      object, portal, occluder and AA light box removed (0 left). Textures/materials/models kept, since
+      other files use them (removing whole groups crashed Five in 3A). Skybox, effects and wormhole stay
+      (generic). Kino's own files are untouched, so the Kino map is unchanged.
+    - Marker kino_remaster_shangBm.ok.
+
+[529-TEMPLE2b] v5.29 FIVE TEST 4E (Mali / all GPUs only) - Shangri-La: 4D load crash
+    - User (4D): crashed while loading.
+    - Checked: no kept object or data list refers to any of the 102 deleted objects by name (one hit is a
+      coincidental value inside the collision data).
+    - Likely cause: 4D also deleted the Kino room groups' portals, occluders and ambient (AA) light boxes,
+      which left zero light boxes in the level; the game lights zombies and the gun from the nearest one.
+      In 4B Kino's far-away boxes were there to fall back on.
+    - Fix: the Shangri-La copies of the Kino room groups now drop only the visible room objects (0 left);
+      portals (33), occluders (89) and light boxes (159), all invisible, are kept.
+    - Everything else = 4D. Marker kino_remaster_shangCm.ok.
+
+[529-TEMPLE2c] v5.29 FIVE TEST 4F-A / 4F-B / 4F-C (Mali / all GPUs only) - Shangri-La: removal on the 4B base
+    - User (4E): still crashes; wants a map that loads, plus high FPS / 144 Hz (separate step, after the map loads).
+    - Restarted from 4B (confirmed to load): merged navmesh (Nacht's untouched + Shangri-La tiles), ground level.
+      A = 4B + the Kino room groups' visible objects removed (Shangri-La copies; portals, occluders and light
+          boxes kept).
+      B = 4B + the 102 Nacht/Kino gameplay objects deleted. Spawn points and markers stay where they were
+          (still on Nacht's navmesh); the mystery box is moved 5 m from the player spawn.
+      C = A + B (the intended result).
+    - Markers kino_remaster_shangDa/Db/Dc.ok.
+
+[529-TEMPLE2d] v5.29 FIVE TEST 4G (Mali / all GPUs only) - Shangri-La: Nacht objects moved away, Kino sky pieces gone
+    - User: tested 4F-A (loads; Kino rooms gone; Nacht barricades/zombies and white floating panels still
+      visible). Couldn't tell which build was installed, so the unpack screen now shows the build ID
+      ("Kino BO1 Remaster v5.29 Shangri-La TEST 4G (Mali)"). Suggested moving things far away instead
+      of deleting them.
+    - Base 4F-A. The 102 visible Nacht/Kino objects are moved 1000 m down (kept, not deleted). Spawn points,
+      markers, cameras and collision untouched; the mystery box is moved 5 m from the player spawn.
+    - White panels = Kino skybox pieces: Shangri-La copy of kino_skyboxes_shared with its 32 objects
+      removed (resources kept).
+    - Fog: Nacht's closer distances (colour kept) to fade the far Nacht area where zombies still spawn.
+    - Sky: BO1's skybox_zombie_temple is a 6-face cube (_ft/_bk/_lf/_rt/_up/_dn); only _ft is here.
+      Asked for the other 5 from BO1 PC's main/*.iwd (images/).
+    - Marker kino_remaster_shangEm.ok.
+
+[529-TEMPLE2e] v5.29 FIVE TEST 4H (Mali / all GPUs only) - Shangri-La: stairs, textures, sky, BO1 spawns and box
+    - User (4G): loads. Asked for: missing floors/walls/stairs fixed, zombies spawning where BO1 has them,
+      the mystery box at its BO1 spot, and a sky (only skybox_zombie_temple_ft exists in their .iwd files).
+    - Stairs: ztem_pap_temple_stairs (1906 tris) was dropped by the 900-tri prop limit; stairs now allowed
+      up to 2500. Boards: the foliage filter's "boar" matched ztem_modular_boards (33 floor boards) ->
+      boar(?!d); cobble debris pieces kept. Collision 441k source tris; navmesh reaches the stairs.
+    - Textures: the 67 materials whose image isn't in the files now use a real Shangri-La texture of the same
+      kind (stone/grass/dirt/wood/metal) instead of a flat colour. 0 flat left.
+    - Sky: dome (radius 150 m, 24x8, double-sided, full bright) with skybox_zombie_temple_ft tiled
+      (1024 px ETC1), on its own entity at scale 1.0. Kino's "sky" is only 32 window cards; BOZ maps
+      otherwise show the fog colour. Fog back to Five's distances (starts ~110 m), so the dome is clear.
+    - Zombies: the starting area's 5 zombie spawns are moved to BO1's temple_start_zone_spawner entry points
+      (4), and the 3 hellhound spawns to BO1's temple_start_zone dog spots, all on the floor.
+    - Mystery box at BO1's blender_chest (start zone), BO1 yaw 359.6.
+    - Nacht/Kino objects still 1000 m down; Kino rooms and sky cards removed (as 4G).
+    - Marker kino_remaster_shangFm.ok; unpack screen "Shangri-La TEST 4H".
+
+[529-TEMPLE2f] Shangri-La TEST 4I (unpack text shows "TEST 4I")
+- Same as 4H, only the Shangri-La fog colour changed: (60,72,62) grey-green -> (92,76,61) warm tan.
+- Source: BO1 maps/createart/zombie_temple_art.gsc (setVolFog: dark teal base + orange sun tint, 60% max opacity)
+  and the median distant-haze colour measured across the user's 47-min BO1 Shangri-La video.
+- Fog distances unchanged (BOZ fog is one flat colour, so BO1's sun-direction tint can't be copied exactly).
+- Kino/Nacht/MP fog untouched. Not tested on a phone.
+
+[529-TEMPLE2g] Shangri-La TEST 4J (unpack text shows "TEST 4J")
+- Floor/wall holes: blended BO1 surfaces (e.g. cliff:creek_water:mud, concretewall:decal) were dropped when ANY
+  layer was water/decal; now only the base layer decides. Ponds use BO1's creek-water texture. Top-down check:
+  every 2 m floor cell with BO1 floor now has rendered floor.
+- Zombies come through the windows like BO1: they spawn at BO1's start spawner spots outside, walk to the window
+  and climb in over a barricade (4 windows, cloned Nacht barricade + Nacht-style 2 m one-way navmesh link).
+- BO1 start-room debris (fallen pillars, generator) added at both exits, so the room is sealed except the windows.
+  Debris is permanent for now (no buy yet). Navmesh check: start room only connects to outside via the 4 links.
+- Keeps 4I warm fog. Navmesh radius 55 m (was 65 m). Not tested on a phone.
+
+[529-TEMPLE2h] Shangri-La TEST 4K (unpack text shows "TEST 4K")
+- Barricades: 4J clones kept Nacht's entity id (header hash), so the window links found no barricade and zombies
+  vaulted through intact boards. Each clone now has id = djb2(its name) = its link's userId (verified 2 hits each).
+- Stairs: BO1's Pack-a-Punch stairs are 4 script models (not static world), so only the steep slide under them was
+  built. Added in BO1's raised state (the only state with no 1.3 m gap; BO1 also blocks them with a clip until PaP).
+  Steps ~20 cm, navmesh now goes up them. Static: no plates/PaP movement.
+- Serpent statues at the stairs (zt_courtyard_orn_01 parts) used 20/50-face LODs; now 410/450-face LODs.
+- Start room still only reachable through the 4 windows (navmesh check). Env 15.5 MB (was 14.9). Not tested on a phone.
+
+[529-TEMPLE2i] Shangri-La TEST 4L (unpack text shows "TEST 4L")
+- Sky: BO1's sky is one dome model (xmodel skybox_zombie_temple) textured with skybox_zombie_temple_ft, so the
+  single _ft image is the whole sky (nothing missing). The dome now uses BO1's own model + UVs instead of my
+  generic dome, and Kino's sky-card material (full-bright, sky shader 0xe5013c70, no lightmap) instead of a lit,
+  fogged world material. Unknown until tested whether that shader also skips fog.
+- Everything else = 4K. Not tested on a phone.
+
+[529-TEMPLE2j] Shangri-La TEST 4M (unpack text shows "TEST 4M")
+- The big serpents along the start stairs are ztem_p_jun_snake_railing (not the orn_01 pieces): they used their
+  248-face LOD; now 1500. zt_p_framed_statue_top 72 -> 1006 faces. Detailed statues only within ~40 m of the
+  spawn (far ones unchanged). Env 16.1 MB / 494k tris (4L: 15.5 MB / 471k).
+- Found: BO1's sky-model image skybox_zombie_temple_ft is a dark starry HDR image; BO1's day look comes from
+  wc/sky_day (image day_ft) + clouds_splotchy_a + the orange sun fog. day_ft / clouds_splotchy_a are not in the
+  user's temple files (common BO1 .iwd). Sky unchanged from 4L.
+- New preview tools: prevexport.py + prevrender.c (offscreen GLES2 via Mesa).  Not tested on a phone.
+
+[529-TEMPLE2k] Shangri-La TEST 4N (unpack text shows "TEST 4N")
+- Wall buys at BO1 Shangri-La spots: Kino's wall-weapon entities (parked below the map) moved, root transform only
+  (chalk child kept). Olympia, M16, Stakeout, MP5K, MPL, AK-74u, M14, PM63, Bowie, Claymore (BO1 Spikemore spot),
+  Frag (BO1 Semtex spot; BOZ has no Semtex). MP40 stays hidden.
+  Facing: BOZ wall buy local +z = out of the wall (10/12 Kino wall buys vs Kino collision); BO1 wall guns hang with
+  their left side to the room (checked on 6 clear cases); chalk placed 3 cm in front of the wall found by raycast.
+  Only Olympia + M14 are in the start room; the rest are behind debris. Costs are BOZ's, unchanged.
+- Debris not buyable yet: BOZ doors are skinned models + skeleton + anims + state machine (kino_dynamics);
+  Kino's debris door model is a 48-vertex 3-bone blocker. Needs a new skinned model for BO1 debris. Next step.
+- Not tested on a phone.
+
+[529-TEMPLE2l] Shangri-La TEST 4O (unpack text shows "TEST 4O")
+- Mystery box: 4 BO1 spots (start, bridge, caves 1, power). Extra 3 = copies of the start box with unique
+  same-length names + ids (Kino uses 9 identical boxes the same way). Start box facing fixed (4H-4N used -yaw).
+- Perks at BO1 spots: Quick Revive (start room, fixed BO1 spot); Juggernog, Double Tap, Speed Cola at 3 of BO1's
+  6 random perk spots. BOZ has no Stamin-Up/PhD/Deadshot.
+- Pack-a-Punch at BO1's spot at the top of the temple stairs; power switch at BO1's left lever in the power room
+  (BOZ has one switch, BO1 two).
+- Facing: model +z (box) / -z (perk, PaP, switch) faces the room (measured on Kino vs Kino walls); BO1 yaw + 180
+  agrees with the walls at every clear spot.
+- Only Quick Revive, the start box and Pack-a-Punch are reachable (PaP needs power, which is behind debris).
+- Buyable debris still pending (door animation format). Not tested on a phone.
+
+[529-TEMPLE2m] Shangri-La TEST 4P (unpack text shows "TEST 4P") - whole map playable
+- Buyable debris with Shangri-La's own debris: start->waterfall (pillars, 750), start->pressure (generator+pillars,
+  750), cave water->power (lander leg+minecarts, 1250), cave water->waterfall (minecarts, 1000), cave 3->power
+  (cement mixers, wheelbarrow, minecart, 1250). New temple_dynamics group: each pile = skinned copy of Kino's door
+  asset (model/skeleton/skin/state machine/anims, own hash); all vertices on the root bone, the 'opening' and
+  'open' anims sink the root 20 m (closed unchanged). Linked from temple.group before the statics.
+- 6 doorways for BO1's brush doors (cave1->cave2, waterfall->tunnel, pressure->cave1; 1000 each) use Kino's
+  double door, turned to fit between the doorway jambs.
+- Doors work like Kino: m_Cost, 2 areas unlocked, collision box; the navmesh polys inside each doorway carry the
+  door's entity id (Nacht convention, closed door = blocked).
+- 8 Shangri-La areas from BO1's 13 zones (zones that open together merged; BOZ doors unlock 2 areas). Start area
+  keeps the level's first area hash. 104 spawns copied from BO1 (zombie/dog/riser/faller->jump) - 2 dropped (no
+  path to players).
+- All 29 BO1 windows with barricades + one-way climb links; zombies spawn outside and come in.
+- Navmesh covers the whole map: 340 tiles (budget 400), polys kept only near BO1 path nodes (BO1 blocks scenery
+  with clip brushes we don't have). Checked: every spawn, window side and doorway is on the navmesh.
+- Not tested on a phone. New and riskiest: the debris door models (new skinned assets).
+
+[529-TEMPLE2n] Shangri-La TEST 4Q (unpack text shows "TEST 4Q") - fixes from 4P test
+- Quick Revive, perks and Pack-a-Punch turned 180 deg (4P faced backwards per user test).
+- Machines solid: collision boxes from BO1's own model bounds at BO1's placement for Quick Revive, the 3 perk
+  spots used, Pack-a-Punch and the 4 box spots (Kino's machines are solid via Kino's static collision, which the
+  moved entities didn't bring along).
+- Debris buy prompt: Kino door POI reach is 2 m from the door centre but the debris collision boxes are up to
+  2.4 m deep; reach now = largest half-size + 1.5 m.
+- Barricade A/B test: start windows W17 + W18 use Nacht's ORIGINAL barricade entities (LobbyLeft/LobbyRight)
+  with their old Nacht links cleared; W19 + W28 (and the rest) are copies. Copies are byte-identical to Nacht's
+  apart from name/id/position, so this tells whether copying or placement breaks the tearing.
+- Not tested on a phone.
+
+4R (Shangri-La look pass)
+- Lighting now uses BO1's own baked data. Sun and shadow come from Shangri-La's lightmap (sun-visibility mask), with BO1's sun colour, direction, ambient and bounce from the map's worldspawn. Result: warm sunlight, real BO1 shadow patches on floors and walls, and warm shade instead of flat grey. Props (statues, pillars, debris) take the shadow of the area they stand in.
+- Fog tint moved from tan toward BO1's dark-teal/orange volumetric fog.
+- Fixed a random mk4j build crash (door cost lookup depended on Python set order).
+
+4S (Shangri-La sky)
+- Real BO1 Shangri-La sky. The BO1 sky image is a 6-sided cube; before, only one side was used, which looked like a dark starry night. Now all 6 sides are unwrapped onto a new smooth sky dome: cloudy dusk sky with the orange sunset band at the horizon, like BO1.
+- clouds_splotchy_a (BO1's moving cloud layer on top) is not used; the main sky already has its clouds.
+
+4T (fixes from 4S test)
+- Sky was black: the Kino sky shader used since 4L is only for light-beam cards and draws nothing solid. The sky dome now uses the normal world material, and the fog colour is the BO1 sky's dusky blue-grey (72,76,82), so far sky and distance fade into the same haze.
+- Wall-buy chalk drawings were invisible: the chalk part of every wall buy was still 1000 m underground (hidden by the unused-object pass; only the buy spot was moved). All 11 now show.
+- Pack-a-Punch stood 55 cm up on a ledge (floor snap hit a raised surface). Now at BO1's exact height, on the floor.
+- Debris still has no buy prompt: cause not found yet.
+
+4U (debris + barricades)
+- Found the likely cause of "debris can't be bought" AND "zombies walk through barricades": everything that worked (wall buys, perks, PaP, power, the 2 original Nacht barricades) sat in Kino's first 76 interactive slots; every interactive thing added for Shangri-La (27 window barricades, 3 extra box spots, 5 debris, 6 doors) was added after them and never got a slot. The level's object list is now ordered so all 61 live interactive objects come first and the 59 hidden Kino leftovers go last.
+- Debris prompt point raised to floor level where BO1's debris origin sits under the floor (02A by 1.6 m, 05A by 1 m).
+- Wall-buy chalk outline before purchase: not done (gun model after purchase works since 4T).
+
+4V
+- Sky black (4S-4U): the level had no far-plane setting, so the game cut everything past the fog end (~45 m) including the sky dome. Set Shangri-La's far plane to 300 m on all quality tiers. The sky will show as the fog's blue-grey haze (fog is fully opaque that far out).
+- Correction to 4U: the object-order theory was wrong (user: barricades already tore in 4T, extra boxes work). Order change kept; harmless.
+- Debris test: the start debris toward the waterfall (01A) is now an exact copy of Kino's working Lobby_To_Balcony door (Kino wooden door model, Kino collision and prompt range), only moved. Start debris toward the pressure plates (04A) keeps the BO1 debris but Kino's prompt range. Tells whether the BO1 debris model or the location is the problem.
+- Wall-buy chalk outline: not part of the wall-buy object in BOZ (it only holds the gun model); it's painted into Kino's/Nacht's wall art. Not done.
+
+4W (investigation build)
+- Found a build-script bug: 4U and 4V shipped the OLD 4Q environment (old greyscale lighting, old black-sky material). Fixed; 4W ships the current environment (BO1 lighting, sky dome with the normal material, BO1 sky picture).
+- Sky: three draw-distance fixes so the 150 m sky dome is no longer cut off: (1) the gameplay camera (same object the FOV patch edits) gets a 300 m draw distance, (2) Shangri-La's per-level far-plane override, (3) fog end pushed past the dome. Fog is now light (BO1-like haze), the sky shows tinted by it.
+- Debris: rebuilt all buyable debris/doors from Der Riese's own buyable debris (DR_Debris04). It is the only BOZ door known to work in a level built far from the map origin like ours; unlike Kino's doors it has a vertical prompt range (m_MaxYDistance) and wider angle/reach. BO1 debris model restored at the start (the Kino wooden door test is gone). Its Der Riese mesh references were swapped for ours.
+- Wall-buy chalk outlines: found them. In BOZ each outline is a separate flat picture next to the wall buy, inside Kino's room art. All 11 copied (own names) and placed 1 cm off the wall at the same spot relative to each Shangri-La wall buy.
+- Checked: every changed file is byte-identical inside the APK's game archive; new debris/doors point only at models that exist in loaded groups.
+
+4X (Shangri-La plants, vines and doors)
+- Debris buy prompt confirmed working in 4W (Der Riese template).
+- Plants and vines: ~1,700 BO1 Shangri-La foliage props (palms, ferns, bushes, grass, hanging and ground vines, ivy) with their real BO1 leaf textures as cut-out (see-through) textures, the way BOZ's own maps do it. Lowest detail level of each, half of the ground-vine patches. Not solid: you walk through leaves; trunks/roots block.
+- Doors now Shangri-La instead of Kino: the 4 BO1 rolling stone doors (waterfall tunnel x2, pressure plates -> cave x2) and the cave01->cave02 wooden double door (braced BO1 wood, built from its hinge spots; BO1's own door geometry isn't in the files). Each still buys separately (2 purchases per BO1 door).
+- Map is ~18% heavier (583k triangles, was 492k).
+
+4Y (all jungle)
+- Every BO1 Shangri-La plant/vine now placed: 1,963 of 1,993 (all ground vines back, plus the jungle just past the map edge; the last 30 are far outside). 117k foliage triangles.
+- BO1's see-through world surfaces added (grates, moss, ivy, nipa walls, sandbags, decals): 3,650 triangles, lifted 1 cm off their walls so they don't flicker.
+- Not added: ~9,400 triangles of BO1 terrain blend layers (soft paint-over masks, fully transparent as cut-outs; this engine can't blend them) and a few surfaces whose texture isn't in my files.
+- Map now ~604k triangles (4R: 492k).
+
+4Z (geysers, minecart, water slide)
+- 4X/4Y confirmed working by user.
+- Geysers (2, BO1 spots: start and minecart geyser): built on Call of the Dead's flinger (BOZ's built-in "launch the player to a spot" object; its parts are in ingame data so they load on every map). Step into the geyser pool -> launched up onto the ledge above, at the BO1 geyser top. Works after power is on (the flinger is power-linked; BO1 geysers didn't need power).
+- Minecart: BO1 minecart model at its BO1 start stop; stepping into it launches you to the BO1 track end (by the waterfall), also via the flinger. Needs power like BO1; free (BO1 cost 250, flinger has no cost). It's a launch, not a ride along the rails.
+- Water slide: 25 Call of the Dead ice-slide volumes laid over BO1's slick slide chute, top to bottom.
+- Untested on a phone; how the CotD flinger/ice slide feel in Shangri-La is unknown.
+
+5A (minecart: short real ride)
+- Minecart is now a real ride on the BO1 rails, built on Five's elevator object (BOZ's only "carry the player along a path" object; it moves in 3 straight legs).
+- Ride = BO1 track nodes 8 -> 11 -> 12 -> 13: 33 m through the mine tunnel, ~10 s. That's the longest part of the 106 m track that 3 straight legs fit through without hitting walls; the curved parts at both ends are skipped.
+- The cart now sits at the start of that section (not at the BO1 start stop) and faces down the track. 250 points, needs power, like BO1. A call point at each end brings it back.
+- Removed: the 4Z minecart launch (flinger). Geysers and water slide unchanged.
+- Untested on a phone: whether Five's elevator carries the player correctly on a sideways path (in Five it only goes up and down).
+
+5B (fix: stuck at match start)
+- Removed the 5A minecart ride (Five's elevator). Like in Five, it grabbed players at match start, so you couldn't move.
+- Minecart is back at the BO1 start stop by the spawn, same as 4Z: power on, step in, launched to the track end. The cart itself doesn't move.
+- Everything else = 4Z (geysers, water slide, sky, chalk, foliage, doors).
+- Next for the minecart: decode the game's animation format so the cart can roll the real rails by itself (preview video already made).
+
+5C (fix: floating wooden door)
+- Cave 1 -> cave 2 wooden double door: both halves floated about 1.3 m above the floor with a gap underneath. They now stand on the floor.
+- Everything else = 5B (minecart at the spawn stop with the launch, needs power; Kino power switch in BO1's left lever spot).
+
+5D (fix: power switch missing, AK47U chalk outline missing)
+- Power switch: the Kino switch stood 1.9 m above the floor, inside the wall above BO1's lever frame, so you couldn't see or use it. It now stands on the power room floor against the wall (left lever spot), facing the room.
+- AK47U wall buy (cave): it sat 7 cm inside the rock wall, so the rock hid its chalk outline. Moved out to 3 cm in front of the rock face. Stakeout had the same problem (4.6 cm) and got the same fix.
+- Everything else = 5C.
+
+5E (power: 2 Kino switches, facing fixed)
+- Power switch faced the wall in 5D (you saw its back, no pull prompt). Turned 180 degrees to face the room.
+- Added a 2nd Kino power switch at BO1's right lever spot (6.5 m from the left one, same wall). Both stand on the floor against the wall.
+- The game's power logic knows only one switch, so pulling EITHER switch turns the power on (BO1 needs both). Making it need both = changing the game's code.
+- Untested on a phone: whether a 2nd switch works or confuses the game. If the game breaks, 5F goes back to one switch.
+- Everything else = 5D.
+
+5F (minecart: can get in; power box removed)
+- Minecart at the spawn stop is no longer solid. In 5E it acted as an invisible block, so you stood on top of it and couldn't get in. It still looks the same; now you can step into it to trigger the launch (needs power).
+- Removed BO1's broken power box (the frame and texture fragments) behind both Kino switches.
+- Everything else = 5E.
+
+5G (patch-only updates, no map changes)
+- New: the app can apply a patch instead of the full unpack. If your phone already has 5F unpacked, installing 5G only writes the parts that changed, which takes seconds. Otherwise (other build unpacked, or the patch fails) it does the normal full unpack as before.
+- Map content = 5F (nothing changed), so the 5G patch is tiny. That makes it a safe test of the patch step.
+- From now on each build carries a patch from the previous build. Install them in order (skipping one = one full unpack).
+- Untested on a phone: the patch step itself (code tested on PC with the same file format).
+
+5H (fix: still couldn't get into the minecart)
+- The real blocker was the minecart's launch box. It's a solid pad (that's how Call of the Dead's launch pads work), and it was 2.2 m tall over the cart, so you stood on top of it. It's now a 24 cm pad on the cart floor: step into the cart and you stand on it. With the power on, that should launch you.
+- Patch update from 5G (small patch: if 5G is your last build, it should start in seconds).
+- Everything else = 5G.
+
+5I (minecart: walk onto it from the walkway)
+- The cart sits in a trench 83 cm below the walkway, and the game won't let you step off that ledge. That was the "invisible wall" at the edge.
+- The launch pad now fills the cart up to its rim, level with the walkway. Walk from the walkway onto the cart; with the power on, standing on it should launch you.
+- Patch update from 5H.
+
+5J (minecart: stand on the cart to launch)
+- Back to how 5E behaved, which let you walk onto the cart: the cart is solid again, and its top (the grey load plate) is only 28 cm below the walkway, so you can step down onto it. Stepping down into the trench (5F-5I) was what the game blocked.
+- The launch trigger now covers the cart from its floor to 2.6 m up, so standing on the cart top puts you inside it. You couldn't test this in 5E because the power was broken then.
+- You stand on the cart's load plate, not down inside the cart. Getting inside would need a walkable path down into the trench.
+- Patch update from 5I (small patch).
+
+5K (fix: invisible walls - collision and navmesh rebuilt)
+- Found the real cause: the game's walk area (navmesh) and solid collision were still from an old build (Nov 17). Fixes I made to the map since then (cart, power box) changed what you see but not where you can walk.
+- The navmesh had a gap all around the minecart, so the game wouldn't let you onto it. Rebuilt both from today's map: the cart top now joins the walkway at the cart's end (the side facing away from the track behind it). Walk on from that end.
+- BO1's removed power box was still solid in the old collision; it's gone now too.
+- Map is large: kept the collision under the size the game can load by dropping slightly smaller pieces (under 650 cm2, was 600). Small risk of a thin spot you can fall through.
+- Patch update from 5J (bigger patch: collision + navmesh changed).
+
+5L (crash test: back to 5J's collision + navmesh)
+- 5K crashed while loading the map. The only things 5K changed were the rebuilt collision and navmesh, so 5L puts back 5J's exact versions of both (5J loaded fine).
+- If 5L loads: the patch step is fine and the rebuilt navmesh/collision caused the crash; the next build tests them one at a time.
+- If 5L crashes too: the 5K patch damaged the game data on your phone, and the next build does a full unpack to repair it.
+- The minecart is blocked again in this build (same as 5J). This build only finds the crash.
+- Patch update from 5K.
+
+5M (back to 5E, fixed)
+- 5E's settings again: both Kino power switches facing the room, minecart at the spawn stop with 5E's launch box, collision and navmesh = 5J/5L (the ones that load).
+- Fix for 5E's crash while loading: BO1's broken power box removed (5E was the only build since 5D with it plus the 2nd switch; every build without it loads).
+- Undone: the 5H-5J minecart launch-box changes, and 5K's rebuilt collision/navmesh (that crashed). The minecart is still blocked; we'll come back to it.
+- Patch update from 5L.
+
+5N (Call of the Dead loading screen)
+- Call of the Dead's loading screen is now the picture you sent, letterboxed over a dark blurred copy of itself, the same layout as the Shangri-La loading screen. Every device uses this one file (loading_droid).
+- Everything else = 5M.
+- Patch update from 5M.
+
+5O (World at War maps in co-op + Der Riese debris)
+- CO-OP (online and local Wi-Fi, host map select and lobby vote): Nacht, Verrueckt, Shi No Numa and Der Riese.
+    * Found: the co-op menu in this build line had lost the World at War cards and vote buttons (they were still in the
+      file but never shown), so co-op only offered Kino, Ascension, Call of the Dead and Dead Ops. All 4 are back.
+    * Map select: 8 cards in one row (the row is shrunk to the old 5-card width), each with its picture and label.
+      Verrueckt's card got a new picture (its old picture spot is used by the Shangri-La solo card).
+    * Lobby: 8 vote buttons in one row, ticks clear for all of them, Der Riese has its own lobby background.
+    * Game code (boz.s3e): the co-op map-name lookup now also knows "derriese". Checked in an ARM emulator: all 8 co-op
+      names are found, unknown names still give nothing (as before). Nacht / Verrueckt / Shi No Numa lookup unchanged.
+- DER RIESE DEBRIS: the 2 buyable debris piles (the 1000-point ones) now use Der Riese's own filing-cabinet pile from the
+  Der Riese package you sent (was Kino's wooden debris). Same size, prompt, cost and opening as before; it sinks away
+  when bought like the Shangri-La debris. Texture converted for Mali (ETC1).
+- DER RIESE DOOR: the power door that still showed Kino's door now shows Der Riese's door like the other 10 doors.
+- Not tested on a phone yet: the co-op menus, an online/local Der Riese game, the new debris.
+- Full unpack this time, not a patch: the bigger menu file moves every file after it, so a patch would be bigger than the
+  full data and take just as long.
+
+5P (co-op map select fixed, Der Riese back to 5N)
+- Co-op map select: the 8 cards now fit inside the menu panel (5O's row was too wide, so Der Riese was off the screen and
+  the World at War cards hung past the paper). Their bottoms now sit on the curved paper edge like Kino, Ascension, CotD
+  and Dead Ops. The paper curve is stretched to run under all 8 cards.
+- Der Riese: 5O's debris and door change crashed it, so both are taken out. Der Riese is exactly 5N again (Kino debris,
+  Kino door on the power door). Der Riese stays in co-op.
+- Everything else = 5O (co-op lookup, lobby vote, lobby backgrounds).
+- Not tested on a phone yet.
+- Full unpack (not a patch), same reason as 5O.
+
+5Q (co-op map select: REZURRECTION page)
+- The co-op map select is back to the original layout: the 4 Black Ops maps (Kino, Ascension, Call of the Dead, Dead Ops)
+  at full size, as in the original game.
+- The SELECT MAP title is now a REZURRECTION arrow. Tap it: the cards switch to Nacht, Verrueckt, Shi No Numa and Der Riese
+  in the same 4 spots, and the title says BLACK OPS. Tap it again to go back. Each time you open the screen it starts on
+  the Black Ops page.
+- Tapping a card selects it as before (check mark, the lobby gets that map).
+- Everything else = 5P (Der Riese = 5N, lobby vote with 8 buttons).
+- Not tested on a phone yet.
+- Full unpack (not a patch).
+
+5R (Pack-a-Punch door crash + full screen)
+- DER RIESE: buying the Pack-a-Punch door crashed the game. That door opens the Pack-a-Punch room, the only zone in any map
+  with no zombie spawn point. The zone now has one (the nearest spawn point, which is already active from the start).
+  Same thing most likely caused the old "turn on power -> crash" when that door was still a power door.
+- FULL SCREEN: the game now hides the status bar and the navigation bar (they come back with a swipe and hide again), and
+  draws into the camera notch area. Before, the navigation bar covered the right edge of the screen (the ammo count was cut).
+  Android 7 to 16.
+- FOV not changed (still 65): the cut-off top and bottom in the screenshots comes from VPhoneOS zooming its own screen
+  to fill the phone, not from the game's camera. Resolution: the game already draws at the full size of the screen it gets.
+- Everything else = 5Q.
+- Not tested on a phone yet.
+- Full unpack (not a patch).
+
+5S (TEST: Der Riese jump-down spots)
+- Der Riese gets 13 jump-down spots at 3 places, done the way Kino and Call of the Dead do it: the walk map at each ledge is
+  marked "jump from here", the floor below is marked "land here", plus a jump point. The walk map is only re-marked, not
+  rebuilt (5K's rebuild crashed), same size as before.
+    * North rooms: 4 spots, about 4.7 m drop.
+    * Middle walkway: 5 spots, 2-3 m drop.
+    * By the Pack-a-Punch room: 4 spots, about 2.5 m drop.
+- Only ledges where the top and bottom are in the same zone: you can't jump past a closed door or debris.
+- derriese_jump_spots_map.png: top view, yellow = jump points, red = jump from, blue = land.
+- Everything else = 5R (Pack-a-Punch crash fix, full screen).
+- Not tested on a phone yet. If Der Riese crashes in this one, 5R is the build to keep.
+
+5T (Pack-a-Punch door crash, 2nd try; jumps taken out again)
+- 5R/5S still crashed when buying the Pack-a-Punch door. That door (DR_Door12) was the only Der Riese door with its own
+  animation set and the only one opening the Pack-a-Punch zone. It is now set up exactly like Kino's doors (Kino's door
+  animation set) and opens only the start zone like the other Der Riese doors. 5R's spawn point fix is kept.
+- 5S's jump spots are taken out (they did not work), so a crash here can only be the door.
+- Everything else = 5R (full screen).
+- Not tested on a phone yet.
+
+5U (lobby vote back to the original 4 maps, Call of the Dead name)
+- Lobby map vote: back to the original game (Kino, Dead Ops, Ascension, Call of the Dead, full size). The World at War
+  maps are only picked on the co-op map select (REZURRECTION page), not voted.
+- Call of the Dead's name is now "CALL OF THE DEAD" on 2 lines (was "CALL OF THE DEAD: Director's Cut" on 4 lines,
+  which ran over the card and the lowercase letters drew badly). English US and UK; solo, co-op and lobby all use it.
+- Everything else = 5T (Pack-a-Punch door fix 2, full screen).
+- Not tested on a phone yet.
+
+5V (Five: loading screen + intro video)
+- FIVE loading screen: your picture (the four in red, DEFCON 1), fitted to the screen like the other loading screens.
+- FIVE intro video: when Five loads in single player, your story video plays full screen (1:35) with "TAP TO SKIP", then
+  the game carries on - same as Call of the Dead's intro. Online / local co-op skip it (same as COTD and Kino).
+    * Game code (boz.s3e): the intro hook knew 'ca...' (COTD) and 'ki...' (Kino); it now also knows 'pe...' (pentagon =
+      Five) and asks for blackops-music/boz_f.mp3. Checked in an ARM emulator: COTD -> boz_c, Kino -> boz_k,
+      Five -> boz_f, Shangri-La / Der Riese / Shi No Numa -> nothing.
+    * APK: assets/intro/five_intro.mp4 (your file), assets/blackops-music/boz_f.mp3 (silent trigger, 47,333 bytes),
+      classes2.dex (intro code: plays five_intro.mp4 for that trigger).
+- Everything else = 5U.
+- Not tested on a phone yet.
+
 NOT DONE (and why)
 ------------------
 - Mule Kick: in the separate TEST builds only ([529-MK] to [529-MK3]), solo Kino only (hidden online, as asked).
