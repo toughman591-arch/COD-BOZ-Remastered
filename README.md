@@ -33,16 +33,12 @@ Rough estimate of how close each map is to its PC version (Black Ops 1 / World a
 
 | Map | Progress | Status |
 | --- | :---: | --- |
-| Kino der Toten | 90% | BO1 PC textures, loading screen and clip, 115 song, intro video, Call of the Dead cast option. Still missing: BO1 character and weapon textures. |
 | Nacht der Untoten | 85% | Fully playable in solo, online and local co-op: windows, doors, box, wall buys, radio easter egg, fog. |
 | Verrückt | 80% | WaW doors, perks, chalk wall buys, electric trap. Speed Cola buy still needs fixing. |
 | Shi No Numa | 80% | WaW doors, roofs, water, zipline, traps, Wunderwaffe, co-op. |
 | Der Riese | 60% | WaW doors, perks, wall buys, electric traps, co-op. Bridge and power need more fixing; Pack-a-Punch door fix not confirmed yet; no jump-down spots yet. |
 | Shangri-La | 55% | BO1 port: jungle, geysers, water slide, 2 power switches, loading screen. Minecart on hold. |
 | Five | 50% | BO1 port: new loading screen and skippable story intro. Still being fixed. |
-| Call of the Dead | 35% | Original mobile map plus intro video, loading screen and the cast's voices and pictures. No own hands or player models (the game has none). |
-| Ascension | 20% | Original mobile map, with the HD zombie heads. |
-| Dead Ops Arcade | 10% | Original mobile mode. Solo loading crash reported on Mali (likely memory). |
 | Moon | 0% | Planned after Shangri-La and Five. |
 
 Shared by all maps: HD zombie heads (v5.32), full screen, Mali / all-GPU textures. The co-op map select has a REZURRECTION page for the 4 World at War maps; the lobby vote keeps the original 4 maps.
