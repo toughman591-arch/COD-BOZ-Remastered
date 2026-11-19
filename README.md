@@ -22,14 +22,35 @@ The latest release is **v5.32**. Items marked *(after v5.11)* were added after v
 - **Five** *(after v5.11, test builds)*: new loading screen and a skippable story intro video (single player).
 - **Full screen** *(after v5.11, test builds)*: the status and navigation bars are hidden and the game draws into the camera notch.
 - **Der Riese** *(after v5.11, test builds)*: fix attempts for the Pack-a-Punch door crash; Call of the Dead's name shortened to fit the cards.
+- **HD zombie heads** *(v5.32)*: the 4 shared zombie head and hand textures at twice the resolution, on every map. Only the pictures change, so crossplay is unaffected.
 - **Mali / all GPUs build**: textures converted so the game runs on every phone GPU, not just old Snapdragon phones.
 
 The full history, including the builds after v5.11, is in [CHANGELOG.txt](CHANGELOG.txt).
 
+## Map progress
+
+Rough estimate of how close each map is to its PC version (Black Ops 1 / World at War), as of v5.32.
+
+| Map | Progress | Status |
+| --- | :---: | --- |
+| Kino der Toten | 90% | BO1 PC textures, loading screen and clip, 115 song, intro video, Call of the Dead cast option. Still missing: BO1 character and weapon textures. |
+| Nacht der Untoten | 85% | Fully playable in solo, online and local co-op: windows, doors, box, wall buys, radio easter egg, fog. |
+| Verrückt | 80% | WaW doors, perks, chalk wall buys, electric trap. Speed Cola buy still needs fixing. |
+| Shi No Numa | 80% | WaW doors, roofs, water, zipline, traps, Wunderwaffe, co-op. |
+| Der Riese | 60% | WaW doors, perks, wall buys, electric traps, co-op. Bridge and power need more fixing; Pack-a-Punch door fix not confirmed yet; no jump-down spots yet. |
+| Shangri-La | 55% | BO1 port: jungle, geysers, water slide, 2 power switches, loading screen. Minecart on hold. |
+| Five | 50% | BO1 port: new loading screen and skippable story intro. Still being fixed. |
+| Call of the Dead | 35% | Original mobile map plus intro video, loading screen and the cast's voices and pictures. No own hands or player models (the game has none). |
+| Ascension | 20% | Original mobile map, with the HD zombie heads. |
+| Dead Ops Arcade | 10% | Original mobile mode. Solo loading crash reported on Mali (likely memory). |
+| Moon | 0% | Planned after Shangri-La and Five. |
+
+Shared by all maps: HD zombie heads (v5.32), full screen, Mali / all-GPU textures. The co-op map select has a REZURRECTION page for the 4 World at War maps; the lobby vote keeps the original 4 maps.
+
 ## Download and install
 
-1. Go to [Releases](../../releases) and download the lastest apk and try it.
-2. Join the parts. Open [`tools/joiner.html`](tools/joiner.html) in Chrome on your phone, pick all the parts and save the APK. Or join them on a PC with any zip tool that handles split archives.
+1. Go to [Releases](../../releases) and download the latest APK.
+2. Older releases come in parts: open [`tools/joiner.html`](tools/joiner.html) in Chrome on your phone, pick all the parts and save the APK (or join them on a PC with any zip tool that handles split archives). v5.29 and later are a single APK.
 3. Install the APK. On the first launch it unpacks the game data once (a % screen), then starts the game.
 
 Use the **Mali** build on any phone GPU. Since v5.8 you can install a new version over an old one and keep your progress.
