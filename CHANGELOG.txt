@@ -2105,6 +2105,18 @@ WHAT CHANGED
 - Everything else = 5U.
 - Not tested on a phone yet.
 
+v5.32 (release) = test build 5V, renamed
+- BOZ Kino BO1 Remaster v5.32 (Mali / all GPUs). Same game code, data and files as 5V; only the version name shown by
+  the app changed. If 5V is already installed and unpacked, v5.32 installs over it without unpacking again.
+- What's new since v5.29 (test builds 5O-5V):
+    * Co-op: REZURRECTION page on the co-op map select (Nacht, Verrueckt, Shi No Numa, Der Riese); lobby vote is the
+      original 4 maps; Der Riese playable in online / local co-op.
+    * Five: new loading screen and a skippable story intro (single player).
+    * Full screen: status and navigation bars hidden, camera notch used.
+    * Der Riese: Pack-a-Punch door crash fix (2nd try), Pack-a-Punch room has a zombie spawn.
+    * Call of the Dead's name shortened to "CALL OF THE DEAD" so it fits the cards.
+- Not yet confirmed on a phone: the Pack-a-Punch door fix, the Five intro, Der Riese co-op.
+
 NOT DONE (and why)
 ------------------
 - Mule Kick: in the separate TEST builds only ([529-MK] to [529-MK3]), solo Kino only (hidden online, as asked).
