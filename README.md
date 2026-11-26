@@ -75,6 +75,7 @@ The code image is patched in place: new code goes into unused parts of the binar
 ## Credits
 
 - **cool715 / Toughman591**: the remaster, testing and assets.
+- **Special thanks** to **codbozgamerz**, **flyingimp**, **mrmxmn** and **williamsmillerjohnson** for helping out and testing.
 - **[BOZ Redux SDK](https://github.com/ZappaVinny/boz-redux-sdk)** by ZappaVinny: its MIT-licensed game definition (named functions, data layouts, events)
 
 - **Ghidra** scripts were used to reverse-engineer the perk, HUD, Max Ammo and save code for Mule Kick.
